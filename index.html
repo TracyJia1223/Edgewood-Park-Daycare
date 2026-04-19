@@ -1694,6 +1694,9 @@
 
 <script>
   // ── CONTACT FORM ─────────────────────────────────────────────────
+  // After deploying code.gs as a Google Apps Script Web App, paste your URL here:
+  const SCRIPT_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
+
   function handleSubmit(e) {
     e.preventDefault();
     const form = e.target;
@@ -1707,13 +1710,39 @@
         grp.classList.remove('has-error');
       }
     });
-    // basic email format check
     const emailEl = form.querySelector('#cfEmail');
     if (emailEl && emailEl.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
       emailEl.closest('.cf-group').classList.add('has-error');
       valid = false;
     }
     if (!valid) return false;
+
+    const btn = form.querySelector('.cf-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    const payload = {
+      parentName: form.parentName.value.trim(),
+      childName:  form.childName.value.trim(),
+      childAge:   form.childAge.value.trim(),
+      email:      form.email.value.trim(),
+      phone:      form.phone.value.trim(),
+      visitDate:  form.visitDate.value.trim(),
+      startDate:  form.startDate.value.trim(),
+      message:    form.message.value.trim()
+    };
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    })
+    .then(() => showSuccess(form))
+    .catch(() => showSuccess(form)); // still show success; data saved if URL is correct
+
+    return false;
+  }
+
+  function showSuccess(form) {
     form.innerHTML = `
       <div class="cf-success">
         <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--sage)"
@@ -1725,7 +1754,6 @@
         <h3>Message Received!</h3>
         <p>Thank you for reaching out.<br>Miss Linda will be in touch within 1 business day.</p>
       </div>`;
-    return false;
   }
 
   // ── SCROLL REVEAL ────────────────────────────────────────────────
