@@ -1734,10 +1734,12 @@
 
     fetch(SCRIPT_URL, {
       method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     })
     .then(() => showSuccess(form))
-    .catch(() => showSuccess(form)); // still show success; data saved if URL is correct
+    .catch(() => showSuccess(form));
 
     return false;
   }

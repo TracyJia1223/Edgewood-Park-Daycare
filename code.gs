@@ -7,7 +7,8 @@ const NOTIFY_EMAIL = 'edgewoodparkchildcare@gmail.com';
 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
+    const raw = e.postData ? e.postData.contents : '';
+    const data = JSON.parse(raw);
 
     // ── Write to sheet ────────────────────────────────────────────────────
     const ss    = SpreadsheetApp.openById(SHEET_ID);
@@ -73,9 +74,35 @@ function doPost(e) {
   }
 }
 
-// Required so the deployment URL resolves correctly
 function doGet() {
   return ContentService.createTextOutput('Edgewood Park form handler is active.');
+}
+
+// ── Quick test — run this manually in the Apps Script editor to verify ────
+function testEmail() {
+  const fakeData = {
+    parentName: 'Test Parent',
+    childName:  'Test Child',
+    childAge:   '12 months',
+    email:      'test@example.com',
+    phone:      '604-000-0000',
+    visitDate:  'Any morning',
+    startDate:  'September 2025',
+    message:    'This is a test submission.'
+  };
+  const ss    = SpreadsheetApp.openById(SHEET_ID);
+  const sheet = ss.getSheets()[0];
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['Timestamp (PT)','Parent Name',"Child's Name","Child's Age",'Email','Phone','Preferred Tour Date','Preferred Start Date','Message']);
+    sheet.getRange(1,1,1,9).setFontWeight('bold');
+  }
+  sheet.appendRow([
+    new Date().toLocaleString('en-CA', { timeZone: 'America/Vancouver' }),
+    fakeData.parentName, fakeData.childName, fakeData.childAge,
+    fakeData.email, fakeData.phone, fakeData.visitDate, fakeData.startDate, fakeData.message
+  ]);
+  GmailApp.sendEmail(NOTIFY_EMAIL, 'TEST — New Inquiry (Edgewood Park)', JSON.stringify(fakeData, null, 2));
+  Logger.log('Test done — check your sheet and email.');
 }
 
 /*
