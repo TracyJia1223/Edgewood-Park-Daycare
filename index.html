@@ -702,9 +702,11 @@
     #trust { background:var(--sage-pale); }
     .trust-grid {
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      grid-template-columns:repeat(3,1fr);
       gap:1.1rem;
     }
+    @media(max-width:768px){ .trust-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:480px){ .trust-grid { grid-template-columns:1fr; } }
     .trust-card {
       background:var(--white);
       border:1.5px solid transparent;
@@ -1387,8 +1389,8 @@
           </svg>
         </div>
         <div class="trust-text">
-          <h3>First Aid &amp; Infant CPR</h3>
-          <p>All caregivers hold current Standard First Aid and Infant CPR certification — renewed regularly so we're always prepared.</p>
+          <h3>First Aid Certified</h3>
+          <p>All caregivers hold current Standard First Aid certification — renewed regularly so we're always prepared.</p>
         </div>
       </div>
 
