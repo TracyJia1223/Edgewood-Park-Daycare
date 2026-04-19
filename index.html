@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edgewood Park Infant &amp; Toddler Care · Surrey, BC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── Variables ───────────────────────────────────────── */
+    :root {
+      --bg:         #F8F3EB;
+      --bg-alt:     #F1E9DC;
+      --sand:       #E0D2C0;
+      --sage:       #7A9E7E;
+      --sage-pale:  #EAF0E8;
+      --wood:       #A47848;
+      --wood-pale:  #F0E8DC;
+      --navy:       #2C3E50;
+      --navy-mid:   #3D5166;
+      --navy-pale:  #E8ECF1;
+      --gold:       #C9973A;
+      --gold-pale:  #FAF2DC;
+      --text:       #2A2A2A;
+      --text-mid:   #6B6059;
+      --text-light: #9B9080;
+      --ink:        #1B2B22;
+      --clay:       #9A7262;
+      --clay-dark:  #7E5A49;
+      --white:      #FFFFFF;
+      --shadow:     rgba(44,38,30,.09);
+    }
+
+    /* ── Reset ───────────────────────────────────────────── */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Montserrat',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+      line-height:1.6;
+      font-weight:400;
+    }
+    h1,h2,h3,h4 { font-family:'Montserrat',sans-serif; line-height:1.2; font-weight:700; }
+    a { text-decoration:none; }
+    img { max-width:100%; display:block; }
+
+    /* ── Keyframes ───────────────────────────────────────── */
+    @keyframes hero-in {
+      from { opacity:0; transform:translateY(30px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes float-gentle {
+      0%, 100% { transform:translateY(0); }
+      50%       { transform:translateY(-10px); }
+    }
+    @keyframes badge-glow {
+      0%, 100% { box-shadow:0 0 0 0 rgba(122,158,126,0); }
+      55%       { box-shadow:0 0 0 8px rgba(122,158,126,.17); }
+    }
+    @keyframes pop-in {
+      0%   { opacity:0; transform:scale(.88) translateY(14px); }
+      65%  { transform:scale(1.03) translateY(-2px); }
+      100% { opacity:1; transform:scale(1) translateY(0); }
+    }
+    @keyframes line-grow {
+      from { transform:scaleX(0) translateX(-50%); }
+      to   { transform:scaleX(1) translateX(-50%); }
+    }
+
+    /* ── Scroll Reveal ───────────────────────────────────── */
+    .reveal   { opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease; }
+    .reveal-l { opacity:0; transform:translateX(-26px); transition:opacity .65s ease, transform .65s ease; }
+    .reveal-r { opacity:0; transform:translateX(26px);  transition:opacity .65s ease, transform .65s ease; }
+    .reveal.vis   { opacity:1; transform:translateY(0); }
+    .reveal-l.vis { opacity:1; transform:translateX(0); }
+    .reveal-r.vis { opacity:1; transform:translateX(0); }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      height:68px;
+      background:rgba(248,243,235,.96);
+      backdrop-filter:blur(12px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 2rem;
+      border-bottom:1px solid rgba(44,62,80,.07);
+      transition:box-shadow .3s;
+    }
+    .nav-logo { display:flex; align-items:center; gap:.7rem; }
+    .nav-logo-mark {
+      width:36px; height:36px; border-radius:9px;
+      background:var(--navy);
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .nav-logo-mark svg { width:18px; height:18px; }
+    .nav-logo-name {
+      font-size:.97rem; font-weight:700; color:var(--navy); line-height:1.2;
+    }
+    .nav-logo-name span {
+      display:block; font-size:.58rem; font-weight:600;
+      color:var(--text-light); letter-spacing:.9px; text-transform:uppercase;
+    }
+    .nav-links { display:flex; gap:.5rem; list-style:none; }
+    .nav-links a {
+      font-weight:600; font-size:.82rem; color:var(--text);
+      padding:.4rem .9rem; border-radius:7px; transition:all .22s;
+      letter-spacing:.25px;
+    }
+    .nav-links a:hover { background:var(--sand); color:var(--navy); }
+    .nav-cta {
+      background:var(--navy) !important; color:var(--white) !important;
+      box-shadow:0 2px 10px rgba(44,62,80,.18) !important;
+    }
+    .nav-cta:hover {
+      background:var(--navy-mid) !important;
+      box-shadow:0 4px 18px rgba(44,62,80,.28) !important;
+      transform:translateY(-1px);
+    }
+    .hamburger {
+      display:none; flex-direction:column; gap:5px;
+      cursor:pointer; padding:4px;
+    }
+    .hamburger span {
+      width:22px; height:2px;
+      background:var(--navy); border-radius:2px; transition:all .3s;
+    }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    #hero {
+      min-height:100vh;
+      background:var(--bg);
+      display:flex; align-items:center; justify-content:center;
+      padding:100px 2rem 5rem;
+      position:relative; overflow:hidden;
+    }
+    .hero-content {
+      max-width:680px; text-align:center;
+      position:relative; z-index:1;
+      animation:hero-in .9s ease forwards;
+    }
+    .hero-badge {
+      display:inline-block;
+      background:var(--sage-pale); color:var(--sage);
+      font-weight:600; font-size:.78rem; letter-spacing:.5px;
+      padding:.38rem 1.1rem; border-radius:6px; margin-bottom:2.6rem;
+      border:1px solid rgba(122,158,126,.28);
+      animation:badge-glow 3s ease-in-out infinite;
+    }
+    .hero-title {
+      font-size:clamp(2.3rem,6vw,3.8rem);
+      color:var(--ink); margin-bottom:1.1rem;
+      font-weight:800; letter-spacing:.005em;
+    }
+    .hero-title .hl {
+      color:#4D8055; position:relative; display:inline-block;
+    }
+    .hero-title .hl::after {
+      content:''; position:absolute;
+      bottom:3px; left:0; right:0; height:6px;
+      background:var(--gold-pale); border-radius:3px; z-index:-1;
+    }
+    .hero-sub {
+      font-size:1.02rem; color:var(--text-mid);
+      margin-bottom:1.8rem; line-height:2; font-weight:400;
+    }
+    .hero-stars {
+      display:flex; align-items:center; justify-content:center;
+      gap:.5rem; margin-bottom:2.2rem;
+      font-size:.87rem; color:var(--text-mid);
+    }
+    .hero-stars .s { color:var(--gold); }
+    .hero-stars strong { color:var(--text); font-weight:700; }
+    .hero-btns {
+      display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap;
+    }
+    .btn {
+      padding:.78rem 1.75rem; border-radius:8px;
+      font-family:'Montserrat',sans-serif; font-weight:700; font-size:.9rem;
+      cursor:pointer; border:none; display:inline-flex;
+      align-items:center; gap:.45rem; transition:all .25s;
+      letter-spacing:.01em;
+    }
+    .btn-pri {
+      background:var(--clay); color:var(--white);
+      box-shadow:0 4px 16px rgba(154,114,98,.3);
+    }
+    .btn-pri:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(154,114,98,.42); background:var(--clay-dark); }
+    .btn-sec {
+      background:transparent; color:var(--ink);
+      border:2px solid rgba(27,43,34,.35);
+    }
+    .btn-sec:hover { background:var(--ink); color:var(--white); transform:translateY(-2px); }
+    .hero-park {
+      display:inline-flex; align-items:center; gap:.45rem;
+      font-size:.8rem; font-weight:600; color:var(--sage);
+      margin-bottom:1.5rem; letter-spacing:.1px;
+    }
+    .hero-park svg { width:14px; height:14px; flex-shrink:0; }
+
+    /* ── SECTION BOILERPLATE ─────────────────────────────── */
+    .sec { padding:6rem 2rem; }
+    .sec-in { max-width:1100px; margin:0 auto; }
+    .sec-head { text-align:center; margin-bottom:4rem; }
+    .sec-label {
+      font-size:.7rem; font-weight:700; letter-spacing:2.5px;
+      text-transform:uppercase; color:var(--sage); margin-bottom:.8rem;
+      position:relative; display:inline-block;
+    }
+    .sec-label::after {
+      content:''; position:absolute;
+      bottom:-5px; left:50%; width:24px; height:2px;
+      background:var(--sage); border-radius:2px;
+      transform-origin:center; transform:scaleX(0) translateX(-50%);
+      transition:transform .5s .25s ease;
+    }
+    .sec-label.vis::after { transform:scaleX(1) translateX(-50%); }
+    .sec-title {
+      font-size:clamp(1.7rem,3.8vw,2.5rem); color:var(--navy);
+      margin-bottom:.75rem; font-weight:800; letter-spacing:-.02em;
+    }
+    .sec-desc {
+      font-size:.95rem; color:var(--text-mid);
+      max-width:560px; margin:0 auto; line-height:1.78;
+    }
+
+
+    /* ── GALLERY SLIDER ───────────────────────────────────── */
+    #gallery { background:var(--bg-alt); }
+    .gal-wrap {
+      position:relative; max-width:900px; margin:0 auto;
+      overflow:hidden; border-radius:18px;
+      box-shadow:0 10px 48px var(--shadow);
+    }
+    .gal-track {
+      display:flex; gap:0;
+      transition:transform .52s cubic-bezier(.25,.46,.45,.94);
+    }
+    .gal-slide {
+      flex:0 0 auto; width:100%;
+      background:var(--white);
+    }
+    .gal-img {
+      height:480px; overflow:hidden;
+    }
+    .gal-img img {
+      width:100%; height:100%;
+      object-fit:cover; object-position:center; display:block;
+      transition:transform .7s ease;
+    }
+    .gal-slide:hover .gal-img img { transform:scale(1.04); }
+    .gal-caption {
+      padding:1.05rem 1.6rem;
+      text-align:center;
+      font-size:.86rem; color:var(--text-mid);
+      font-style:italic; line-height:1.58;
+      background:var(--white);
+      border-top:1px solid var(--sand);
+    }
+    .gal-btn {
+      position:absolute; top:calc(480px / 2); transform:translateY(-50%);
+      background:rgba(255,255,255,.9); border:none;
+      width:44px; height:44px; border-radius:50%;
+      font-size:1.3rem; cursor:pointer; z-index:10;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 2px 14px rgba(0,0,0,.16); transition:all .25s;
+    }
+    .gal-btn:hover { background:var(--white); transform:translateY(-50%) scale(1.1); box-shadow:0 4px 20px rgba(0,0,0,.22); }
+    .gal-prev { left:1rem; }
+    .gal-next { right:1rem; }
+    .gal-counter {
+      position:absolute; top:1rem; right:1.1rem;
+      background:rgba(0,0,0,.3); color:var(--white);
+      font-size:.7rem; font-weight:700; font-family:'Montserrat',sans-serif;
+      padding:.28rem .72rem; border-radius:20px;
+      z-index:10; letter-spacing:.6px;
+    }
+    .gal-bar {
+      position:absolute; bottom:0; left:0; height:3px;
+      background:var(--sage);
+      transition:width .52s cubic-bezier(.25,.46,.45,.94);
+      z-index:10;
+    }
+
+    /* ── FEATURES ────────────────────────────────────────── */
+    #features { background:var(--white); }
+    .feat-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:1.2rem;
+    }
+    .feat-card {
+      background:var(--bg); border-radius:13px;
+      padding:1.7rem; display:flex; gap:1rem;
+      align-items:flex-start; transition:all .3s;
+      border:1.5px solid transparent;
+    }
+    .feat-card:hover {
+      transform:translateY(-4px);
+      border-color:var(--sand);
+      box-shadow:0 12px 36px var(--shadow);
+      background:var(--white);
+    }
+    .feat-ico {
+      width:50px; height:50px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; transition:transform .35s ease;
+    }
+    .feat-ico svg { width:22px; height:22px; }
+    .feat-card:hover .feat-ico { transform:scale(1.12) rotate(-5deg); }
+    .fi1 { background:var(--navy-pale); color:var(--navy); }
+    .fi2 { background:var(--sage-pale); color:var(--sage); }
+    .fi3 { background:var(--gold-pale); color:var(--gold); }
+    .fi4 { background:var(--navy-pale); color:var(--navy); }
+    .fi5 { background:var(--wood-pale); color:var(--wood); }
+    .fi6 { background:var(--sage-pale); color:var(--sage); }
+    .feat-text h3 { font-size:1.02rem; margin-bottom:.35rem; color:var(--navy); font-weight:700; }
+    .feat-text p  { font-size:.88rem; color:var(--text-mid); line-height:1.72; }
+
+    /* ── LINDA FEATURE ───────────────────────────────────── */
+    #teachers { background:var(--bg-alt); }
+    .linda-wrap {
+      display:grid; grid-template-columns:1fr 1.15fr;
+      border-radius:18px; overflow:hidden;
+      box-shadow:0 10px 52px var(--shadow);
+      max-width:920px; margin:0 auto;
+    }
+    .linda-photo { position:relative; min-height:480px; }
+    .linda-photo img {
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover; object-position:center top; display:block;
+    }
+    .linda-quote {
+      background:var(--navy);
+      padding:3.5rem 3rem;
+      display:flex; flex-direction:column; justify-content:center;
+    }
+    .lq-mark {
+      font-family:'Georgia',serif;
+      font-size:9rem; line-height:.5;
+      color:rgba(255,255,255,.1);
+      margin-bottom:1.8rem; user-select:none;
+      display:inline-block;
+      animation:float-gentle 5s ease-in-out infinite;
+    }
+    .lq-text {
+      font-size:1.13rem; line-height:1.85;
+      color:rgba(255,255,255,.88);
+      font-style:italic; font-weight:400;
+      margin:0 0 2.4rem;
+    }
+    .lq-name {
+      font-size:1.1rem; font-weight:800;
+      color:var(--white); margin-bottom:.28rem;
+    }
+    .lq-role {
+      font-size:.68rem; font-weight:700;
+      color:var(--sage); letter-spacing:1px;
+      text-transform:uppercase; margin-bottom:1.4rem;
+    }
+    .tag {
+      font-size:.72rem; font-weight:600;
+      padding:.24rem .68rem; border-radius:5px;
+      border:1px solid var(--sand);
+      background:var(--bg); color:var(--text-mid);
+    }
+    .lq-tags { display:flex; gap:.4rem; flex-wrap:wrap; }
+    .lq-tags .tag {
+      background:rgba(255,255,255,.08);
+      color:rgba(255,255,255,.6);
+      border-color:rgba(255,255,255,.13);
+    }
+
+    /* ── CONTACT FORM ─────────────────────────────────────── */
+    .cf-req { color:var(--clay); margin-left:2px; }
+    .cf-group.has-error input,
+    .cf-group.has-error textarea { border-color:#d94f4f; background:#fff8f8; }
+    .cf-err { font-size:.7rem; color:#d94f4f; margin-top:.18rem; display:none; }
+    .cf-group.has-error .cf-err { display:block; }
+    .contact-form {
+      padding:2.2rem; display:flex; flex-direction:column; gap:1.1rem;
+    }
+    .cf-row { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
+    .cf-group { display:flex; flex-direction:column; gap:.38rem; }
+    .cf-group label {
+      font-size:.67rem; font-weight:700; color:var(--text-light);
+      text-transform:uppercase; letter-spacing:.9px;
+    }
+    .cf-group input,
+    .cf-group textarea {
+      border:1.5px solid var(--sand); border-radius:8px;
+      padding:.68rem .9rem;
+      font-family:'Montserrat',sans-serif;
+      font-size:.88rem; color:var(--text);
+      background:var(--bg); transition:border-color .2s, background .2s;
+      resize:vertical;
+    }
+    .cf-group input:focus,
+    .cf-group textarea:focus {
+      outline:none; border-color:var(--sage); background:var(--white);
+    }
+    .cf-group input::placeholder,
+    .cf-group textarea::placeholder { color:var(--text-light); }
+    .cf-submit { align-self:flex-start; margin-top:.2rem; }
+    .cf-note { font-size:.75rem; color:var(--text-light); margin-top:-.3rem; }
+    .cf-success { padding:3rem 2.2rem; text-align:center; }
+    .cf-success h3 { font-size:1.25rem; color:var(--navy); margin-bottom:.6rem; font-weight:800; }
+    .cf-success p  { color:var(--text-mid); font-size:.92rem; line-height:1.7; }
+
+    /* ── DAY IN LIFE ──────────────────────────────────────── */
+    #day { background:var(--white); }
+    .timeline { max-width:660px; margin:0 auto; position:relative; }
+    .timeline::before {
+      content:''; position:absolute;
+      left:80px; top:0; bottom:0; width:2px;
+      background:linear-gradient(180deg, var(--navy), var(--sage), var(--gold));
+      border-radius:2px;
+    }
+    .tl-item { display:flex; gap:1.2rem; margin-bottom:1.2rem; align-items:flex-start; }
+    .tl-time {
+      min-width:66px; text-align:right;
+      font-weight:700; font-size:.77rem;
+      color:var(--navy); padding-top:.52rem; letter-spacing:.3px;
+    }
+    .tl-dot {
+      width:34px; height:34px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; position:relative; z-index:1;
+      border:2px solid var(--white); font-size:.95rem;
+    }
+    .tl-body {
+      background:var(--bg); border-radius:10px;
+      padding:.78rem 1rem; flex:1; transition:all .25s;
+      border:1.5px solid transparent;
+    }
+    .tl-body:hover {
+      background:var(--sage-pale);
+      border-color:rgba(122,158,126,.22);
+      transform:translateX(4px);
+    }
+    .tl-body h4 { font-size:.92rem; color:var(--navy); margin-bottom:.1rem; font-weight:700; }
+    .tl-body p  { font-size:.81rem; color:var(--text-mid); }
+
+    /* ── SERVICES ─────────────────────────────────────────── */
+    #services { background:var(--bg-alt); }
+    .svc-grid {
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:1.2rem;
+    }
+    @media(max-width:900px){
+      .svc-grid { grid-template-columns:repeat(3,1fr); }
+    }
+    .svc-card {
+      background:var(--white); border-radius:13px;
+      padding:1.55rem 1.3rem; text-align:center;
+      box-shadow:0 4px 18px var(--shadow); transition:all .3s;
+      border:1.5px solid transparent;
+    }
+    .svc-card:hover {
+      transform:translateY(-4px);
+      box-shadow:0 12px 36px var(--shadow);
+      border-color:var(--sand);
+    }
+    .svc-ico {
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto .85rem;
+      width:44px; height:44px; border-radius:10px;
+      transition:transform .3s ease;
+    }
+    .svc-ico svg { width:21px; height:21px; stroke-width:1.5; }
+    .si1,.si2,.si3,.si4,.si5,.si6 { background:var(--navy-pale); color:var(--ink); }
+    .svc-card:hover .svc-ico { transform:scale(1.15); }
+    .svc-label {
+      font-size:.7rem; color:var(--text-light); font-weight:600;
+      margin-bottom:.3rem; text-transform:uppercase; letter-spacing:.8px;
+    }
+    .svc-val { font-size:1.05rem; color:var(--navy); font-weight:700; }
+
+    /* ── REVIEWS ──────────────────────────────────────────── */
+    #reviews { background:var(--bg); }
+    .rev-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:1.2rem;
+    }
+    .rev-card {
+      background:var(--white); border-radius:13px;
+      padding:1.75rem;
+      box-shadow:0 2px 8px rgba(0,0,0,.04), 0 6px 24px rgba(0,0,0,.07);
+      transition:all .3s; position:relative;
+    }
+    .rev-card::before {
+      content:'\201C'; position:absolute;
+      top:10px; left:1.3rem;
+      font-family:'Georgia',serif;
+      font-size:4.5rem; color:var(--sand); line-height:1;
+    }
+    .rev-card:hover { transform:translateY(-4px); box-shadow:0 12px 36px var(--shadow); }
+    .rev-stars { font-size:.95rem; margin-bottom:.8rem; color:var(--gold); }
+    .rev-text  {
+      font-size:.88rem; color:var(--text-mid);
+      line-height:1.78; font-style:italic; margin-bottom:1.1rem;
+    }
+    .reviewer { display:flex; align-items:center; gap:.7rem; }
+    .rev-avatar {
+      width:40px; height:40px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:.9rem; color:var(--white); flex-shrink:0;
+    }
+    .ra1 { background:var(--navy); }
+    .ra2 { background:var(--sage); }
+    .ra3 { background:var(--wood); }
+    .ra4 { background:var(--navy-mid); }
+    .rev-name { font-weight:700; font-size:.88rem; color:var(--text); }
+    .rev-date { font-size:.74rem; color:var(--text-light); }
+    .gbadge { text-align:center; margin-top:2.5rem; }
+    .gbadge a {
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:var(--white); border:1.5px solid var(--sand);
+      padding:.58rem 1.3rem; border-radius:8px;
+      color:var(--text-mid); font-weight:600; font-size:.83rem;
+      transition:all .25s;
+    }
+    .gbadge a:hover { border-color:var(--navy); color:var(--navy); transform:translateY(-2px); }
+
+    /* ── FAQ ──────────────────────────────────────────────── */
+    #faq { background:var(--white); }
+    .faq-list { max-width:660px; margin:0 auto; display:flex; flex-direction:column; gap:.8rem; }
+    .faq-item {
+      background:var(--bg); border-radius:11px;
+      overflow:hidden; border:1.5px solid transparent; transition:all .3s;
+    }
+    .faq-item.open { border-color:var(--sage); background:var(--white); }
+    .faq-q {
+      padding:1.1rem 1.3rem;
+      display:flex; justify-content:space-between; align-items:center;
+      cursor:pointer; font-weight:600; font-size:.92rem; color:var(--text);
+      transition:color .3s;
+    }
+    .faq-q:hover { color:var(--navy); }
+    .faq-icon {
+      width:26px; height:26px; border-radius:50%;
+      background:var(--sand);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--navy); font-size:1.1rem; font-weight:700;
+      transition:transform .3s, background .3s, color .3s;
+      flex-shrink:0; user-select:none;
+    }
+    .faq-item.open .faq-icon { transform:rotate(45deg); background:var(--navy); color:var(--white); }
+    .faq-a {
+      max-height:0; overflow:hidden;
+      transition:max-height .4s ease, padding .3s;
+      padding:0 1.3rem;
+    }
+    .faq-a.open { max-height:200px; padding:0 1.3rem 1.1rem; }
+    .faq-a p { font-size:.88rem; color:var(--text-mid); line-height:1.78; }
+
+    /* ── CONTACT ──────────────────────────────────────────── */
+    #contact { background:var(--bg-alt); }
+    .contact-wrap {
+      display:grid; grid-template-columns:1fr 2fr;
+      gap:3rem; align-items:start;
+    }
+    .ci-list { display:flex; flex-direction:column; gap:1.3rem; }
+    .ci { display:flex; gap:.85rem; align-items:flex-start; }
+    .ci-ico {
+      width:44px; height:44px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .ci-ico svg { width:20px; height:20px; }
+    .cii1 { background:var(--navy-pale); color:var(--navy); }
+    .cii2 { background:var(--sage-pale); color:var(--sage); }
+    .cii3 { background:var(--gold-pale); color:var(--gold); }
+    .cii4 { background:var(--wood-pale); color:var(--wood); }
+    .ci h4 {
+      font-size:.68rem; font-weight:700; color:var(--text-light);
+      margin-bottom:.15rem; text-transform:uppercase; letter-spacing:.9px;
+    }
+    .ci p { font-size:.9rem; color:var(--text); font-weight:600; }
+    .form-box {
+      background:var(--white); border-radius:18px;
+      overflow:hidden; box-shadow:0 12px 48px var(--shadow);
+    }
+    .form-box iframe { display:block; width:100%; border:none; }
+    .form-ph { padding:3rem 2.5rem; text-align:center; }
+    .form-ph p { color:var(--text-mid); font-size:.9rem; line-height:1.78; }
+    .form-ph code {
+      background:var(--bg); padding:.15rem .5rem;
+      border-radius:5px; font-size:.8rem; color:var(--navy);
+    }
+
+    /* ── MAP ──────────────────────────────────────────────── */
+    #map iframe { display:block; width:100%; height:400px; border:none; }
+
+    /* ── FOOTER ───────────────────────────────────────────── */
+    footer {
+      background:var(--navy);
+      color:rgba(255,255,255,.7);
+      padding:3.5rem 2rem 2rem;
+    }
+    .ft-in { max-width:1100px; margin:0 auto; }
+    .ft-top {
+      display:grid; grid-template-columns:2fr 1fr 1fr;
+      gap:3rem; margin-bottom:2.5rem;
+    }
+    .ft-brand .ft-logo {
+      font-size:1.15rem; font-weight:800; color:var(--white);
+      margin-bottom:.6rem;
+    }
+    .ft-brand p {
+      font-size:.84rem; line-height:1.78;
+      color:rgba(255,255,255,.48); max-width:255px;
+    }
+    .ft-col h4 { color:var(--white); font-size:.92rem; font-weight:700; margin-bottom:.9rem; }
+    .ft-col ul { list-style:none; }
+    .ft-col ul li { margin-bottom:.4rem; }
+    .ft-col ul li a { color:rgba(255,255,255,.48); font-size:.84rem; transition:color .25s; }
+    .ft-col ul li a:hover { color:var(--white); }
+    .ft-col p { color:rgba(255,255,255,.48); font-size:.84rem; margin-bottom:.4rem; }
+    .ft-bot {
+      border-top:1px solid rgba(255,255,255,.1);
+      padding-top:1.4rem;
+      display:flex; justify-content:space-between; align-items:center;
+      font-size:.78rem; color:rgba(255,255,255,.32);
+      flex-wrap:wrap; gap:.5rem;
+    }
+    .ft-hearts { color:var(--sage); }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media(max-width:900px){
+      .contact-wrap { grid-template-columns:1fr; }
+      .ft-top       { grid-template-columns:1fr 1fr; }
+      .ft-brand     { grid-column:1/-1; }
+    }
+    @media(max-width:768px){
+      .nav-links {
+        display:none; position:absolute;
+        top:68px; left:0; right:0;
+        background:rgba(248,243,235,.98);
+        flex-direction:column;
+        padding:1rem 1.5rem 1.5rem;
+        box-shadow:0 10px 30px var(--shadow);
+      }
+      .nav-links.open { display:flex; }
+      .hamburger { display:flex; }
+      .gal-img { height:260px; }
+      .gal-btn { top:calc(260px / 2); width:38px; height:38px; font-size:1.1rem; }
+      .gal-caption { font-size:.8rem; padding:.8rem 1rem; }
+      .hero-park { font-size:.75rem; flex-wrap:wrap; justify-content:center; }
+      .linda-wrap { grid-template-columns:1fr; }
+      .linda-photo { min-height:300px; }
+      .linda-quote { padding:2.5rem 2rem; }
+      .lq-text { font-size:1rem; }
+      .lq-mark { font-size:6rem; }
+      .cf-row { grid-template-columns:1fr; }
+      .ft-top { grid-template-columns:1fr; }
+      .ft-bot { flex-direction:column; text-align:center; }
+      .timeline::before { left:70px; }
+    }
+    @media(max-width:480px){
+      .feat-grid { grid-template-columns:1fr; }
+      .svc-grid  { grid-template-columns:repeat(2,1fr); }
+      .rev-grid  { grid-template-columns:1fr; }
+    }
+
+    /* ── AVAILABILITY HINT ─────────────────────────────────────── */
+    .avail-hint {
+      text-align:center; margin-top:2rem;
+    }
+    .avail-hint span {
+      display:inline-flex; align-items:center; gap:.55rem;
+      background:var(--gold-pale);
+      border:1px solid rgba(201,151,58,.28);
+      padding:.48rem 1.2rem; border-radius:20px;
+      color:var(--wood); font-size:.82rem; font-weight:700; letter-spacing:.15px;
+    }
+    .avail-dot {
+      width:7px; height:7px; border-radius:50%;
+      background:var(--gold); flex-shrink:0;
+      animation:badge-glow 2.5s ease-in-out infinite;
+    }
+
+    /* ── TRUST & SAFETY ─────────────────────────────────────────── */
+    #trust { background:var(--navy); }
+    #trust .sec-label { color:rgba(255,255,255,.5); }
+    #trust .sec-label::after { background:rgba(255,255,255,.25); }
+    #trust .sec-title { color:var(--white); }
+    #trust .sec-desc  { color:rgba(255,255,255,.52); }
+    .trust-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:1.1rem;
+    }
+    .trust-card {
+      background:rgba(255,255,255,.055);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:13px; padding:1.55rem;
+      display:flex; gap:1rem; align-items:flex-start;
+      transition:all .3s;
+    }
+    .trust-card:hover {
+      background:rgba(255,255,255,.09);
+      border-color:rgba(255,255,255,.2);
+      transform:translateY(-3px);
+    }
+    .trust-ico {
+      width:46px; height:46px; border-radius:11px;
+      background:rgba(255,255,255,.1);
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; transition:transform .3s;
+    }
+    .trust-ico svg { width:20px; height:20px; stroke:rgba(255,255,255,.85); }
+    .trust-card:hover .trust-ico { transform:scale(1.1); }
+    .trust-text h3 { font-size:.95rem; color:var(--white); font-weight:700; margin-bottom:.28rem; }
+    .trust-text p  { font-size:.83rem; color:rgba(255,255,255,.52); line-height:1.7; }
+
+    /* ── MID CTA (after reviews) ────────────────────────────────── */
+    .mid-cta {
+      background:var(--sage-pale);
+      border:1.5px solid rgba(122,158,126,.24);
+      border-radius:16px;
+      padding:2.4rem 2.5rem;
+      text-align:center; margin-top:3rem;
+      display:flex; flex-direction:column; align-items:center; gap:.9rem;
+    }
+    .mid-cta h3 { font-size:1.28rem; color:var(--navy); font-weight:800; }
+    .mid-cta p  { font-size:.9rem; color:var(--text-mid); max-width:430px; line-height:1.74; }
+
+    /* ── FAQ CTA ────────────────────────────────────────────────── */
+    .faq-cta {
+      max-width:660px; margin:2.5rem auto 0;
+      background:var(--bg-alt); border-radius:13px;
+      padding:1.7rem 2rem;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:1.5rem; flex-wrap:wrap;
+      border:1.5px solid var(--sand);
+    }
+    .faq-cta-text h3 { font-size:1rem; color:var(--navy); font-weight:800; margin-bottom:.18rem; }
+    .faq-cta-text p  { font-size:.83rem; color:var(--text-mid); }
+
+    /* ── STICKY CTA ─────────────────────────────────────────────── */
+    .sticky-cta {
+      position:fixed; bottom:0; left:0; right:0; z-index:998;
+      background:var(--navy);
+      padding:.9rem 2rem;
+      display:flex; align-items:center; justify-content:center; gap:1rem;
+      transform:translateY(110%);
+      transition:transform .42s cubic-bezier(.25,.46,.45,.94);
+      box-shadow:0 -4px 28px rgba(44,62,80,.28);
+    }
+    .sticky-cta.sc-visible { transform:translateY(0); }
+    .sticky-cta-text {
+      color:rgba(255,255,255,.68); font-size:.8rem; font-weight:600;
+      letter-spacing:.2px; display:none;
+    }
+    @media(min-width:640px){ .sticky-cta-text { display:block; } }
+    .btn-sc-book {
+      background:var(--clay); color:var(--white);
+      padding:.58rem 1.35rem; border-radius:7px;
+      font-family:'Montserrat',sans-serif; font-weight:700; font-size:.83rem;
+      border:none; cursor:pointer; text-decoration:none;
+      display:inline-flex; align-items:center; gap:.42rem;
+      transition:all .22s;
+    }
+    .btn-sc-book:hover { background:var(--clay-dark); transform:translateY(-1px); }
+    .btn-sc-call {
+      background:rgba(255,255,255,.1); color:var(--white);
+      padding:.58rem 1.1rem; border-radius:7px;
+      font-family:'Montserrat',sans-serif; font-weight:700; font-size:.83rem;
+      border:1px solid rgba(255,255,255,.2); cursor:pointer; text-decoration:none;
+      display:inline-flex; align-items:center; gap:.42rem;
+      transition:all .22s;
+    }
+    .btn-sc-call:hover { background:rgba(255,255,255,.18); }
+    .sc-close {
+      position:absolute; right:1.1rem; top:50%; transform:translateY(-50%);
+      background:none; border:none; color:rgba(255,255,255,.35);
+      font-size:1.15rem; cursor:pointer; padding:.3rem; line-height:1;
+      transition:color .2s;
+    }
+    .sc-close:hover { color:var(--white); }
+    @media(max-width:480px){
+      .sticky-cta { padding:.8rem 1.2rem; gap:.6rem; }
+      .btn-sc-book, .btn-sc-call { padding:.52rem .9rem; font-size:.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════ NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div class="nav-logo-name">
+      Edgewood Park
+      <span>Infant &amp; Toddler Care</span>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#teachers">Teachers</a></li>
+    <li><a href="#day">Our Day</a></li>
+    <li><a href="#trust">Safety</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Visit</a></li>
+  </ul>
+  <div class="hamburger" id="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════ HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Serving Surrey, BC · Ages 0 – 36 Months</div>
+    <h1 class="hero-title">
+      Where Little Ones<br>
+      <span class="hl">Bloom &amp; Thrive</span>
+    </h1>
+    <p class="hero-sub">
+      A warm, nurturing family daycare where every baby and toddler is loved,
+      cherished, and given the perfect start to their journey of discovery.
+    </p>
+    <div class="hero-stars">
+      <span class="s">★★★★★</span>
+      <strong>5.0</strong>
+      <span>· 9 Google Reviews · Licensed Care</span>
+    </div>
+    <div class="hero-park">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      3-minute walk to Edgewood Park · Fresh air, every single day
+    </div>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-pri">Schedule a Visit</a>
+      <a href="#features" class="btn btn-sec">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ GALLERY -->
+<section id="gallery" class="sec">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="sec-label reveal">Our Moments</div>
+      <h2 class="sec-title reveal">Life at Edgewood Park</h2>
+      <p class="sec-desc reveal">A peek into the joy, creativity, and love that fills our days.</p>
+    </div>
+    <div class="gal-wrap reveal" id="galWrap">
+      <div class="gal-track" id="galTrack">
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2025-10-02.webp" alt="A happy morning at Edgewood Park Daycare" loading="lazy"></div>
+          <div class="gal-caption">A happy morning at Edgewood Park — curious little minds at work</div>
+        </div>
+
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2025-07-21%20(2).webp" alt="Little hands discovering and building every day" loading="lazy"></div>
+          <div class="gal-caption">Afternoon adventures at Edgewood Park — just a 3-minute walk from our door</div>
+        </div>
+
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2025-07-21%20(1).webp" alt="Together we learn, laugh, and grow" loading="lazy"></div>
+          <div class="gal-caption">A place where every child feels safe, seen, and loved</div>
+        </div>
+
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2025-07-21.webp" alt="Creativity and colour every single day" loading="lazy"></div>
+          <div class="gal-caption">Every smile tells our story</div>
+        </div>
+
+        
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2025-07-21%20(6).webp" alt="Happy moments that make each day special" loading="lazy"></div>
+          <div class="gal-caption">Happy moments that make each day something special</div>
+        </div>
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2024-10-14.webp" alt="A place where every child feels safe and loved" loading="lazy"></div>
+          <div class="gal-caption">Focused, curious, and full of wonder</div>
+        </div>
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2024-10-14%20(1).webp" alt="Imagination has no limits here" loading="lazy"></div>
+          <div class="gal-caption">Imagination has no limits here</div>
+        </div>
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2024-10-13%20(2).webp" alt="Every child growing strong and confident" loading="lazy"></div>
+          <div class="gal-caption">Every child growing strong and full of confidence</div>
+        </div>
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2024-10-13%20(3).webp" alt="Focused, curious, and full of wonder" loading="lazy"></div>
+          <div class="gal-caption">Together we learn, laugh, and grow</div>
+        </div>
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2024-10-13%20(4).webp" alt="Afternoon adventures at Edgewood Park — just 3 minutes away" loading="lazy"></div>
+          <div class="gal-caption">Little hands discovering and building — all day long</div>
+        </div>
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2024-10-13%20(5).webp" alt="The warmth of Miss Linda" loading="lazy"></div>
+          <div class="gal-caption">Creativity and colour in every corner</div>
+        </div>
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2023-02-06.webp" alt="Our nap and rest space — cozy cots on soft play mats" loading="lazy"></div>
+          <div class="gal-caption">Sweet dreams, little ones — rest is where growing happens too</div>
+        </div>
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/IMG_1036.webp" alt="Our little library — books and stories for curious minds" loading="lazy"></div>
+          <div class="gal-caption">A little library for big imaginations — where a love of reading begins</div>
+        </div>
+
+        <div class="gal-slide">
+          <div class="gal-img"><img src="images/2025-08-21.webp" alt="Edgewood Park Daycare — our home in South Surrey, BC" loading="lazy"></div>
+          <div class="gal-caption">Our home in South Surrey — warm, welcoming, and made for little ones</div>
+        </div>
+
+      </div>
+      <button class="gal-btn gal-prev" onclick="galPrev()">&#8249;</button>
+      <button class="gal-btn gal-next" onclick="galNext()">&#8250;</button>
+      <div class="gal-counter" id="galCounter">1 / 14</div>
+      <div class="gal-bar" id="galBar"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ FEATURES -->
+<section id="features" class="sec">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="sec-label reveal">Our Special Touch</div>
+      <h2 class="sec-title reveal">Why Families Choose Us</h2>
+      <p class="sec-desc reveal">Every detail is designed with your little one in mind — from the toys we choose to the activities we plan.</p>
+    </div>
+    <div class="feat-grid">
+
+      <div class="feat-card reveal">
+        <div class="feat-ico fi1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="feat-text">
+          <h3>Small Group Setting</h3>
+          <p>With a maximum of 8 children, every child receives individualized attention, care, and love every single day.</p>
+        </div>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-ico fi2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="feat-text">
+          <h3>Bilingual Environment</h3>
+          <p>Children naturally absorb both English and Mandarin in a warm, immersive environment — a lifelong gift.</p>
+        </div>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-ico fi3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </div>
+        <div class="feat-text">
+          <h3>Outdoor Play Every Day</h3>
+          <p>Our safe backyard plus a daily walk to <strong>Edgewood Park — just 3 minutes away</strong> — give little ones fresh air, open space, and real nature every day.</p>
+        </div>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-ico fi4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
+        <div class="feat-text">
+          <h3>Safety Is #1 Priority</h3>
+          <p>Age-appropriate toys, rubberized play surfaces, and constant supervision mean your child is always safe and secure.</p>
+        </div>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-ico fi5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="feat-text">
+          <h3>Creative Learning Daily</h3>
+          <p>Arts, crafts, music, stories, and sensory play spark curiosity and creativity throughout every day.</p>
+        </div>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-ico fi6">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="feat-text">
+          <h3>Family-Like Atmosphere</h3>
+          <p>We create a home away from home where children feel secure, loved, and ready to explore the world.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ TEACHERS -->
+<section id="teachers" class="sec">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="sec-label reveal">Meet the Caregiver</div>
+      <h2 class="sec-title reveal">The Heart of Edgewood Park</h2>
+    </div>
+    <div class="linda-wrap reveal">
+      <div class="linda-photo">
+        <!-- Replace linda.jpg with a high-res portrait when available -->
+        <img src="images/linda.jpg" alt="Miss Linda — Owner & Lead Teacher">
+      </div>
+      <div class="linda-quote">
+        <div class="lq-mark">&ldquo;</div>
+        <p class="lq-text">
+          I believe every child is unique and deserves to be seen, heard, and celebrated.
+          My goal is to make each day joyful, safe, and full of discovery — because these
+          early years are the foundation for everything that follows.
+        </p>
+        <div class="lq-name">Miss Linda</div>
+        <div class="lq-role">Owner &amp; Lead Teacher &nbsp;·&nbsp; 20+ Years Experience</div>
+        <div class="lq-tags">
+          <span class="tag">Early Childhood Education</span>
+          <span class="tag">Bilingual English &amp; Mandarin</span>
+          <span class="tag">Licensed Family Child Care</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ DAY IN LIFE -->
+<section id="day" class="sec">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="sec-label reveal">Daily Schedule</div>
+      <h2 class="sec-title reveal">A Day in Our Little World</h2>
+      <p class="sec-desc reveal">Wonder what your baby gets up to? Here's a peek at our warm, structured daily routine designed for happy, healthy development.</p>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-time">8:00 am</div>
+        <div class="tl-dot" style="background:var(--navy-pale);">🌅</div>
+        <div class="tl-body"><h4>Arrival &amp; Welcome</h4><p>Warm greetings, gentle drop-off routines, and free play to ease into the day</p></div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-time">8:30 am</div>
+        <div class="tl-dot" style="background:var(--gold-pale);">🎵</div>
+        <div class="tl-body"><h4>Morning Circle</h4><p>Songs, stories, and conversation — building language and social skills</p></div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-time">9:30 am</div>
+        <div class="tl-dot" style="background:var(--wood-pale);">🎨</div>
+        <div class="tl-body"><h4>Arts, Crafts &amp; Sensory Play</h4><p>Hands-on creative activities that spark imagination and fine motor skills</p></div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-time">10:30 am</div>
+        <div class="tl-dot" style="background:var(--sage-pale);">🌿</div>
+        <div class="tl-body"><h4>Outdoor Play at Edgewood Park</h4><p>A 3-minute walk to beautiful Edgewood Park — open grass, trees, and real outdoor adventure (weather permitting)</p></div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-time">12:30 pm</div>
+        <div class="tl-dot" style="background:var(--navy-pale);">🌙</div>
+        <div class="tl-body"><h4>Nap &amp; Quiet Rest</h4><p>Restful sleep in a calm, cozy environment for recharging little bodies</p></div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-time">3:00 pm</div>
+        <div class="tl-dot" style="background:var(--gold-pale);">🧸</div>
+        <div class="tl-body"><h4>Free Play &amp; Activities</h4><p>Child-led exploration with age-appropriate toys and gentle guided learning</p></div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-time">4:30 pm</div>
+        <div class="tl-dot" style="background:var(--sage-pale);">🏠</div>
+        <div class="tl-body"><h4>Pick-up Time</h4><p>Daily updates shared with parents — because you're always part of our team</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ SERVICES -->
+<section id="services" class="sec">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="sec-label reveal">At a Glance</div>
+      <h2 class="sec-title reveal">What You Need to Know</h2>
+    </div>
+    <div class="svc-grid">
+
+      <div class="svc-card reveal">
+        <div class="svc-ico si1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="svc-label">Ages Accepted</div>
+        <div class="svc-val">0 – 36 months</div>
+      </div>
+
+      <div class="svc-card reveal">
+        <div class="svc-ico si2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="svc-label">Operating Hours</div>
+        <div class="svc-val">Mon–Fri, 8am–5pm</div>
+      </div>
+
+      <div class="svc-card reveal">
+        <div class="svc-ico si3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="svc-label">Group Size</div>
+        <div class="svc-val">Max 8 Children</div>
+      </div>
+
+      <div class="svc-card reveal">
+        <div class="svc-ico si5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="svc-label">Language</div>
+        <div class="svc-val">English &amp; Mandarin</div>
+      </div>
+
+      <div class="svc-card reveal">
+        <div class="svc-ico si6">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="7"/>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+          </svg>
+        </div>
+        <div class="svc-label">Licensed</div>
+        <div class="svc-val">Family Child Care</div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ TRUST & SAFETY -->
+<section id="trust" class="sec">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="sec-label reveal">Peace of Mind</div>
+      <h2 class="sec-title reveal">Your Child's Safety &amp; Our Credentials</h2>
+      <p class="sec-desc reveal">We hold ourselves to the highest standards — because your trust is something we earn every single day.</p>
+    </div>
+    <div class="trust-grid">
+
+      <div class="trust-card reveal">
+        <div class="trust-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
+        <div class="trust-text">
+          <h3>Licensed by BC MCFD</h3>
+          <p>Fully licensed through BC's Ministry of Children and Family Development. All licensing requirements are met and regularly inspected.</p>
+        </div>
+      </div>
+
+      <div class="trust-card reveal">
+        <div class="trust-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <div class="trust-text">
+          <h3>First Aid &amp; Infant CPR</h3>
+          <p>All caregivers hold current Standard First Aid and Infant CPR certification — renewed regularly so we're always prepared.</p>
+        </div>
+      </div>
+
+      <div class="trust-card reveal">
+        <div class="trust-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="trust-text">
+          <h3>Criminal Record Checks</h3>
+          <p>Every adult caregiver has passed a complete criminal record check and vulnerable sector screening — no exceptions.</p>
+        </div>
+      </div>
+
+      <div class="trust-card reveal">
+        <div class="trust-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div class="trust-text">
+          <h3>Secure Home Environment</h3>
+          <p>Safety-proofed rooms, locked cabinets, gated stairways, and controlled entry — only authorized adults are admitted.</p>
+        </div>
+      </div>
+
+      <div class="trust-card reveal">
+        <div class="trust-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <div class="trust-text">
+          <h3>Emergency Protocols</h3>
+          <p>Written emergency plans are always in place. Parents are notified immediately of any incident — full transparency, always.</p>
+        </div>
+      </div>
+
+      <div class="trust-card reveal">
+        <div class="trust-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="trust-text">
+          <h3>Daily Health Check-ins</h3>
+          <p>Every child receives a gentle health assessment at arrival. If a child seems unwell, we communicate with parents right away.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ REVIEWS -->
+<section id="reviews" class="sec">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="sec-label reveal">What Parents Say</div>
+      <h2 class="sec-title reveal">Loved by Families</h2>
+      <p class="sec-desc reveal">Don't just take our word for it — here's what parents in our community have shared.</p>
+    </div>
+    <div class="rev-grid">
+
+      <div class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"Miss Linda and Miss Jenny made the entire transition so smooth and comforting. They were incredibly patient, nurturing, and attentive. My daughter comes home happy and excited to return the next day."</p>
+        <div class="reviewer">
+          <div class="rev-avatar ra1">E</div>
+          <div><div class="rev-name">Eve Wong</div><div class="rev-date">Google Review · 8 months ago</div></div>
+        </div>
+      </div>
+
+      <div class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"Linda goes above and beyond to create a safe, fun, and nurturing environment. This daycare feels like a second home for the kids. The personal touches truly make it special. I can't recommend it enough."</p>
+        <div class="reviewer">
+          <div class="rev-avatar ra2">S</div>
+          <div><div class="rev-name">Shelly</div><div class="rev-date">Google Review · 1 year ago</div></div>
+        </div>
+      </div>
+
+      <div class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"Ms. Linda pays a lot of attention to the kids and cares for them as if they are her own. Safety is her number one priority. My daughter loves going to daycare every day."</p>
+        <div class="reviewer">
+          <div class="rev-avatar ra3">L</div>
+          <div><div class="rev-name">Elizabeth Zhang</div><div class="rev-date">Google Review · 1 year ago</div></div>
+        </div>
+      </div>
+
+      <div class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"Ms. Linda's creativity, the stories, the songs, and the gentle encouragement will always be remembered. We leave with beautiful memories and hearts full of appreciation."</p>
+        <div class="reviewer">
+          <div class="rev-avatar ra4">S</div>
+          <div><div class="rev-name">Sonam Wasson</div><div class="rev-date">Google Review · 8 months ago</div></div>
+        </div>
+      </div>
+
+      <div class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"Our son started at 14 months and has absolutely thrived. Linda has a real gift for understanding each child's personality. The bilingual environment has been an unexpected bonus — he's already picking up Mandarin phrases!"</p>
+        <div class="reviewer">
+          <div class="rev-avatar ra1">J</div>
+          <div><div class="rev-name">Jennifer H.</div><div class="rev-date">Google Review · 5 months ago</div></div>
+        </div>
+      </div>
+
+      <div class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"We toured several daycares before choosing Edgewood Park. The space is thoughtfully arranged, the daily schedule is clear, and Linda's communication with parents is excellent. We are completely at ease leaving our daughter here every day."</p>
+        <div class="reviewer">
+          <div class="rev-avatar ra2">R</div>
+          <div><div class="rev-name">Roy &amp; Amy T.</div><div class="rev-date">Google Review · 10 months ago</div></div>
+        </div>
+      </div>
+
+      <div class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"Hands down the best decision we made for our child's early years. Linda treats every child like her own. The small group means our son gets real, meaningful attention — not just supervision. Highly recommend to any family in Surrey."</p>
+        <div class="reviewer">
+          <div class="rev-avatar ra3">P</div>
+          <div><div class="rev-name">Priya M.</div><div class="rev-date">Google Review · 2 months ago</div></div>
+        </div>
+      </div>
+
+      <div class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"We enrolled our daughter at just 4 months old and were naturally nervous. Miss Linda's experience with infants is extraordinary — she was calm, attentive, and so warm from the very first day. Our daughter is thriving, and we feel completely at peace every morning we drop her off."</p>
+        <div class="reviewer">
+          <div class="rev-avatar ra4">M</div>
+          <div><div class="rev-name">Michael &amp; Sarah L.</div><div class="rev-date">Google Review · 3 months ago</div></div>
+        </div>
+      </div>
+
+      <div class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"What sets Miss Linda apart is how deeply she knows each child. She notices every milestone, every mood, every little preference. My son started as a shy toddler who clung to me at drop-off — now he runs in the door with a huge smile. That transformation says everything."</p>
+        <div class="reviewer">
+          <div class="rev-avatar ra2">C</div>
+          <div><div class="rev-name">Christine T.</div><div class="rev-date">Google Review · 6 months ago</div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="gbadge reveal">
+      <a href="https://share.google/T64GvtM95jnhQIle1" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        View all 9 reviews on Google &nbsp;·&nbsp; 5.0 ★★★★★
+      </a>
+    </div>
+
+    <div class="mid-cta reveal">
+      <h3>Wondering if we have a spot for your little one?</h3>
+      <p>We keep our group small on purpose — which means spots fill fast. Reach out today to check availability for this month.</p>
+      <a href="#contact" class="btn btn-pri">Check Availability &nbsp;→</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ FAQ -->
+<section id="faq" class="sec">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="sec-label reveal">Got Questions?</div>
+      <h2 class="sec-title reveal">Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Do you have openings available?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">
+          <p>We maintain a small, intimate group of up to 8 children to ensure personalized care. Spots are limited and fill quickly! Please reach out via our contact form to check current availability and get on our waitlist.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>How do I schedule a visit or tour?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">
+          <p>We'd love to meet you and your little one! Simply fill out our contact form below or give us a call at (778) 319-6866. We'll arrange a time that works for your family to come see our space and meet the teachers.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>What ages do you accept?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">
+          <p>We lovingly care for infants and toddlers from 0 to 36 months (3 years) of age. Our program is specifically designed to support the unique developmental needs of babies and young toddlers.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="faq-cta reveal">
+      <div class="faq-cta-text">
+        <h3>Still have questions?</h3>
+        <p>We're happy to chat — no pressure, no commitment.</p>
+      </div>
+      <a href="#contact" class="btn btn-pri">Message Us</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ CONTACT -->
+<section id="contact" class="sec">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="sec-label reveal">Reach Out</div>
+      <h2 class="sec-title reveal">Let's Connect</h2>
+      <p class="sec-desc reveal">Ready to take the next step? We'd love to hear from you and answer any questions you have.</p>
+    </div>
+    <div class="contact-wrap">
+      <div class="ci-list reveal-l">
+
+        <div class="ci">
+          <div class="ci-ico cii1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div><h4>Address</h4><p>16736 22A Ave, Surrey<br>BC V3Z 0M7</p></div>
+        </div>
+
+        <div class="ci">
+          <div class="ci-ico cii2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.38 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div><h4>Phone</h4><p>(778) 319-6866</p></div>
+        </div>
+
+        <div class="ci">
+          <div class="ci-ico cii3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div><h4>Hours</h4><p>Monday – Friday<br>8:00am – 5:00pm</p></div>
+        </div>
+
+        <div class="ci">
+          <div class="ci-ico cii4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <div><h4>Ages</h4><p>0 – 36 months</p></div>
+        </div>
+
+      </div>
+
+      <div class="form-box reveal-r">
+        <!--
+          TO CONNECT GOOGLE FORMS LATER:
+          1. Linda creates a Google Form with matching fields
+          2. Click Send → Embed (</>), copy the src URL
+          3. Delete the <form> block below entirely
+          4. Paste: <iframe src="GOOGLE_FORM_URL" width="100%" height="680" frameborder="0"></iframe>
+        -->
+        <form class="contact-form" id="contactForm" onsubmit="return handleSubmit(event)" novalidate>
+          <div class="cf-row">
+            <div class="cf-group">
+              <label for="parentName">Parent / Guardian Name <span class="cf-req">*</span></label>
+              <input type="text" id="parentName" name="parentName" placeholder="Your full name" data-req>
+              <span class="cf-err">Please enter your name</span>
+            </div>
+            <div class="cf-group">
+              <label for="childName">Child's Name <span class="cf-req">*</span></label>
+              <input type="text" id="childName" name="childName" placeholder="e.g. Emma" data-req>
+              <span class="cf-err">Please enter your child's name</span>
+            </div>
+          </div>
+          <div class="cf-row">
+            <div class="cf-group">
+              <label for="childAge">Child's Age <span class="cf-req">*</span></label>
+              <input type="text" id="childAge" name="childAge" placeholder="e.g. 8 months / 2 years" data-req>
+              <span class="cf-err">Please enter your child's age</span>
+            </div>
+            <div class="cf-group">
+              <label for="cfEmail">Email Address <span class="cf-req">*</span></label>
+              <input type="email" id="cfEmail" name="email" placeholder="your@email.com" data-req>
+              <span class="cf-err">Please enter a valid email</span>
+            </div>
+          </div>
+          <div class="cf-row">
+            <div class="cf-group">
+              <label for="cfPhone">Phone Number</label>
+              <input type="tel" id="cfPhone" name="phone" placeholder="(604) 000-0000">
+            </div>
+            <div class="cf-group">
+              <label for="visitDate">Preferred Tour Date</label>
+              <input type="text" id="visitDate" name="visitDate" placeholder="e.g. Any weekday morning in May">
+            </div>
+          </div>
+          <div class="cf-group">
+            <label for="startDate">Preferred Start Date</label>
+            <input type="text" id="startDate" name="startDate" placeholder="e.g. September 2025, or as soon as possible">
+          </div>
+          <div class="cf-group">
+            <label for="cfMessage">Questions or Comments</label>
+            <textarea id="cfMessage" name="message" rows="4" placeholder="Tell us a little about your child and any questions you have…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-pri cf-submit">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Send Message
+          </button>
+          <p class="cf-note"><span class="cf-req">*</span> Required fields &nbsp;·&nbsp; We usually respond within 1 business day &nbsp;·&nbsp; (778) 319-6866</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ MAP -->
+<section id="map">
+  <iframe
+    src="https://maps.google.com/maps?q=16736+22A+Ave,+Surrey,+BC+V3Z+0M7,+Canada&output=embed"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title="Edgewood Park Daycare Location">
+  </iframe>
+</section>
+
+<!-- ════════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <div class="ft-logo">Edgewood Park</div>
+        <p>A licensed family daycare in South Surrey dedicated to giving infants and toddlers the warmest, most nurturing start to life — one smile at a time.</p>
+      </div>
+      <div class="ft-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#features">Our Features</a></li>
+          <li><a href="#teachers">Meet the Teachers</a></li>
+          <li><a href="#day">Daily Schedule</a></li>
+          <li><a href="#reviews">Parent Reviews</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Get in Touch</h4>
+        <p>16736 22A Ave, Surrey BC</p>
+        <p>(778) 319-6866</p>
+        <p>Mon–Fri, 8am–5pm</p>
+        <p>Ages: 0–36 months</p>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2025 Edgewood Park Infant &amp; Toddler Group Child Care · Surrey, BC</span>
+      <span class="ft-hearts">Made with care for every little one</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════ STICKY CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-cta-text">Spots are filling up — don't wait!</span>
+  <div style="display:flex;gap:.7rem;">
+    <a href="#contact" class="btn-sc-book">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Book a Tour
+    </a>
+    <a href="tel:7783196866" class="btn-sc-call">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.38 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Call Now
+    </a>
+  </div>
+  <button class="sc-close" onclick="document.getElementById('stickyCta').classList.remove('sc-visible');document.getElementById('stickyCta').style.display='none';" aria-label="Dismiss">×</button>
+</div>
+
+<script>
+  // ── CONTACT FORM ─────────────────────────────────────────────────
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    let valid = true;
+    form.querySelectorAll('[data-req]').forEach(field => {
+      const grp = field.closest('.cf-group');
+      if (!field.value.trim()) {
+        grp.classList.add('has-error');
+        valid = false;
+      } else {
+        grp.classList.remove('has-error');
+      }
+    });
+    // basic email format check
+    const emailEl = form.querySelector('#cfEmail');
+    if (emailEl && emailEl.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+      emailEl.closest('.cf-group').classList.add('has-error');
+      valid = false;
+    }
+    if (!valid) return false;
+    form.innerHTML = `
+      <div class="cf-success">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--sage)"
+          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+          style="margin:0 auto 1.2rem;display:block">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <h3>Message Received!</h3>
+        <p>Thank you for reaching out.<br>Miss Linda will be in touch within 1 business day.</p>
+      </div>`;
+    return false;
+  }
+
+  // ── SCROLL REVEAL ────────────────────────────────────────────────
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
+
+  document.querySelectorAll('.feat-grid,.rev-grid,.svc-grid').forEach(grid => {
+    grid.querySelectorAll('.reveal').forEach((c, i) => { c.style.transitionDelay = i * 0.08 + 's'; });
+  });
+  document.querySelectorAll('.timeline .reveal').forEach((c, i) => {
+    c.style.transitionDelay = i * 0.07 + 's';
+  });
+
+  // ── FAQ ──────────────────────────────────────────────────────────
+  function toggleFaq(q) {
+    const item = q.parentElement;
+    const ans  = item.querySelector('.faq-a');
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(it => {
+      it.classList.remove('open');
+      it.querySelector('.faq-a').classList.remove('open');
+    });
+    if (!open) { item.classList.add('open'); ans.classList.add('open'); }
+  }
+
+  // ── MOBILE MENU ──────────────────────────────────────────────────
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  // ── GALLERY SLIDER ───────────────────────────────────────────────
+  let galCur = 0;
+  const galTotal = 14;
+  const galTrackEl = document.getElementById('galTrack');
+  const galCounterEl = document.getElementById('galCounter');
+  const galBarEl = document.getElementById('galBar');
+  const galWrapEl = document.getElementById('galWrap');
+
+  function galSetWidths() {
+    const w = galWrapEl.offsetWidth;
+    galTrackEl.querySelectorAll('.gal-slide').forEach(s => s.style.width = w + 'px');
+  }
+  function galGoTo(n) {
+    galCur = (n + galTotal) % galTotal;
+    const w = galWrapEl.offsetWidth;
+    galTrackEl.style.transform = `translateX(-${galCur * w}px)`;
+    galCounterEl.textContent = `${galCur + 1} / ${galTotal}`;
+    galBarEl.style.width = `${((galCur + 1) / galTotal) * 100}%`;
+  }
+  function galNext() { galGoTo(galCur + 1); }
+  function galPrev() { galGoTo(galCur - 1); }
+
+  galSetWidths();
+  galGoTo(0);
+  window.addEventListener('resize', () => { galSetWidths(); galGoTo(galCur); });
+
+  let galTx = 0;
+  galWrapEl.addEventListener('touchstart', e => { galTx = e.touches[0].clientX; }, { passive:true });
+  galWrapEl.addEventListener('touchend', e => {
+    const d = galTx - e.changedTouches[0].clientX;
+    if (Math.abs(d) > 50) d > 0 ? galNext() : galPrev();
+  });
+
+  // ── NAV SCROLL SHADOW + STICKY CTA + HERO PARALLAX ──────────────
+  const stickyCta = document.getElementById('stickyCta');
+  window.addEventListener('scroll', () => {
+    const sy = window.scrollY;
+    // nav shadow
+    document.getElementById('navbar').style.boxShadow =
+      sy > 50 ? '0 4px 30px rgba(44,62,80,.14)' : 'none';
+    // sticky CTA — show after scrolling past hero
+    if (stickyCta.style.display !== 'none') {
+      stickyCta.classList.toggle('sc-visible', sy > window.innerHeight * 0.85);
+    }
+    // hero parallax
+    const hc = document.querySelector('.hero-content');
+    if (hc && sy < window.innerHeight) {
+      hc.style.transform = `translateY(${sy * 0.2}px)`;
+      hc.style.opacity = Math.max(0, 1 - sy / (window.innerHeight * 0.72));
+    }
+  });
+</script>
+</body>
+</html>
