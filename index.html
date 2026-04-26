@@ -339,22 +339,27 @@
     }
     .linda-quote {
       background:var(--navy);
-      padding:3.5rem 3rem;
+      padding:2rem 3rem 3.5rem;
       display:flex; flex-direction:column; justify-content:center;
     }
     .lq-mark {
       font-family:'Georgia',serif;
       font-size:9rem; line-height:.4;
       color:rgba(255,255,255,.1);
-      margin-bottom:.8rem; user-select:none;
-      display:inline-block;
+      margin-top:2rem; margin-bottom:-2rem; user-select:none;
+      display:block;
       animation:float-gentle 5s ease-in-out infinite;
+    }
+    .lq-mark-close {
+      text-align:right;
+      margin-top:1.8rem; margin-bottom:0;
+      animation-delay:2.5s;
     }
     .lq-text {
       font-size:1.13rem; line-height:1.85;
       color:rgba(255,255,255,.88);
       font-style:italic; font-weight:400;
-      margin:0 0 2.4rem;
+      margin:0 0 .8rem;
     }
     .lq-name {
       font-size:1.1rem; font-weight:800;
@@ -1100,6 +1105,7 @@
           My goal is to make each day joyful, safe, and full of discovery, because these
           early years are the foundation for everything that follows.
         </p>
+        <div class="lq-mark lq-mark-close">&rdquo;</div>
         <div class="lq-name">Miss Linda</div>
         <div class="lq-role">Owner &amp; Lead Teacher &nbsp;·&nbsp; 20+ Years Experience</div>
         <div class="lq-tags">
