@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Policies & Procedures — Edgewood Park Infant and Toddler Group Child Care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#F8F3EB; --bg-alt:#F1E9DC; --sand:#E0D2C0;
+      --sage:#7A9E7E; --sage-pale:#EAF0E8;
+      --navy:#2C3E50; --navy-mid:#3D5166; --navy-pale:#E8ECF1;
+      --ink:#1B2B22; --clay:#9A7262; --clay-dark:#7E5A49;
+      --text:#2A2A2A; --text-mid:#4D4440; --text-light:#9B9080;
+      --white:#FFFFFF; --shadow:rgba(44,38,30,.09);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--sand);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .7rem;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-logo-mark svg { width: 16px; height: 16px; }
+    .nav-logo-name {
+      font-size: .9rem; font-weight: 700; color: var(--ink); line-height: 1.2;
+    }
+    .nav-logo-name span {
+      display: block; font-size: .55rem; font-weight: 600;
+      color: var(--text-light); letter-spacing: .9px; text-transform: uppercase;
+    }
+    .nav-back {
+      margin-left: auto;
+      font-size: .78rem; font-weight: 600; color: var(--navy);
+      text-decoration: none;
+      display: flex; align-items: center; gap: .35rem;
+      padding: .45rem .9rem;
+      border: 1.5px solid var(--navy-pale);
+      border-radius: 8px;
+      transition: background .2s;
+    }
+    .nav-back:hover { background: var(--navy-pale); }
+
+    /* ── HERO ── */
+    .policy-hero {
+      background: var(--navy);
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+    }
+    .policy-hero .label {
+      font-size: .68rem; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--sage);
+      margin-bottom: .8rem;
+    }
+    .policy-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      color: var(--white);
+      margin-bottom: .8rem;
+    }
+    .policy-hero p {
+      color: rgba(255,255,255,.7);
+      font-size: .88rem;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* ── LAYOUT ── */
+    .policy-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--white);
+      border: 1.5px solid var(--sand);
+      border-radius: 14px;
+      padding: 1.8rem 2rem;
+      margin-bottom: 3rem;
+    }
+    .toc h2 {
+      font-size: .75rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--sage);
+      margin-bottom: 1rem;
+    }
+    .toc ol {
+      padding-left: 1.2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .3rem .8rem;
+    }
+    .toc li { font-size: .85rem; }
+    .toc a {
+      color: var(--navy-mid);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .toc a:hover { color: var(--sage); text-decoration: underline; }
+    @media(max-width:560px){ .toc ol { grid-template-columns: 1fr; } }
+
+    /* ── PHILOSOPHY ── */
+    .philosophy {
+      background: var(--sage-pale);
+      border-left: 4px solid var(--sage);
+      border-radius: 0 12px 12px 0;
+      padding: 1.8rem 2rem;
+      margin-bottom: 3rem;
+    }
+    .philosophy h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+    .philosophy p {
+      font-size: .88rem;
+      color: var(--text-mid);
+      margin-bottom: .8rem;
+    }
+    .philosophy p:last-child { margin-bottom: 0; }
+    .philosophy strong { color: var(--navy); }
+
+    /* ── POLICY SECTIONS ── */
+    .policy-section {
+      margin-bottom: 2.8rem;
+      scroll-margin-top: 80px;
+    }
+    .policy-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--navy);
+      padding-bottom: .6rem;
+      border-bottom: 2px solid var(--sand);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+    }
+    .policy-section h2 .sec-num {
+      width: 30px; height: 30px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: .75rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .policy-section h3 {
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--navy-mid);
+      margin: 1.2rem 0 .5rem;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      font-size: .78rem;
+    }
+    .policy-section p {
+      font-size: .88rem;
+      color: var(--text-mid);
+      margin-bottom: .8rem;
+    }
+    .policy-section ol,
+    .policy-section ul {
+      padding-left: 1.4rem;
+      margin-bottom: .8rem;
+    }
+    .policy-section li {
+      font-size: .88rem;
+      color: var(--text-mid);
+      margin-bottom: .45rem;
+    }
+    .policy-section strong { color: var(--text); }
+
+    /* illness grid */
+    .illness-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .7rem;
+      margin: .8rem 0;
+    }
+    .illness-card {
+      background: var(--white);
+      border: 1.5px solid var(--sand);
+      border-radius: 10px;
+      padding: .9rem 1rem;
+    }
+    .illness-card strong {
+      display: block;
+      font-size: .8rem;
+      color: var(--navy);
+      margin-bottom: .3rem;
+    }
+    .illness-card p {
+      font-size: .8rem;
+      margin-bottom: 0;
+    }
+    @media(max-width:560px){ .illness-grid { grid-template-columns: 1fr; } }
+
+    /* highlight box */
+    .highlight-box {
+      background: var(--navy-pale);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      margin: .8rem 0;
+      font-size: .85rem;
+      color: var(--navy-mid);
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    .policy-footer {
+      background: var(--navy);
+      text-align: center;
+      padding: 2rem;
+      font-size: .8rem;
+      color: rgba(255,255,255,.5);
+    }
+    .policy-footer a {
+      color: var(--sage);
+      text-decoration: none;
+    }
+    .policy-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div class="nav-logo-name">
+      Edgewood Park
+      <span>Infant and Toddler Group Child Care</span>
+    </div>
+  </a>
+  <a href="index.html" class="nav-back">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Home
+  </a>
+</nav>
+
+<div class="policy-hero">
+  <div class="label">Parent Information</div>
+  <h1>Policies &amp; Procedures</h1>
+  <p>Edgewood Park Infant and Toddler Group Child Care &nbsp;·&nbsp; Surrey, BC</p>
+</div>
+
+<div class="policy-wrap">
+
+  <!-- Philosophy -->
+  <div class="philosophy">
+    <h2>Our Philosophy</h2>
+    <p><strong>We</strong> strive to provide a safe, healthy, nurturing and developmentally supportive environment for our infants and toddlers, rich with activities and experiences to challenge their learning and growth.</p>
+    <p><strong>We</strong> recognize that no two children develop on the same schedule or in the same sequence; it is our aim to provide each child, as an individual, a balance of opportunities to grow and develop physically, intellectually, socially and emotionally.</p>
+    <p><strong>We</strong> believe that childcare is a way of partnership among parents, child and caregiver; effective communication and interaction are important to us.</p>
+    <p><strong>We</strong> believe that care provider is also love provider — only love is the basis to the best result.</p>
+    <p><strong>We</strong> value cultural difference and encourage mutual understanding. We believe that a well understanding of other cultures, habits, food and language is good for your child.</p>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h2>Table of Contents</h2>
+    <ol>
+      <li><a href="#behavioral">Behavioral Guidance Policy</a></li>
+      <li><a href="#release">Safe Release of Children</a></li>
+      <li><a href="#transportation">Transportation Policy</a></li>
+      <li><a href="#emergency">Emergency Plan &amp; Procedure</a></li>
+      <li><a href="#health">Health, Illness &amp; Medication</a></li>
+      <li><a href="#incidents">Reportable Incident Procedure</a></li>
+      <li><a href="#nutrition">Nutrition &amp; Active Play</a></li>
+      <li><a href="#screentime">Screen Time Use Policy</a></li>
+      <li><a href="#repayment">Repayment Agreement</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. Behavioral Guidance -->
+  <div class="policy-section" id="behavioral">
+    <h2><span class="sec-num">1</span>Behavioral Guidance Policy</h2>
+    <p>We believe that young children need adults to teach, guide, and support them as they grow and learn. We play an important role in guiding children's behavior in positive, supportive, and age-appropriate ways. Positive guidance helps children learn self-regulation and find appropriate ways to express their wants, needs, views and feelings.</p>
+    <h3>Our Approach</h3>
+    <ol>
+      <li>Set clear, consistent, and simple limits so children know what is expected. Limits are age-appropriate for children under 3 years.</li>
+      <li>State limits in a positive way and focus on the behavior rather than on the child.</li>
+      <li>Reinforce appropriate behavior with words and gestures to build self-confidence.</li>
+      <li>Encourage children to use adults as a resource — to ask questions or ask for help.</li>
+      <li>Get a child's attention respectfully: approach individually, say their name, get to eye level, and speak softly.</li>
+      <li>Use proximity and gentle touch to calm children as an effective guidance technique.</li>
+      <li>Acknowledge children's feelings before setting limits so guidance feels supportive.</li>
+    </ol>
+    <h3>Intervention Methods</h3>
+    <ol>
+      <li>Redirect children by changing the situation — offer a substitute toy or a different activity.</li>
+      <li>Offer appropriate choices in a positive and supportive way.</li>
+      <li>Use natural and logical consequences to clarify the outcome of a behavior.</li>
+      <li>Model problem-solving skills. For example: (1) What is the problem? (2) Why is it wrong? (3) Give a hug to show friendship again.</li>
+      <li>If an educator believes a behavior is recurring, parents will be notified. All disciplinary action will be age-appropriate and will never result in physical or mental punishment.</li>
+    </ol>
+    <h3>Harmful Actions Not Permitted</h3>
+    <ul>
+      <li>Shoving, hitting, or shaking by an ECE or another child; physical restraint by another child</li>
+      <li>Confinement or physical restraint by an ECE (except as authorized in a care plan)</li>
+      <li>Harsh, belittling, or degrading treatment that undermines a child's self-respect</li>
+      <li>Spanking or any form of corporal punishment</li>
+      <li>Separation from other children without supervision by a responsible adult</li>
+      <li>Deprivation of meals, snacks, rest or toilet use as a form of punishment</li>
+    </ul>
+    <p>We ensure no child in our care is subjected to emotional, financial, physical, or sexual abuse or neglect. Behavioral concerns are documented in a logbook and discussed with parents if issues are recurring.</p>
+  </div>
+
+  <!-- 2. Safe Release -->
+  <div class="policy-section" id="release">
+    <h2><span class="sec-num">2</span>Safe Release of Children Policy</h2>
+    <ol>
+      <li>Only authorized individuals listed on the registration form may pick up a child. A written note with a parent's signature is required to authorize anyone not on the list. Photo ID is required from anyone staff do not recognize. If ID cannot be provided, the child will not be released.</li>
+      <li>If a parent or authorized person appears impaired by alcohol or drugs, staff will report to the manager, who will refuse to release the child and contact other authorized family members or emergency contacts.</li>
+      <li>If no one arrives at the end of the day and the parent or emergency contacts cannot be reached, a staff member will stay with the child and continue attempting to reach the right person until the child is safely picked up.</li>
+    </ol>
+  </div>
+
+  <!-- 3. Transportation -->
+  <div class="policy-section" id="transportation">
+    <h2><span class="sec-num">3</span>Transportation Policy</h2>
+    <ol>
+      <li>We do not provide pick-up or drop-off service to or from home.</li>
+      <li>Our outdoor playground at Edgewood Park is approximately 300 metres away with no main streets in between; children walk there on foot with staff. No additional transportation is required.</li>
+    </ol>
+  </div>
+
+  <!-- 4. Emergency -->
+  <div class="policy-section" id="emergency">
+    <h2><span class="sec-num">4</span>Emergency Plan &amp; Procedure</h2>
+    <p>In the event of closure due to emergencies or severe weather, each family will be contacted promptly.</p>
+    <div class="highlight-box">
+      Evacuation location: <strong>Edgewood Elementary School</strong>, 30 metres from our centre — 16666 23 Ave, Surrey, BC V3Z 0M7 &nbsp;·&nbsp; Tel: 778-537-0206
+    </div>
+    <ol>
+      <li>All staff will escort children safely on foot to Edgewood Elementary School, bringing an emergency kit with food, water, extra clothing, first aid supplies, medications, and comfort items sufficient for at least 72 hours.</li>
+      <li>During any emergency, all staff will attend and all children will be cared for by every available means. Emergency procedures are practised twice a year.</li>
+    </ol>
+  </div>
+
+  <!-- 5. Health -->
+  <div class="policy-section" id="health">
+    <h2><span class="sec-num">5</span>Health, Illness &amp; Medication Procedure</h2>
+
+    <h3>Promoting Health &amp; Hygiene</h3>
+    <p><strong>Staff:</strong> Hands must be washed before and after caring for each child. Paper towels are used where possible; any linens are machine washed and dried. Toys and equipment are cleaned and sanitized daily. When changing diapers, gloves are worn; used diapers are placed in a sealed container and moved to the outdoor bin by end of day.</p>
+    <p><strong>Children:</strong> Children wash hands after playing, before snacks and meals, after toileting, and after handling animals. Personal items (towels, toothbrushes) are never shared.</p>
+
+    <h3>COVID-19</h3>
+    <p>If any household member is experiencing COVID-19 symptoms or awaiting test results, the child must not attend. If symptoms appear on-site, a rapid antigen test will be administered. A positive result means immediate isolation and parent pickup. All families will be notified the same day.</p>
+
+    <h3>Other Illness — When to Stay Home</h3>
+    <div class="illness-grid">
+      <div class="illness-card">
+        <strong>Fever</strong>
+        <p>Temperature over 38°C: please keep your child home. Slightly elevated temperatures from teething or a recent vaccine may be monitored on-site.</p>
+      </div>
+      <div class="illness-card">
+        <strong>Rash</strong>
+        <p>Non-contagious rashes (e.g. eczema) are fine. Rash with fever or highly contagious conditions (e.g. chicken pox) require the child to go home.</p>
+      </div>
+      <div class="illness-card">
+        <strong>Vomiting</strong>
+        <p>Multiple episodes in one day or vomiting with general discomfort: parents will be called to pick up.</p>
+      </div>
+      <div class="illness-card">
+        <strong>Diarrhea</strong>
+        <p>Especially with fever, or containing blood or mucus: keep child home and see a doctor before returning.</p>
+      </div>
+      <div class="illness-card">
+        <strong>Pink Eye</strong>
+        <p>Red, irritated eye with discharge or fever: send home and see a doctor before returning.</p>
+      </div>
+      <div class="illness-card">
+        <strong>Cough</strong>
+        <p>Occasional coughs are okay. A persistent, severe cough means the child should stay home.</p>
+      </div>
+      <div class="illness-card">
+        <strong>Lice &amp; Scabies</strong>
+        <p>Children must be removed from the group setting as quickly as possible until treated.</p>
+      </div>
+      <div class="illness-card">
+        <strong>Communicable Disease</strong>
+        <p>The ill child will be separated immediately and parents called for immediate pickup. All families notified.</p>
+      </div>
+    </div>
+
+    <h3>Caring for a Child Who Becomes Sick On-Site</h3>
+    <ol type="a">
+      <li>We will provide attentive, gentle care and monitor temperature every two hours. Safe distances between the sick child and others will be maintained.</li>
+      <li>A quiet, clean resting area will be provided under close supervision.</li>
+      <li>Staff will record observations and discuss the situation with parents at pickup. In a serious situation, staff may contact the child's family doctor or call 911.</li>
+    </ol>
+
+    <h3>Medication Procedure</h3>
+    <ol type="a">
+      <li>Prescribed medication will be administered only as specified by the parent or the child's care plan. Medication is accessible to staff but kept out of reach of children.</li>
+      <li>Non-prescription medication requires a written note from parents and original printed instructions.</li>
+      <li>Any adverse reaction will be reported to parents and the family doctor immediately, and recorded in the log.</li>
+      <li>Emergency medications (e.g. EpiPens, inhalers) will be administered by a trained staff member per the care plan.</li>
+      <li>All medications are stored in a cool place out of reach of children.</li>
+    </ol>
+  </div>
+
+  <!-- 6. Incidents -->
+  <div class="policy-section" id="incidents">
+    <h2><span class="sec-num">6</span>Reportable Incident Procedure</h2>
+    <p><strong>Minor incidents</strong> (scrapes, bruises) are attended to on-site and reported to parents at pickup.</p>
+    <p><strong>Major accidents</strong> are handled as follows:</p>
+    <ol type="a">
+      <li>A trained staff member administers first aid.</li>
+      <li>An ambulance and/or the child's family doctor is called if necessary.</li>
+      <li>Parents are contacted immediately. If unavailable, a message is left and the emergency contact is called.</li>
+      <li>Licensing is notified within 24 hours of any reportable incident, with follow-up reports as needed.</li>
+      <li>All major incidents are recorded in the daycare log and reviewed by management to prevent recurrence.</li>
+    </ol>
+    <h3>Reporting Child Abuse or Neglect</h3>
+    <ol type="a">
+      <li>If an allegation involves a child who was not in our care at the time, the manager will report to the Ministry of Children and Family Development within 24 hours.</li>
+      <li>If an allegation involves a child who was in our care, the manager will report to Licensing within 24 hours.</li>
+      <li>All incidents must be documented clearly and disclosed to relevant authorities or parents as required by law.</li>
+      <li>If a child goes missing or is found wandering, parents are notified immediately and police are contacted right away.</li>
+    </ol>
+  </div>
+
+  <!-- 7. Nutrition & Active Play -->
+  <div class="policy-section" id="nutrition">
+    <h2><span class="sec-num">7</span>Nutrition &amp; Active Play Policy</h2>
+    <h3>Nutrition</h3>
+    <ol type="a">
+      <li>Snacks and water meeting the Canadian Food Guide Standards are provided. Lunches are brought from home and must be fresh, healthy, and age-appropriate.</li>
+      <li>We will gently remind parents if a lunch does not meet healthy development standards.</li>
+      <li>Food and drink are never used as reward or punishment.</li>
+      <li>Children are not fed by propped bottle and are never forced to eat or drink.</li>
+      <li>Children are never left unsupervised while eating or drinking.</li>
+      <li>All allergies, dietary needs, and cultural preferences are posted in the eating area.</li>
+      <li>Parents receive a daily report on what their child ate and drank.</li>
+      <li>Food prep surfaces, tables, and highchairs are cleaned before use. Refrigerator temperature is maintained at 4°C or lower.</li>
+    </ol>
+    <h3>Active Play</h3>
+    <p>Active play builds strong bones and muscles, improves balance and coordination, and develops gross and fine motor skills. It also promotes confidence, concentration, and social skills.</p>
+    <ol>
+      <li>For infants and toddlers, active play includes reaching for toys, rolling over, balancing, crawling, and walking — moderate to vigorous movement that supports healthy growth.</li>
+      <li>We ensure 60–120 minutes of outdoor active play per day. Indoor active play is used only when weather prevents going outside.</li>
+      <li>Morning active play takes place in our backyard; afternoon play at Edgewood Park.</li>
+      <li>Activities are designed for children under 3 years. Staff are present at all times during active play.</li>
+      <li>Parents should provide appropriate footwear, seasonal clothing (jacket, boots, gloves), and sunscreen in summer. Parent involvement in some activities is warmly welcomed.</li>
+    </ol>
+  </div>
+
+  <!-- 8. Screen Time -->
+  <div class="policy-section" id="screentime">
+    <h2><span class="sec-num">8</span>Screen Time Use Policy</h2>
+    <p>Screen time of less than 10 minutes may occasionally be offered to children aged 2–3 years when it is directly related to art or circle time activities. Screen time is not used as entertainment or a substitute for active engagement.</p>
+  </div>
+
+  <!-- 9. Repayment -->
+  <div class="policy-section" id="repayment">
+    <h2><span class="sec-num">9</span>Repayment Agreement Policy</h2>
+    <ol type="a">
+      <li>Withdrawal requires <strong>two months' written notice</strong> prior to your child's last day.</li>
+      <li>The deposit will be refunded by cheque if written notice of termination is received at least one month before departure.</li>
+      <li>In the event of daycare closure, parents/guardians will receive one month's written notice and a full refund for any period during which service is not provided. Full fees remain payable during absences due to holidays, illness, school closures, or other reasons, in order to hold the child's space.</li>
+      <li>If the caregiver is unable to provide care due to illness or emergency, and no substitute can be arranged, a full refund will be given to parents for that period.</li>
+    </ol>
+  </div>
+
+</div>
+
+<footer class="policy-footer">
+  <p>&copy; 2025 Edgewood Park Infant &amp; Toddler Group Child Care &nbsp;·&nbsp; Surrey, BC &nbsp;·&nbsp; <a href="index.html">Return to Website</a></p>
+</footer>
+
+</body>
+</html>
