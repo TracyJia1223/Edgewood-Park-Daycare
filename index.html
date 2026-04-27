@@ -1851,8 +1851,8 @@
 
   // ── GALLERY SLIDER ───────────────────────────────────────────────
   let galCur = 0;
-  const galTotal = 19;
   const galTrackEl = document.getElementById('galTrack');
+  const galTotal = galTrackEl.querySelectorAll('.gal-slide').length;
   const galCounterEl = document.getElementById('galCounter');
   const galBarEl = document.getElementById('galBar');
   const galWrapEl = document.getElementById('galWrap');
