@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery Admin — Edgewood Park</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #2c3e50;
+      --sage: #7fb069;
+      --red: #e74c3c;
+      --amber: #f39c12;
+      --bg: #f4f6f8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--navy); min-height: 100vh; }
+
+    /* ── LOGIN ── */
+    #loginScreen {
+      display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem;
+    }
+    .login-card {
+      background: #fff; border-radius: 16px; padding: 3rem 2.5rem;
+      box-shadow: 0 8px 40px rgba(44,62,80,.12); width: 100%; max-width: 380px; text-align: center;
+    }
+    .login-logo { font-size: 2rem; margin-bottom: .75rem; }
+    .login-card h1 { font-size: 1.3rem; margin-bottom: .3rem; }
+    .login-card p { color: #888; font-size: .88rem; margin-bottom: 2rem; }
+    .login-card input {
+      width: 100%; padding: .75rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px;
+      font-family: inherit; font-size: 1rem; margin-bottom: 1rem; transition: border-color .2s;
+    }
+    .login-card input:focus { outline: none; border-color: var(--sage); }
+    .login-error { color: var(--red); font-size: .85rem; margin-top: .4rem; min-height: 1.2em; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+      padding: .7rem 1.4rem; border-radius: 8px; font-family: inherit;
+      font-size: .88rem; font-weight: 700; cursor: pointer; border: none; transition: opacity .2s, transform .1s;
+    }
+    .btn:hover { opacity: .88; }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--navy); color: #fff; width: 100%; }
+    .btn-sage { background: var(--sage); color: #fff; }
+    .btn-danger { background: var(--red); color: #fff; font-size: .75rem; padding: .35rem .7rem; border-radius: 6px; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── ADMIN LAYOUT ── */
+    #adminScreen { display: none; }
+    .admin-header {
+      background: var(--navy); color: #fff;
+      padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.15);
+    }
+    .admin-header h1 { font-size: 1rem; font-weight: 700; }
+    .admin-header-right { display: flex; align-items: center; gap: 1rem; }
+    .live-hint { font-size: .75rem; opacity: .65; }
+    .btn-logout { background: rgba(255,255,255,.15); color: #fff; font-size: .75rem; padding: .35rem .8rem; }
+    .admin-body { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    /* ── UPLOAD SECTION ── */
+    .card {
+      background: #fff; border-radius: 16px; padding: 1.75rem 2rem;
+      box-shadow: 0 4px 20px rgba(44,62,80,.07); margin-bottom: 1.75rem;
+    }
+    .card h2 { font-size: .95rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
+    .drop-zone {
+      border: 2px dashed #ccc; border-radius: 12px; padding: 2.2rem;
+      text-align: center; cursor: pointer; transition: border-color .2s, background .2s; margin-bottom: 1rem;
+    }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--sage); background: #f2faf0; }
+    .drop-zone input[type=file] { display: none; }
+    .drop-zone .dz-icon { font-size: 2.2rem; margin-bottom: .4rem; }
+    .drop-zone strong { font-size: .95rem; }
+    .drop-zone p { color: #999; font-size: .82rem; margin-top: .25rem; }
+    .preview-strip { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1rem; }
+    .preview-thumb { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #e0e0e0; }
+    .upload-row { display: grid; grid-template-columns: 1fr auto; gap: .75rem; align-items: center; }
+    .upload-row input[type=text] {
+      padding: .65rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px;
+      font-family: inherit; font-size: .88rem; transition: border-color .2s;
+    }
+    .upload-row input[type=text]:focus { outline: none; border-color: var(--sage); }
+
+    /* ── GALLERY GRID ── */
+    .gallery-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: .5rem; }
+    .count-badge {
+      background: var(--navy); color: #fff; border-radius: 20px;
+      padding: .2rem .75rem; font-size: .75rem; font-weight: 700; margin-left: .4rem;
+    }
+    .warning-bar {
+      background: #fff8e1; border: 1.5px solid var(--amber); border-radius: 10px;
+      padding: .7rem 1rem; font-size: .82rem; color: #7d5b00;
+      margin-bottom: 1rem; display: none;
+    }
+    .photo-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .85rem;
+    }
+    .photo-card {
+      border-radius: 12px; overflow: hidden; border: 2px solid #eee;
+      background: #fff; transition: border-color .2s, box-shadow .2s;
+    }
+    .photo-card:hover { border-color: var(--sage); box-shadow: 0 4px 16px rgba(44,62,80,.1); }
+    .photo-card img { width: 100%; height: 130px; object-fit: cover; display: block; }
+    .photo-card-footer {
+      padding: .45rem .6rem; display: flex; align-items: center; gap: .4rem;
+    }
+    .photo-pos { font-size: .68rem; font-weight: 800; color: var(--navy); flex-shrink: 0; min-width: 1.8rem; }
+    .photo-cap { font-size: .68rem; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+
+    /* ── STATUS TOAST ── */
+    .toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--navy); color: #fff; border-radius: 12px;
+      padding: .9rem 1.4rem; font-size: .85rem; max-width: 320px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.2);
+      transform: translateY(120%); transition: transform .3s ease; z-index: 9999;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .toast.show { transform: translateY(0); }
+    .toast.success { background: var(--sage); }
+    .toast.error   { background: var(--red); }
+    .spinner {
+      width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin .7s linear infinite; flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-msg { text-align: center; padding: 3rem 1rem; color: #aaa; font-size: .88rem; grid-column: 1/-1; }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">🌳</div>
+    <h1>Gallery Admin</h1>
+    <p>Edgewood Park Daycare</p>
+    <input type="password" id="passInput" placeholder="Enter password" autocomplete="current-password">
+    <button class="btn btn-primary" onclick="doLogin()">Sign In</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ── ADMIN ── -->
+<div id="adminScreen">
+  <div class="admin-header">
+    <h1>🌳 Gallery Admin — Edgewood Park Daycare</h1>
+    <div class="admin-header-right">
+      <span class="live-hint">Changes go live in ~1 minute</span>
+      <button class="btn btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- Upload -->
+    <div class="card">
+      <h2>📷 Upload New Photos</h2>
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div class="dz-icon">📁</div>
+        <strong>Click or drag photos here</strong>
+        <p>JPG · PNG · WEBP — multiple files OK</p>
+        <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFiles(this.files)">
+      </div>
+      <div class="preview-strip" id="previewStrip"></div>
+      <div class="upload-row" id="uploadRow" style="display:none">
+        <input type="text" id="captionInput" placeholder="Caption (optional) — e.g. Outdoor play on a sunny morning">
+        <button class="btn btn-sage" id="uploadBtn" onclick="uploadSelected()">Upload</button>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="card">
+      <div class="gallery-header">
+        <h2>🖼 Current Gallery <span class="count-badge" id="photoCount">—</span></h2>
+      </div>
+      <div class="warning-bar" id="warningBar">
+        💡 You have more than 30 photos. Consider removing older ones to keep the gallery fresh.
+      </div>
+      <div class="photo-grid" id="photoGrid">
+        <div class="empty-msg">Loading gallery…</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────
+const PASS   = 'EdgewoodPark@2026';
+const TOKEN  = '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';
+const REPO   = 'TracyJia1223/Edgewood-Park-Daycare';
+const BRANCH = 'main';
+const RAW    = `https://raw.githubusercontent.com/${REPO}/${BRANCH}`;
+
+let selectedFiles = [];
+let toastTimer;
+
+// ── AUTH ────────────────────────────────────────────────────
+function doLogin() {
+  if (document.getElementById('passInput').value === PASS) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminScreen').style.display = 'block';
+    sessionStorage.setItem('gal_auth', '1');
+    loadGallery();
+  } else {
+    document.getElementById('loginError').textContent = 'Incorrect password.';
+  }
+}
+function doLogout() {
+  sessionStorage.removeItem('gal_auth');
+  location.reload();
+}
+document.getElementById('passInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+if (sessionStorage.getItem('gal_auth') === '1') {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminScreen').style.display = 'block';
+  loadGallery();
+}
+
+// ── GITHUB API ───────────────────────────────────────────────
+const HEADERS = { Authorization: `token ${TOKEN}`, Accept: 'application/vnd.github.v3+json' };
+
+async function apiGet(path) {
+  const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`, { headers: HEADERS });
+  if (!r.ok) throw new Error(`GET ${path}: ${r.status}`);
+  return r.json();
+}
+async function apiPut(path, b64, sha, msg) {
+  const body = { message: msg, content: b64, branch: BRANCH };
+  if (sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+    method: 'PUT', headers: { ...HEADERS, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.message || `PUT ${path} failed`); }
+  return r.json();
+}
+async function apiDelete(path, sha, msg) {
+  const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+    method: 'DELETE', headers: { ...HEADERS, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: msg, sha, branch: BRANCH })
+  });
+  if (!r.ok) throw new Error(`DELETE ${path}: ${r.status}`);
+  return r.json();
+}
+
+// ── INDEX.HTML HELPERS ───────────────────────────────────────
+async function fetchIndex() {
+  const data = await apiGet('index.html');
+  const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+  return { content, sha: data.sha };
+}
+
+function parseGallery(html) {
+  const slides = [];
+  const parts = html.split('<div class="gal-slide">');
+  for (let i = 1; i < parts.length; i++) {
+    const src = parts[i].match(/src="images\/([^"]+)"/);
+    const cap = parts[i].match(/<div class="gal-caption">([^<]*)<\/div>/);
+    if (src) {
+      slides.push({
+        encoded: src[1],
+        filename: decodeURIComponent(src[1]),
+        caption: cap ? cap[1] : ''
+      });
+    }
+  }
+  return slides;
+}
+
+function addSlideToHtml(html, filename, caption) {
+  const enc = filename.replace(/ /g, '%20');
+  const safeCaption = caption.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const slide =
+    `\n\n        <div class="gal-slide">\n` +
+    `          <div class="gal-img"><img src="images/${enc}" alt="${safeCaption}" loading="lazy"></div>\n` +
+    `          <div class="gal-caption">${safeCaption}</div>\n` +
+    `        </div>`;
+  return html.replace(
+    '\n      </div>\n      <button class="gal-btn gal-prev"',
+    slide + '\n\n      </div>\n      <button class="gal-btn gal-prev"'
+  );
+}
+
+function removeSlideFromHtml(html, encoded) {
+  const esc = encoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+  const re = new RegExp(
+    `\\n?\\s*<div class="gal-slide">\\s*\\n\\s*<div class="gal-img"><img src="images\\/${esc}"[^>]*>` +
+    `\\s*<\\/div>\\s*\\n\\s*<div class="gal-caption">[^<]*<\\/div>\\s*\\n\\s*<\\/div>`, 'g'
+  );
+  return html.replace(re, '');
+}
+
+// ── LOAD GALLERY ─────────────────────────────────────────────
+async function loadGallery() {
+  const grid = document.getElementById('photoGrid');
+  grid.innerHTML = '<div class="empty-msg">Loading…</div>';
+  try {
+    const { content } = await fetchIndex();
+    const slides = parseGallery(content);
+    renderGrid(slides);
+  } catch (e) {
+    grid.innerHTML = `<div class="empty-msg">Error loading gallery: ${e.message}</div>`;
+  }
+}
+
+function renderGrid(slides) {
+  document.getElementById('photoCount').textContent = slides.length;
+  document.getElementById('warningBar').style.display = slides.length > 30 ? 'block' : 'none';
+  const grid = document.getElementById('photoGrid');
+  if (!slides.length) {
+    grid.innerHTML = '<div class="empty-msg">No photos in the gallery yet.</div>';
+    return;
+  }
+  grid.innerHTML = slides.map((s, i) =>
+    `<div class="photo-card">
+      <img src="${RAW}/images/${s.encoded}?cb=${Date.now()}" alt="${s.caption}" loading="lazy">
+      <div class="photo-card-footer">
+        <span class="photo-pos">#${i + 1}</span>
+        <span class="photo-cap" title="${s.caption}">${s.caption || '—'}</span>
+        <button class="btn btn-danger" onclick="deletePhoto('${s.encoded.replace(/'/g,"\\'")}','${s.filename.replace(/'/g,"\\'")}')">✕</button>
+      </div>
+    </div>`
+  ).join('');
+}
+
+// ── DELETE ───────────────────────────────────────────────────
+async function deletePhoto(encoded, filename) {
+  if (!confirm(`Delete this photo?\n"${filename}"\n\nThis cannot be undone.`)) return;
+  toast('Deleting…', 'loading');
+  try {
+    const [imgData, { content: html, sha: htmlSha }] = await Promise.all([
+      apiGet(`images/${filename}`),
+      fetchIndex()
+    ]);
+    const newHtml = removeSlideFromHtml(html, encoded);
+    await apiPut('index.html', utfToB64(newHtml), htmlSha, `Remove ${filename} from gallery`);
+    await apiDelete(`images/${filename}`, imgData.sha, `Delete image: ${filename}`);
+    toast('Photo deleted. Goes live in ~1 minute.', 'success');
+    setTimeout(loadGallery, 1200);
+  } catch (e) {
+    toast('Error: ' + e.message, 'error');
+  }
+}
+
+// ── UPLOAD ───────────────────────────────────────────────────
+function handleFiles(files) {
+  selectedFiles = Array.from(files);
+  const strip = document.getElementById('previewStrip');
+  strip.innerHTML = '';
+  selectedFiles.forEach(f => {
+    const img = document.createElement('img');
+    img.className = 'preview-thumb';
+    img.src = URL.createObjectURL(f);
+    strip.appendChild(img);
+  });
+  const row = document.getElementById('uploadRow');
+  row.style.display = selectedFiles.length ? 'grid' : 'none';
+  document.getElementById('captionInput').placeholder =
+    selectedFiles.length === 1
+      ? 'Caption (optional)'
+      : `One caption for all ${selectedFiles.length} photos (optional)`;
+}
+
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+
+async function uploadSelected() {
+  if (!selectedFiles.length) return;
+  const caption = document.getElementById('captionInput').value.trim() || 'A moment at Edgewood Park';
+  const btn = document.getElementById('uploadBtn');
+  btn.disabled = true;
+  try {
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      toast(`Uploading ${i + 1}/${selectedFiles.length}: ${file.name}`, 'loading');
+      const b64 = await fileToBase64(file);
+      let existSha = null;
+      try { existSha = (await apiGet(`images/${file.name}`)).sha; } catch {}
+      await apiPut(`images/${file.name}`, b64, existSha, `Upload gallery image: ${file.name}`);
+      const { content: html, sha: htmlSha } = await fetchIndex();
+      const newHtml = addSlideToHtml(html, file.name, caption);
+      await apiPut('index.html', utfToB64(newHtml), htmlSha, `Add ${file.name} to gallery`);
+    }
+    toast(`${selectedFiles.length} photo(s) uploaded! Goes live in ~1 minute.`, 'success');
+    selectedFiles = [];
+    document.getElementById('previewStrip').innerHTML = '';
+    document.getElementById('uploadRow').style.display = 'none';
+    document.getElementById('captionInput').value = '';
+    document.getElementById('fileInput').value = '';
+    setTimeout(loadGallery, 1500);
+  } catch (e) {
+    toast('Upload error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.readAsDataURL(file);
+    r.onload  = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+  });
+}
+
+// UTF-8 safe base64 encode
+function utfToB64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+// ── TOAST ────────────────────────────────────────────────────
+function toast(msg, type) {
+  const el = document.getElementById('toast');
+  el.className = 'toast show ' + (type || '');
+  el.innerHTML = type === 'loading'
+    ? `<div class="spinner"></div>${msg}`
+    : msg;
+  clearTimeout(toastTimer);
+  if (type !== 'loading') toastTimer = setTimeout(() => el.classList.remove('show'), 4500);
+}
+</script>
+</body>
+</html>
