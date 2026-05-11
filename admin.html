@@ -34,6 +34,9 @@
     }
     .login-card input:focus { outline: none; border-color: var(--sage); }
     .login-error { color: var(--red); font-size: .85rem; margin-top: .4rem; min-height: 1.2em; }
+    .setup-note { font-size: .78rem; color: #aaa; margin-bottom: .5rem; text-align: left; }
+    .reset-link { font-size: .75rem; color: #bbb; cursor: pointer; margin-top: 1rem; display: inline-block; }
+    .reset-link:hover { color: var(--navy); }
 
     /* ── BUTTONS ── */
     .btn {
@@ -140,9 +143,14 @@
     <div class="login-logo">🌳</div>
     <h1>Gallery Admin</h1>
     <p>Edgewood Park Daycare</p>
-    <input type="password" id="passInput" placeholder="Enter password" autocomplete="current-password">
+    <div id="tokenSetup" style="display:none">
+      <div class="setup-note">First-time setup: paste the GitHub token below (one time only)</div>
+      <input type="text" id="tokenInput" placeholder="GitHub token (github_pat_...)">
+    </div>
+    <input type="password" id="passInput" placeholder="Password" autocomplete="current-password">
     <button class="btn btn-primary" onclick="doLogin()">Sign In</button>
     <div class="login-error" id="loginError"></div>
+    <span class="reset-link" id="resetLink" style="display:none" onclick="showTokenSetup()">Re-enter GitHub token</span>
   </div>
 </div>
 
@@ -195,38 +203,72 @@
 <script>
 // ── CONFIG ──────────────────────────────────────────────────
 const PASS   = 'Linda@2026';
-const TOKEN  = atob('Z2l0aHViX3BhdF8xMUFGS0ZOVUkwMzFKa1g4QllWbEhmX29rdVRtV1Vrc2Z6NGFTNzM3cVJmeXlZVTNGZ2hnY3ZCVzNzZWZSS085RWVWREU3VEs0NzFHUDBqbGxB');
 const REPO   = 'TracyJia1223/Edgewood-Park-Daycare';
 const BRANCH = 'main';
 const RAW    = `https://raw.githubusercontent.com/${REPO}/${BRANCH}`;
 
 let selectedFiles = [];
 let toastTimer;
+let HEADERS = {};
 
 // ── AUTH ────────────────────────────────────────────────────
-function doLogin() {
-  if (document.getElementById('passInput').value === PASS) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminScreen').style.display = 'block';
-    sessionStorage.setItem('gal_auth', '1');
-    loadGallery();
-  } else {
-    document.getElementById('loginError').textContent = 'Incorrect password.';
-  }
+function getToken() { return localStorage.getItem('gal_token') || ''; }
+
+function showTokenSetup() {
+  document.getElementById('tokenSetup').style.display = 'block';
+  document.getElementById('resetLink').style.display = 'none';
+  localStorage.removeItem('gal_token');
 }
+
+function doLogin() {
+  const pass  = document.getElementById('passInput').value;
+  const token = document.getElementById('tokenInput').value.trim();
+
+  if (pass !== PASS) {
+    document.getElementById('loginError').textContent = 'Incorrect password.';
+    return;
+  }
+
+  // First-time setup: save new token
+  if (!getToken() && token) {
+    localStorage.setItem('gal_token', token);
+  }
+
+  const t = getToken();
+  if (!t) {
+    document.getElementById('loginError').textContent = 'Please paste the GitHub token above.';
+    return;
+  }
+
+  HEADERS = { Authorization: `token ${t}`, Accept: 'application/vnd.github.v3+json' };
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminScreen').style.display = 'block';
+  sessionStorage.setItem('gal_auth', '1');
+  loadGallery();
+}
+
 function doLogout() {
   sessionStorage.removeItem('gal_auth');
   location.reload();
 }
+
 document.getElementById('passInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-if (sessionStorage.getItem('gal_auth') === '1') {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('adminScreen').style.display = 'block';
-  loadGallery();
+
+// On page load: decide which fields to show
+if (!getToken()) {
+  document.getElementById('tokenSetup').style.display = 'block';
+} else {
+  document.getElementById('resetLink').style.display = 'inline-block';
+  if (sessionStorage.getItem('gal_auth') === '1') {
+    const t = getToken();
+    HEADERS = { Authorization: `token ${t}`, Accept: 'application/vnd.github.v3+json' };
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminScreen').style.display = 'block';
+    loadGallery();
+  }
 }
 
 // ── GITHUB API ───────────────────────────────────────────────
-const HEADERS = { Authorization: `token ${TOKEN}`, Accept: 'application/vnd.github.v3+json' };
 
 async function apiGet(path) {
   const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`, { headers: HEADERS });
