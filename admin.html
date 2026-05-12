@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --navy:#2c3e50; --sage:#7fb069; --red:#e74c3c; --amber:#f39c12; --bg:#f4f6f8; }
+    :root { --navy:#2c3e50; --sage:#3d7a35; --red:#e74c3c; --amber:#f39c12; --bg:#f4f6f8; }
     * { box-sizing:border-box; margin:0; padding:0; }
     body { font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--navy); min-height:100vh; font-size:16px; }
 
@@ -78,7 +78,8 @@
     .btn-discard:hover { border-color:var(--red); color:var(--red); }
     .warning-bar { background:#fff8e1; border:1.5px solid var(--amber); border-radius:10px; padding:.8rem 1.1rem; font-size:.88rem; color:#7d5b00; margin-bottom:1rem; display:none; }
     .photo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.3rem; }
-    .photo-card { border-radius:14px; overflow:hidden; border:2px solid #eee; background:#fff; transition:border-color .2s,box-shadow .2s; cursor:grab; }
+    .photo-card { border-radius:14px; overflow:hidden; border:2px solid #eee; background:#fff; transition:border-color .2s,box-shadow .2s; cursor:grab; position:relative; }
+    .card-new-badge { position:absolute; top:.6rem; left:.6rem; background:var(--sage); color:#fff; border-radius:20px; padding:.25rem .65rem; font-size:.72rem; font-weight:800; pointer-events:none; z-index:1; }
     .photo-card:hover { border-color:var(--sage); box-shadow:0 4px 16px rgba(44,62,80,.1); }
     .photo-card.dragging { opacity:.35; cursor:grabbing; }
     .photo-card.drag-over { border-color:var(--sage); border-style:dashed; transform:scale(1.02); }
@@ -161,8 +162,11 @@
         <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFiles(this.files)">
       </div>
       <div id="previewSection" style="display:none">
-        <p class="pending-note">✅ These photos will be added when you click Save to Website</p>
+        <p class="pending-note">Add captions below, then click <strong>Add to Gallery</strong> to place them in the gallery for reordering</p>
         <div class="preview-grid" id="previewGrid"></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:1rem">
+          <button class="btn btn-sage" onclick="addToGallery()">➕ Add to Gallery</button>
+        </div>
       </div>
     </div>
 
@@ -320,8 +324,9 @@ function utfToB64(str) { return btoa(unescape(encodeURIComponent(str))); }
 function markDirty() {
   _dirty = true;
   document.getElementById('galSaveBtn').disabled = false;
+  const newCount = currentSlides.filter(s => s.isNew).length;
   const parts = [];
-  if (pendingUploads.length) parts.push(`${pendingUploads.length} new photo${pendingUploads.length > 1 ? 's' : ''}`);
+  if (newCount)              parts.push(`${newCount} new photo${newCount > 1 ? 's' : ''}`);
   if (deletedSlides.length)  parts.push(`${deletedSlides.length} deletion${deletedSlides.length > 1 ? 's' : ''}`);
   if (!parts.length) parts.push('order / caption changes');
   const ct = document.getElementById('changesText');
@@ -330,7 +335,7 @@ function markDirty() {
   document.getElementById('discardBtn').style.display = 'inline-flex';
 }
 function checkDirty() {
-  if (deletedSlides.length || pendingUploads.length) { markDirty(); return; }
+  if (deletedSlides.length || currentSlides.some(s => s.isNew)) { markDirty(); return; }
   const origRem = originalSlides.filter(s => !deletedSlides.find(d => d.encoded === s.encoded));
   let changed = currentSlides.length !== origRem.length;
   for (let i = 0; !changed && i < currentSlides.length; i++) {
@@ -386,8 +391,10 @@ function renderGrid() {
     const captionChanged = origSlide && origSlide.caption !== s.caption;
     const encSafe = s.encoded.replace(/'/g, "\\'");
     const capSafe = s.caption.replace(/'/g, "\\'");
+    const imgSrc = s.isNew ? s.blobUrl : `${RAW}/images/${s.encoded}?cb=${Date.now()}`;
     return `<div class="photo-card" draggable="true" data-idx="${i}">
-      <img src="${RAW}/images/${s.encoded}?cb=${Date.now()}" alt="${s.caption}" loading="lazy">
+      <img src="${imgSrc}" alt="${s.caption}" loading="lazy">
+      ${s.isNew ? '<span class="card-new-badge">NEW</span>' : ''}
       <div class="photo-card-footer">
         <span class="photo-pos">#${i+1}</span>
         <span class="photo-cap${captionChanged ? ' edited' : ''}">${s.caption || '—'}${captionChanged ? ' ✏️' : ''}</span>
@@ -485,11 +492,31 @@ function showConfirm(icon, title, msg, okLabel, okColor, cb) {
 function closeModal() { _cb = null; document.getElementById('confirmModal').style.display = 'none'; }
 
 // ── UPLOAD STAGING ──
+function addToGallery() {
+  if (!pendingUploads.length) return;
+  pendingUploads.forEach(u => {
+    currentSlides.push({
+      encoded: u.file.name.replace(/ /g, '%20'),
+      filename: u.file.name,
+      caption: (u.caption || '').trim() || 'A moment at Edgewood Park',
+      isNew: true,
+      file: u.file,
+      blobUrl: URL.createObjectURL(u.file)
+    });
+  });
+  pendingUploads = [];
+  document.getElementById('previewGrid').innerHTML = '';
+  document.getElementById('previewSection').style.display = 'none';
+  document.getElementById('fileInput').value = '';
+  renderGrid();
+  markDirty();
+  // Scroll to gallery
+  document.querySelector('.photo-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function handleFiles(files) {
   Array.from(files).forEach(f => pendingUploads.push({ file: f, caption: '' }));
   renderPreviews();
-  if (pendingUploads.length) markDirty();
-  renderGrid(); // update count badge
 }
 function renderPreviews() {
   const sec  = document.getElementById('previewSection');
@@ -513,8 +540,6 @@ function renderPreviews() {
 function removeUpload(i) {
   pendingUploads.splice(i, 1);
   renderPreviews();
-  renderGrid();
-  checkDirty();
 }
 const dz = document.getElementById('dropZone');
 dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
@@ -523,18 +548,19 @@ dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag
 
 // ── SAVE ALL ──
 function confirmSaveAll() {
-const parts = [];
-  if (pendingUploads.length) parts.push(`add ${pendingUploads.length} new photo${pendingUploads.length > 1 ? 's' : ''}`);
+  const newSlides = currentSlides.filter(s => s.isNew);
+  const parts = [];
+  if (newSlides.length)      parts.push(`add ${newSlides.length} new photo${newSlides.length > 1 ? 's' : ''}`);
   if (deletedSlides.length)  parts.push(`permanently delete ${deletedSlides.length} photo${deletedSlides.length > 1 ? 's' : ''}`);
   const origRem = originalSlides.filter(s => !deletedSlides.find(d => d.encoded === s.encoded));
   let other = false;
   for (let i = 0; i < currentSlides.length; i++) {
     if (currentSlides[i].encoded !== origRem[i]?.encoded || currentSlides[i].caption !== origRem[i]?.caption) { other = true; break; }
   }
-  if (other) parts.push('save order & caption changes');
+  if (other && !newSlides.length && !deletedSlides.length) parts.push('order & caption changes');
   showConfirm('💾', 'Save to Website',
     (parts.length ? parts.join(', ') + '.' : 'Apply all changes.') + ' The gallery updates in ~1 minute.',
-    'Yes, Save All', '#7fb069',
+    'Yes, Save All', '#3d7a35',
     () => { closeModal(); doSaveAll(); }
   );
 }
@@ -548,30 +574,24 @@ function confirmDiscard() {
 
 async function doSaveAll() {
   try {
-    // 1. Upload new images
-    for (let i = 0; i < pendingUploads.length; i++) {
-      const { file } = pendingUploads[i];
-      toast(`Uploading ${i+1}/${pendingUploads.length}: ${file.name}`, 'loading');
-      const b64 = await fileToB64(file);
+    // 1. Upload new images (slides with isNew flag)
+    const newSlides = currentSlides.filter(s => s.isNew);
+    for (let i = 0; i < newSlides.length; i++) {
+      const s = newSlides[i];
+      toast(`Uploading ${i+1}/${newSlides.length}: ${s.filename}`, 'loading');
+      const b64 = await fileToB64(s.file);
       let sha = null;
-      try { sha = (await apiGet(`images/${file.name}`)).sha; } catch {}
-      await apiPut(`images/${file.name}`, b64, sha, `Upload: ${file.name}`);
+      try { sha = (await apiGet(`images/${s.filename}`)).sha; } catch {}
+      await apiPut(`images/${s.filename}`, b64, sha, `Upload: ${s.filename}`);
     }
 
-    // 2. Rebuild index.html
+    // 2. Rebuild index.html from currentSlides (already in desired order)
     toast('Updating gallery page…', 'loading');
     const { content: html, sha: htmlSha } = await fetchIndex();
-    const allSlides = [
-      ...currentSlides,
-      ...pendingUploads.map(u => ({
-        encoded: u.file.name.replace(/ /g, '%20'),
-        caption: (u.caption || '').trim() || 'A moment at Edgewood Park'
-      }))
-    ];
     const stripped = html.replace(/\n?\s*<div class="gal-slide">[\s\S]*?<\/div>\s*\n\s*<\/div>\s*\n\s*<\/div>/g, '');
     const newHtml  = stripped.replace(
       '\n      </div>\n      <button class="gal-btn gal-prev"',
-      buildSlidesHtml(allSlides) + '\n\n      </div>\n      <button class="gal-btn gal-prev"'
+      buildSlidesHtml(currentSlides) + '\n\n      </div>\n      <button class="gal-btn gal-prev"'
     );
     await apiPut('index.html', utfToB64(newHtml), htmlSha, 'Update gallery');
 
