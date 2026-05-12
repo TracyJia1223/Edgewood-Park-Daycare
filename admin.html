@@ -107,28 +107,28 @@
       margin-bottom: 1rem; display: none;
     }
     .photo-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem;
     }
     .photo-card {
-      border-radius: 12px; overflow: hidden; border: 2px solid #eee;
+      border-radius: 14px; overflow: hidden; border: 2px solid #eee;
       background: #fff; transition: border-color .2s, box-shadow .2s;
       cursor: grab;
     }
     .photo-card:hover { border-color: var(--sage); box-shadow: 0 4px 16px rgba(44,62,80,.1); }
     .photo-card.dragging { opacity: .35; cursor: grabbing; }
-    .photo-card.drag-over { border-color: var(--sage); border-style: dashed; transform: scale(1.03); }
-    .photo-card img { width: 100%; height: 130px; object-fit: cover; display: block; pointer-events: none; }
+    .photo-card.drag-over { border-color: var(--sage); border-style: dashed; transform: scale(1.02); }
+    .photo-card img { width: 100%; height: 190px; object-fit: cover; display: block; pointer-events: none; }
     .photo-card-footer {
-      padding: .45rem .6rem; display: flex; align-items: center; gap: .4rem;
+      padding: .6rem .75rem; display: flex; align-items: center; gap: .5rem;
     }
-    .photo-pos { font-size: .68rem; font-weight: 800; color: var(--navy); flex-shrink: 0; min-width: 1.8rem; }
-    .photo-cap { font-size: .68rem; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; cursor: text; }
-    .photo-cap:hover { color: var(--navy); text-decoration: underline dotted; }
-    .cap-input {
-      flex: 1; font-size: .68rem; font-family: inherit; border: none;
-      border-bottom: 1.5px solid var(--sage); outline: none; background: transparent;
-      color: var(--navy); min-width: 0;
+    .photo-pos { font-size: .78rem; font-weight: 800; color: var(--navy); flex-shrink: 0; min-width: 2rem; }
+    .photo-cap { font-size: .78rem; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+    .btn-edit {
+      background: #f0f0f0; color: var(--navy); border: none; border-radius: 6px;
+      padding: .3rem .55rem; font-size: .8rem; cursor: pointer; flex-shrink: 0;
+      transition: background .2s;
     }
+    .btn-edit:hover { background: #ddeedd; }
 
     /* ── STATUS TOAST ── */
     .toast {
@@ -233,15 +233,30 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- Confirm Modal -->
+<!-- Delete Confirm Modal -->
 <div class="modal-overlay" id="confirmModal" style="display:none">
   <div class="modal-box">
     <div class="modal-icon">🗑️</div>
     <h3>Delete this photo?</h3>
     <p id="confirmMsg"></p>
     <div class="modal-btns">
-      <button class="btn" style="background:#eee;color:#333" onclick="closeModal()">Cancel</button>
+      <button class="btn" style="background:#eee;color:#333;font-size:.9rem" onclick="closeModal()">Cancel</button>
       <button class="btn btn-danger" style="font-size:.9rem;padding:.7rem 1.4rem" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Caption Modal -->
+<div class="modal-overlay" id="captionModal" style="display:none">
+  <div class="modal-box">
+    <div class="modal-icon">✏️</div>
+    <h3>Edit Caption</h3>
+    <input type="text" id="captionModalInput"
+      style="width:100%;padding:.8rem 1rem;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:.95rem;margin-bottom:1.2rem;box-sizing:border-box"
+      placeholder="Enter caption…">
+    <div class="modal-btns">
+      <button class="btn" style="background:#eee;color:#333;font-size:.9rem" onclick="closeCaptionModal()">Cancel</button>
+      <button class="btn btn-sage" style="font-size:.9rem;padding:.7rem 1.4rem" onclick="saveCaptionModal()">Save</button>
     </div>
   </div>
 </div>
@@ -417,7 +432,8 @@ function renderGrid(slides) {
       <img src="${RAW}/images/${s.encoded}?cb=${Date.now()}" alt="${s.caption}" loading="lazy">
       <div class="photo-card-footer">
         <span class="photo-pos">#${i + 1}</span>
-        <span class="photo-cap" title="Click to edit caption" onclick="editCaption(this,'${s.encoded.replace(/'/g,"\\'")}','${s.caption.replace(/'/g,"\\'")}')">${s.caption || '—'}</span>
+        <span class="photo-cap">${s.caption || '—'}</span>
+        <button class="btn-edit" onclick="openCaptionModal('${s.encoded.replace(/'/g,"\\'")}','${s.caption.replace(/'/g,"\\'")}')">✏️</button>
         <button class="btn btn-danger" onclick="deletePhoto('${s.encoded.replace(/'/g,"\\'")}','${s.filename.replace(/'/g,"\\'")}')">✕</button>
       </div>
     </div>`
@@ -479,43 +495,45 @@ async function saveOrder() {
   }
 }
 
-// ── EDIT CAPTION ─────────────────────────────────────────────
-function editCaption(span, encoded, oldCaption) {
-  if (span.querySelector('input')) return;
-  const input = document.createElement('input');
-  input.className = 'cap-input';
+// ── EDIT CAPTION MODAL ───────────────────────────────────────
+let _pendingCaption = null;
+
+function openCaptionModal(encoded, oldCaption) {
+  _pendingCaption = { encoded, oldCaption };
+  const input = document.getElementById('captionModalInput');
   input.value = oldCaption === '—' ? '' : oldCaption;
-  span.innerHTML = '';
-  span.appendChild(input);
-  input.focus();
-  input.select();
-
-  async function save() {
-    const newCaption = input.value.trim() || 'A moment at Edgewood Park';
-    if (newCaption === oldCaption) { span.textContent = oldCaption || '—'; return; }
-    span.textContent = '…';
-    try {
-      const { content: html, sha } = await fetchIndex();
-      const esc = encoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-      const re = new RegExp(
-        `(<div class="gal-img"><img src="images\\/${esc}"[^>]*><\\/div>\\s*\\n\\s*<div class="gal-caption">)[^<]*(<\\/div>)`
-      );
-      const newHtml = html.replace(re, `$1${newCaption}$2`);
-      await apiPut('index.html', utfToB64(newHtml), sha, `Update caption for ${decodeURIComponent(encoded)}`);
-      // Update local slides array too
-      const slide = currentSlides.find(s => s.encoded === encoded);
-      if (slide) slide.caption = newCaption;
-      span.textContent = newCaption;
-      toast('Caption saved! Goes live in ~1 minute.', 'success');
-    } catch (e) {
-      span.textContent = oldCaption || '—';
-      toast('Error: ' + e.message, 'error');
-    }
-  }
-
-  input.addEventListener('blur', save);
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } if (e.key === 'Escape') { span.textContent = oldCaption || '—'; } });
+  document.getElementById('captionModal').style.display = 'flex';
+  setTimeout(() => { input.focus(); input.select(); }, 50);
 }
+function closeCaptionModal() {
+  _pendingCaption = null;
+  document.getElementById('captionModal').style.display = 'none';
+}
+async function saveCaptionModal() {
+  if (!_pendingCaption) return;
+  const { encoded, oldCaption } = _pendingCaption;
+  const newCaption = document.getElementById('captionModalInput').value.trim() || 'A moment at Edgewood Park';
+  closeCaptionModal();
+  if (newCaption === oldCaption) return;
+  toast('Saving caption…', 'loading');
+  try {
+    const { content: html, sha } = await fetchIndex();
+    const esc = encoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+    const re = new RegExp(`(<div class="gal-img"><img src="images\\/${esc}"[^>]*><\\/div>\\s*\\n\\s*<div class="gal-caption">)[^<]*(<\\/div>)`);
+    const newHtml = html.replace(re, `$1${newCaption}$2`);
+    await apiPut('index.html', utfToB64(newHtml), sha, `Update caption for ${decodeURIComponent(encoded)}`);
+    const slide = currentSlides.find(s => s.encoded === encoded);
+    if (slide) slide.caption = newCaption;
+    renderGrid(currentSlides);
+    toast('Caption saved! Goes live in ~1 minute.', 'success');
+  } catch (e) {
+    toast('Error: ' + e.message, 'error');
+  }
+}
+document.getElementById('captionModalInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') saveCaptionModal();
+  if (e.key === 'Escape') closeCaptionModal();
+});
 
 // ── CONFIRM MODAL ────────────────────────────────────────────
 let _pendingDelete = null;
