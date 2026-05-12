@@ -319,6 +319,16 @@ function buildSlidesHtml(slides) {
   ).join('');
 }
 function utfToB64(str) { return btoa(unescape(encodeURIComponent(str))); }
+function replaceGallerySlides(html, slides) {
+  const TRACK_ID = 'id="galTrack">';
+  const BTN_PREV = '<button class="gal-btn gal-prev"';
+  const trackIdx = html.indexOf(TRACK_ID);
+  const btnIdx   = html.indexOf(BTN_PREV, trackIdx);
+  if (trackIdx === -1 || btnIdx === -1) throw new Error('Gallery markers not found in index.html');
+  const insertPos   = trackIdx + TRACK_ID.length;
+  const closeDivIdx = html.lastIndexOf('</div>', btnIdx);
+  return html.slice(0, insertPos) + buildSlidesHtml(slides) + '\n\n      ' + html.slice(closeDivIdx);
+}
 
 // ── DIRTY STATE ──
 function markDirty() {
@@ -588,11 +598,7 @@ async function doSaveAll() {
     // 2. Rebuild index.html from currentSlides (already in desired order)
     toast('Updating gallery page…', 'loading');
     const { content: html, sha: htmlSha } = await fetchIndex();
-    const stripped = html.replace(/\n?\s*<div class="gal-slide">[\s\S]*?<\/div>\s*\n\s*<\/div>\s*\n\s*<\/div>/g, '');
-    const newHtml  = stripped.replace(
-      '\n      </div>\n      <button class="gal-btn gal-prev"',
-      buildSlidesHtml(currentSlides) + '\n\n      </div>\n      <button class="gal-btn gal-prev"'
-    );
+    const newHtml = replaceGallerySlides(html, currentSlides);
     await apiPut('index.html', utfToB64(newHtml), htmlSha, 'Update gallery');
 
     // 3. Delete removed images
