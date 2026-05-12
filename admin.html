@@ -6,6 +6,7 @@
   <title>Gallery Admin — Edgewood Park</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <style>
     :root { --navy:#2c3e50; --sage:#3d7a35; --red:#e74c3c; --amber:#f39c12; --bg:#f4f6f8; }
     * { box-sizing:border-box; margin:0; padding:0; }
@@ -103,7 +104,7 @@
     .del-name { font-size:.82rem; color:#aaa; text-decoration:line-through; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
 
     /* TOAST */
-    .toast { position:fixed; bottom:1.5rem; right:1.5rem; background:var(--navy); color:#fff; border-radius:12px; padding:1rem 1.5rem; font-size:.95rem; max-width:340px; box-shadow:0 8px 30px rgba(0,0,0,.2); transform:translateY(120%); transition:transform .3s ease; z-index:9999; display:flex; align-items:center; gap:.6rem; }
+    .toast { position:fixed; bottom:1.5rem; right:1.5rem; background:var(--navy); color:#fff; border-radius:12px; padding:1rem 1.5rem; font-size:.95rem; max-width:340px; box-shadow:0 8px 30px rgba(0,0,0,.2); transform:translateY(calc(100% + 3rem)); transition:transform .3s ease; z-index:9999; display:flex; align-items:center; gap:.6rem; }
     .toast.show { transform:translateY(0); }
     .toast.success { background:var(--sage); }
     .toast.error   { background:var(--red); }
@@ -126,7 +127,7 @@
 <!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-card">
-    <div class="login-logo">🌳</div>
+    <div class="login-logo"><i class="bi bi-tree-fill"></i></div>
     <h1>Gallery Admin</h1>
     <p>Edgewood Park Daycare</p>
     <div id="tokenSetup" style="display:none">
@@ -143,7 +144,7 @@
 <!-- ADMIN -->
 <div id="adminScreen">
   <div class="admin-header">
-    <h1>🌳 Gallery Admin — Edgewood Park Daycare</h1>
+    <h1>Gallery Admin — Edgewood Park Daycare</h1>
     <div class="admin-header-right">
       <span class="live-hint">Changes go live in ~1 min after saving</span>
       <button class="btn btn-logout" onclick="doLogout()">Sign Out</button>
@@ -154,18 +155,18 @@
 
     <!-- Add Photos -->
     <div class="card">
-      <h2>📷 Add New Photos</h2>
+      <h2><i class="bi bi-camera"></i> Add New Photos</h2>
       <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-        <div class="dz-icon">📁</div>
+        <div class="dz-icon"><i class="bi bi-folder2-open"></i></div>
         <strong>Click or drag photos here</strong>
         <p>JPG · PNG · WEBP — multiple files OK</p>
         <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFiles(this.files)">
       </div>
       <div id="previewSection" style="display:none">
-        <p class="pending-note">Add captions below, then click <strong>Add to Gallery</strong> to place them in the gallery for reordering</p>
+        <p class="pending-note">Add captions below, then click <strong>Add to Gallery</strong> to place them in the gallery for reordering.</p>
         <div class="preview-grid" id="previewGrid"></div>
         <div style="display:flex;justify-content:flex-end;margin-top:1rem">
-          <button class="btn btn-sage" onclick="addToGallery()">➕ Add to Gallery</button>
+          <button class="btn btn-sage btn-sm" onclick="addToGallery()"><i class="bi bi-plus-lg"></i> Add to Gallery</button>
         </div>
       </div>
     </div>
@@ -173,23 +174,23 @@
     <!-- Gallery -->
     <div class="card">
       <div class="gallery-header">
-        <h2 style="margin-bottom:0">🖼 Current Gallery</h2>
+        <h2 style="margin-bottom:0"><i class="bi bi-images"></i> Current Gallery</h2>
         <span class="count-badge" id="photoCount">—</span>
       </div>
       <div class="gallery-controls">
-        <span class="gal-hint">↕ Drag to reorder</span>
+        <span class="gal-hint"><i class="bi bi-arrows-expand"></i> Drag to reorder</span>
         <div class="gal-save-row">
           <span class="changes-text" id="changesText" style="display:none"></span>
           <button class="btn-discard" id="discardBtn" style="display:none" onclick="confirmDiscard()">Discard</button>
-          <button class="btn btn-sage btn-sm" id="galSaveBtn" disabled onclick="confirmSaveAll()">💾 Save to Website</button>
+          <button class="btn btn-sage btn-sm" id="galSaveBtn" disabled onclick="confirmSaveAll()"><i class="bi bi-cloud-upload"></i> Save to Website</button>
         </div>
       </div>
-      <div class="warning-bar" id="warningBar">💡 Over 30 photos — consider removing older ones.</div>
+      <div class="warning-bar" id="warningBar"><i class="bi bi-info-circle"></i> Over 30 photos — consider removing older ones.</div>
       <div class="photo-grid" id="photoGrid"><div class="empty-msg">Loading gallery…</div></div>
 
       <!-- Pending deletions -->
       <div class="pending-del-section" id="pendingDelSection" style="display:none">
-        <div class="pending-del-header">⚠️ Marked for Deletion — not removed until you Save</div>
+        <div class="pending-del-header"><i class="bi bi-exclamation-triangle"></i> Marked for Deletion — not removed until you Save</div>
         <div class="pending-del-grid" id="pendingDelGrid"></div>
       </div>
     </div>
@@ -202,7 +203,7 @@
 <!-- Confirm Modal -->
 <div class="modal-overlay" id="confirmModal" style="display:none">
   <div class="modal-box">
-    <div class="modal-icon" id="confirmIcon">❓</div>
+    <div class="modal-icon" id="confirmIcon"></div>
     <h3 id="confirmTitle"></h3>
     <p id="confirmMsg"></p>
     <div class="modal-btns">
@@ -408,8 +409,8 @@ function renderGrid() {
       <div class="photo-card-footer">
         <span class="photo-pos">#${i+1}</span>
         <span class="photo-cap${captionChanged ? ' edited' : ''}">${s.caption || '—'}${captionChanged ? ' ✏️' : ''}</span>
-        <button class="btn-edit" title="Edit caption" onclick="openCaption('${encSafe}','${capSafe}')">✏️</button>
-        <button class="btn btn-red btn-icon" title="Mark for deletion" onclick="markDel('${encSafe}','${s.filename.replace(/'/g,"\\'")}')">🗑</button>
+        <button class="btn-edit" title="Edit caption" onclick="openCaption('${encSafe}','${capSafe}')"><i class="bi bi-pencil"></i></button>
+        <button class="btn btn-red btn-icon" title="Mark for deletion" onclick="markDel('${encSafe}','${s.filename.replace(/'/g,"\\'")}')"><i class="bi bi-trash"></i></button>
       </div>
     </div>`;
   }).join('');
@@ -445,7 +446,7 @@ function renderPendingDel() {
       <div class="del-overlay">Will be deleted</div>
       <div class="del-card-footer">
         <span class="del-name">${s.filename}</span>
-        <button class="btn btn-sage btn-sm" onclick="undoDel(${i})">↩ Undo</button>
+        <button class="btn btn-sage btn-sm" onclick="undoDel(${i})"><i class="bi bi-arrow-counterclockwise"></i> Undo</button>
       </div>
     </div>`
   ).join('');
@@ -490,7 +491,7 @@ document.getElementById('captionInput').addEventListener('keydown', e => { if (e
 let _cb = null;
 function showConfirm(icon, title, msg, okLabel, okColor, cb) {
   _cb = cb;
-  document.getElementById('confirmIcon').textContent  = icon;
+  document.getElementById('confirmIcon').innerHTML  = icon;
   document.getElementById('confirmTitle').textContent = title;
   document.getElementById('confirmMsg').textContent   = msg;
   const btn = document.getElementById('confirmOkBtn');
@@ -568,7 +569,7 @@ function confirmSaveAll() {
     if (currentSlides[i].encoded !== origRem[i]?.encoded || currentSlides[i].caption !== origRem[i]?.caption) { other = true; break; }
   }
   if (other && !newSlides.length && !deletedSlides.length) parts.push('order & caption changes');
-  showConfirm('💾', 'Save to Website',
+  showConfirm('<i class="bi bi-cloud-upload"></i>', 'Save to Website',
     (parts.length ? parts.join(', ') + '.' : 'Apply all changes.') + ' The gallery updates in ~1 minute.',
     'Yes, Save All', '#3d7a35',
     () => { closeModal(); doSaveAll(); }
@@ -576,7 +577,7 @@ function confirmSaveAll() {
 }
 
 function confirmDiscard() {
-  showConfirm('↩', 'Discard All Changes', 'Discard all unsaved changes and reload from the website?',
+  showConfirm('<i class="bi bi-arrow-counterclockwise"></i>', 'Discard All Changes', 'Discard all unsaved changes and reload from the website?',
     'Yes, Discard', '#e74c3c',
     () => { closeModal(); loadGallery(); }
   );
@@ -610,7 +611,7 @@ async function doSaveAll() {
       } catch(e) { console.warn('delete skip:', filename); }
     }
 
-    toast('All saved! Goes live in ~1 minute. 🎉', 'success');
+    toast('All saved! Goes live in ~1 minute.', 'success');
     setTimeout(loadGallery, 1500);
   } catch(e) {
     toast('Error: ' + e.message, 'error');
