@@ -250,11 +250,9 @@
 <!-- Edit Caption Modal -->
 <div class="modal-overlay" id="captionModal" style="display:none">
   <div class="modal-box">
-    <div class="modal-icon">✏️</div>
-    <h3>Edit Caption</h3>
-    <input type="text" id="captionModalInput"
-      style="width:100%;padding:.8rem 1rem;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:.95rem;margin-bottom:1.2rem;box-sizing:border-box"
-      placeholder="Enter caption…">
+    <textarea id="captionModalInput" rows="3"
+      style="width:100%;padding:.8rem 1rem;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:.95rem;margin-bottom:1.2rem;box-sizing:border-box;resize:vertical;line-height:1.5"
+      placeholder="Enter caption…"></textarea>
     <div class="modal-btns">
       <button class="btn" style="background:#eee;color:#333;font-size:.9rem" onclick="closeCaptionModal()">Cancel</button>
       <button class="btn btn-sage" style="font-size:.9rem;padding:.7rem 1.4rem" onclick="saveCaptionModal()">Save</button>
@@ -532,7 +530,6 @@ async function saveCaptionModal() {
   }
 }
 document.getElementById('captionModalInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveCaptionModal();
   if (e.key === 'Escape') closeCaptionModal();
 });
 
