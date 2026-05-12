@@ -79,14 +79,21 @@
     .drop-zone .dz-icon { font-size: 2.2rem; margin-bottom: .4rem; }
     .drop-zone strong { font-size: .95rem; }
     .drop-zone p { color: #999; font-size: .82rem; margin-top: .25rem; }
-    .preview-strip { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1rem; }
-    .preview-thumb { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #e0e0e0; }
-    .upload-row { display: grid; grid-template-columns: 1fr auto; gap: .75rem; align-items: center; }
-    .upload-row input[type=text] {
-      padding: .65rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px;
-      font-family: inherit; font-size: .88rem; transition: border-color .2s;
+    .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .85rem; margin-bottom: 1.2rem; }
+    .preview-card { border-radius: 12px; border: 2px solid #e0e0e0; background: #fafafa; overflow: hidden; position: relative; }
+    .preview-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
+    .preview-card-remove {
+      position: absolute; top: .4rem; right: .4rem;
+      background: rgba(0,0,0,.55); color: #fff; border: none; border-radius: 50%;
+      width: 22px; height: 22px; font-size: .75rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
-    .upload-row input[type=text]:focus { outline: none; border-color: var(--sage); }
+    .preview-card-remove:hover { background: var(--red); }
+    .preview-card-caption {
+      width: 100%; border: none; border-top: 1px solid #e0e0e0; padding: .45rem .6rem;
+      font-family: inherit; font-size: .75rem; background: #fff; resize: none;
+    }
+    .preview-card-caption:focus { outline: none; background: #f2faf0; }
+    .upload-btn-row { display: flex; justify-content: flex-end; }
 
     /* ── GALLERY GRID ── */
     .gallery-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: .5rem; }
@@ -178,9 +185,8 @@
         <p>JPG · PNG · WEBP — multiple files OK</p>
         <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFiles(this.files)">
       </div>
-      <div class="preview-strip" id="previewStrip"></div>
-      <div class="upload-row" id="uploadRow" style="display:none">
-        <input type="text" id="captionInput" placeholder="Caption (optional) — e.g. Outdoor play on a sunny morning">
+      <div class="preview-grid" id="previewGrid"></div>
+      <div class="upload-btn-row" id="uploadRow" style="display:none">
         <button class="btn btn-sage" id="uploadBtn" onclick="uploadSelected()">Upload</button>
       </div>
     </div>
@@ -458,22 +464,32 @@ async function deletePhoto(encoded, filename) {
 }
 
 // ── UPLOAD ───────────────────────────────────────────────────
-function handleFiles(files) {
-  selectedFiles = Array.from(files);
-  const strip = document.getElementById('previewStrip');
-  strip.innerHTML = '';
-  selectedFiles.forEach(f => {
-    const img = document.createElement('img');
-    img.className = 'preview-thumb';
-    img.src = URL.createObjectURL(f);
-    strip.appendChild(img);
+function renderPreviews() {
+  const grid = document.getElementById('previewGrid');
+  const row  = document.getElementById('uploadRow');
+  grid.innerHTML = '';
+  if (!selectedFiles.length) { row.style.display = 'none'; return; }
+  selectedFiles.forEach((f, i) => {
+    const card = document.createElement('div');
+    card.className = 'preview-card';
+    const url = URL.createObjectURL(f);
+    card.innerHTML =
+      `<img src="${url}" alt="${f.name}">` +
+      `<button class="preview-card-remove" onclick="removePreview(${i})">✕</button>` +
+      `<input class="preview-card-caption" type="text" placeholder="Caption (optional)" data-idx="${i}">`;
+    grid.appendChild(card);
   });
-  const row = document.getElementById('uploadRow');
-  row.style.display = selectedFiles.length ? 'grid' : 'none';
-  document.getElementById('captionInput').placeholder =
-    selectedFiles.length === 1
-      ? 'Caption (optional)'
-      : `One caption for all ${selectedFiles.length} photos (optional)`;
+  row.style.display = 'flex';
+}
+
+function handleFiles(files) {
+  selectedFiles = [...selectedFiles, ...Array.from(files)];
+  renderPreviews();
+}
+
+function removePreview(idx) {
+  selectedFiles.splice(idx, 1);
+  renderPreviews();
 }
 
 const dz = document.getElementById('dropZone');
@@ -483,12 +499,13 @@ dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag
 
 async function uploadSelected() {
   if (!selectedFiles.length) return;
-  const caption = document.getElementById('captionInput').value.trim() || 'A moment at Edgewood Park';
+  const captions = [...document.querySelectorAll('.preview-card-caption')].map(el => el.value.trim());
   const btn = document.getElementById('uploadBtn');
   btn.disabled = true;
   try {
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
+      const caption = captions[i] || 'A moment at Edgewood Park';
       toast(`Uploading ${i + 1}/${selectedFiles.length}: ${file.name}`, 'loading');
       const b64 = await fileToBase64(file);
       let existSha = null;
@@ -500,9 +517,8 @@ async function uploadSelected() {
     }
     toast(`${selectedFiles.length} photo(s) uploaded! Goes live in ~1 minute.`, 'success');
     selectedFiles = [];
-    document.getElementById('previewStrip').innerHTML = '';
+    document.getElementById('previewGrid').innerHTML = '';
     document.getElementById('uploadRow').style.display = 'none';
-    document.getElementById('captionInput').value = '';
     document.getElementById('fileInput').value = '';
     setTimeout(loadGallery, 1500);
   } catch (e) {
