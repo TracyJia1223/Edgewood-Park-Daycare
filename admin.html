@@ -122,7 +122,13 @@
       padding: .45rem .6rem; display: flex; align-items: center; gap: .4rem;
     }
     .photo-pos { font-size: .68rem; font-weight: 800; color: var(--navy); flex-shrink: 0; min-width: 1.8rem; }
-    .photo-cap { font-size: .68rem; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+    .photo-cap { font-size: .68rem; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; cursor: text; }
+    .photo-cap:hover { color: var(--navy); text-decoration: underline dotted; }
+    .cap-input {
+      flex: 1; font-size: .68rem; font-family: inherit; border: none;
+      border-bottom: 1.5px solid var(--sage); outline: none; background: transparent;
+      color: var(--navy); min-width: 0;
+    }
 
     /* ── STATUS TOAST ── */
     .toast {
@@ -382,7 +388,7 @@ function renderGrid(slides) {
       <img src="${RAW}/images/${s.encoded}?cb=${Date.now()}" alt="${s.caption}" loading="lazy">
       <div class="photo-card-footer">
         <span class="photo-pos">#${i + 1}</span>
-        <span class="photo-cap" title="${s.caption}">${s.caption || '—'}</span>
+        <span class="photo-cap" title="Click to edit caption" onclick="editCaption(this,'${s.encoded.replace(/'/g,"\\'")}','${s.caption.replace(/'/g,"\\'")}')">${s.caption || '—'}</span>
         <button class="btn btn-danger" onclick="deletePhoto('${s.encoded.replace(/'/g,"\\'")}','${s.filename.replace(/'/g,"\\'")}')">✕</button>
       </div>
     </div>`
@@ -442,6 +448,44 @@ async function saveOrder() {
   } catch (e) {
     toast('Error: ' + e.message, 'error');
   }
+}
+
+// ── EDIT CAPTION ─────────────────────────────────────────────
+function editCaption(span, encoded, oldCaption) {
+  if (span.querySelector('input')) return;
+  const input = document.createElement('input');
+  input.className = 'cap-input';
+  input.value = oldCaption === '—' ? '' : oldCaption;
+  span.innerHTML = '';
+  span.appendChild(input);
+  input.focus();
+  input.select();
+
+  async function save() {
+    const newCaption = input.value.trim() || 'A moment at Edgewood Park';
+    if (newCaption === oldCaption) { span.textContent = oldCaption || '—'; return; }
+    span.textContent = '…';
+    try {
+      const { content: html, sha } = await fetchIndex();
+      const esc = encoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+      const re = new RegExp(
+        `(<div class="gal-img"><img src="images\\/${esc}"[^>]*><\\/div>\\s*\\n\\s*<div class="gal-caption">)[^<]*(<\\/div>)`
+      );
+      const newHtml = html.replace(re, `$1${newCaption}$2`);
+      await apiPut('index.html', utfToB64(newHtml), sha, `Update caption for ${decodeURIComponent(encoded)}`);
+      // Update local slides array too
+      const slide = currentSlides.find(s => s.encoded === encoded);
+      if (slide) slide.caption = newCaption;
+      span.textContent = newCaption;
+      toast('Caption saved! Goes live in ~1 minute.', 'success');
+    } catch (e) {
+      span.textContent = oldCaption || '—';
+      toast('Error: ' + e.message, 'error');
+    }
+  }
+
+  input.addEventListener('blur', save);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } if (e.key === 'Escape') { span.textContent = oldCaption || '—'; } });
 }
 
 // ── DELETE ───────────────────────────────────────────────────
