@@ -107,7 +107,7 @@
       margin-bottom: 1rem; display: none;
     }
     .photo-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .85rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem;
     }
     .photo-card {
       border-radius: 12px; overflow: hidden; border: 2px solid #eee;
@@ -149,6 +149,22 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     .empty-msg { text-align: center; padding: 3rem 1rem; color: #aaa; font-size: .88rem; grid-column: 1/-1; }
+
+    /* ── CONFIRM MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.45);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9998; padding: 1rem;
+    }
+    .modal-box {
+      background: #fff; border-radius: 16px; padding: 2rem 2rem 1.5rem;
+      max-width: 360px; width: 100%; box-shadow: 0 16px 60px rgba(0,0,0,.2); text-align: center;
+    }
+    .modal-icon { font-size: 2.5rem; margin-bottom: .75rem; }
+    .modal-box h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+    .modal-box p { font-size: .88rem; color: #666; margin-bottom: 1.5rem; }
+    .modal-btns { display: flex; gap: .75rem; justify-content: center; }
+    .modal-btns .btn { min-width: 100px; }
   </style>
 </head>
 <body>
@@ -203,7 +219,7 @@
         <h2>🖼 Current Gallery <span class="count-badge" id="photoCount">—</span></h2>
         <button class="btn btn-sage" id="saveOrderBtn" style="display:none" onclick="saveOrder()">💾 Save Order</button>
       </div>
-      <p style="font-size:.78rem;color:#aaa;margin-bottom:1rem;">Drag photos to reorder, then click Save Order.</p>
+      <p style="font-size:.82rem;color:#555;font-weight:600;margin-bottom:1rem;">Drag photos to reorder, then click Save Order.</p>
       <div class="warning-bar" id="warningBar">
         💡 You have more than 30 photos. Consider removing older ones to keep the gallery fresh.
       </div>
@@ -216,6 +232,19 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- Confirm Modal -->
+<div class="modal-overlay" id="confirmModal" style="display:none">
+  <div class="modal-box">
+    <div class="modal-icon">🗑️</div>
+    <h3>Delete this photo?</h3>
+    <p id="confirmMsg"></p>
+    <div class="modal-btns">
+      <button class="btn" style="background:#eee;color:#333" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" style="font-size:.9rem;padding:.7rem 1.4rem" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────────
@@ -488,9 +517,21 @@ function editCaption(span, encoded, oldCaption) {
   input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } if (e.key === 'Escape') { span.textContent = oldCaption || '—'; } });
 }
 
-// ── DELETE ───────────────────────────────────────────────────
-async function deletePhoto(encoded, filename) {
-  if (!confirm(`Delete this photo?\n"${filename}"\n\nThis cannot be undone.`)) return;
+// ── CONFIRM MODAL ────────────────────────────────────────────
+let _pendingDelete = null;
+function deletePhoto(encoded, filename) {
+  _pendingDelete = { encoded, filename };
+  document.getElementById('confirmMsg').textContent = `"${filename}" will be permanently removed.`;
+  document.getElementById('confirmModal').style.display = 'flex';
+}
+function closeModal() {
+  _pendingDelete = null;
+  document.getElementById('confirmModal').style.display = 'none';
+}
+async function confirmDelete() {
+  if (!_pendingDelete) return;
+  const { encoded, filename } = _pendingDelete;
+  closeModal();
   toast('Deleting…', 'loading');
   try {
     const [imgData, { content: html, sha: htmlSha }] = await Promise.all([
