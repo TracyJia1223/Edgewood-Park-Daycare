@@ -7,175 +7,122 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --navy: #2c3e50;
-      --sage: #7fb069;
-      --red: #e74c3c;
-      --amber: #f39c12;
-      --bg: #f4f6f8;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--navy); min-height: 100vh; font-size: 16px; }
+    :root { --navy:#2c3e50; --sage:#7fb069; --red:#e74c3c; --amber:#f39c12; --bg:#f4f6f8; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--navy); min-height:100vh; font-size:16px; }
 
-    /* ── LOGIN ── */
-    #loginScreen {
-      display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem;
-    }
-    .login-card {
-      background: #fff; border-radius: 16px; padding: 3rem 2.5rem;
-      box-shadow: 0 8px 40px rgba(44,62,80,.12); width: 100%; max-width: 420px; text-align: center;
-    }
-    .login-logo { font-size: 2.5rem; margin-bottom: .75rem; }
-    .login-card h1 { font-size: 1.5rem; margin-bottom: .3rem; }
-    .login-card p { color: #888; font-size: 1rem; margin-bottom: 2rem; }
-    .login-card input {
-      width: 100%; padding: .9rem 1.1rem; border: 2px solid #e0e0e0; border-radius: 8px;
-      font-family: inherit; font-size: 1.05rem; margin-bottom: 1rem; transition: border-color .2s;
-    }
-    .login-card input:focus { outline: none; border-color: var(--sage); }
-    .login-error { color: var(--red); font-size: .9rem; margin-top: .4rem; min-height: 1.2em; }
-    .setup-note { font-size: .85rem; color: #888; margin-bottom: .5rem; text-align: left; }
-    .reset-link { font-size: .82rem; color: #bbb; cursor: pointer; margin-top: 1rem; display: inline-block; }
-    .reset-link:hover { color: var(--navy); }
+    /* LOGIN */
+    #loginScreen { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:2rem; }
+    .login-card { background:#fff; border-radius:16px; padding:3rem 2.5rem; box-shadow:0 8px 40px rgba(44,62,80,.12); width:100%; max-width:420px; text-align:center; }
+    .login-logo { font-size:2.5rem; margin-bottom:.75rem; }
+    .login-card h1 { font-size:1.5rem; margin-bottom:.3rem; }
+    .login-card p { color:#888; font-size:1rem; margin-bottom:2rem; }
+    .login-card input { width:100%; padding:.9rem 1.1rem; border:2px solid #e0e0e0; border-radius:8px; font-family:inherit; font-size:1.05rem; margin-bottom:1rem; transition:border-color .2s; }
+    .login-card input:focus { outline:none; border-color:var(--sage); }
+    .login-error { color:var(--red); font-size:.9rem; margin-top:.4rem; min-height:1.2em; }
+    .setup-note { font-size:.85rem; color:#888; margin-bottom:.5rem; text-align:left; }
+    .reset-link { font-size:.82rem; color:#bbb; cursor:pointer; margin-top:1rem; display:inline-block; }
+    .reset-link:hover { color:var(--navy); }
 
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
-      padding: .9rem 1.8rem; border-radius: 8px; font-family: inherit;
-      font-size: 1rem; font-weight: 700; cursor: pointer; border: none; transition: opacity .2s, transform .1s;
-    }
-    .btn:hover { opacity: .88; }
-    .btn:active { transform: scale(.97); }
-    .btn-primary { background: var(--navy); color: #fff; width: 100%; font-size: 1.1rem; padding: 1rem; }
-    .btn-sage { background: var(--sage); color: #fff; }
-    .btn-danger { background: var(--red); color: #fff; font-size: .88rem; padding: .5rem .95rem; border-radius: 6px; }
-    .btn:disabled { opacity: .4; cursor: not-allowed; }
-    .btn-logout { background: rgba(255,255,255,.15); color: #fff; font-size: .82rem; padding: .4rem .9rem; }
+    /* BUTTONS */
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:.45rem; padding:.9rem 1.8rem; border-radius:8px; font-family:inherit; font-size:1rem; font-weight:700; cursor:pointer; border:none; transition:opacity .2s,transform .1s; }
+    .btn:hover:not(:disabled) { opacity:.88; }
+    .btn:active:not(:disabled) { transform:scale(.97); }
+    .btn:disabled { opacity:.4; cursor:not-allowed; }
+    .btn-primary { background:var(--navy); color:#fff; width:100%; font-size:1.1rem; padding:1rem; }
+    .btn-sage { background:var(--sage); color:#fff; }
+    .btn-navy { background:var(--navy); color:#fff; }
+    .btn-red  { background:var(--red);  color:#fff; }
+    .btn-ghost { background:rgba(255,255,255,.18); color:#fff; }
+    .btn-sm { font-size:.88rem; padding:.5rem 1rem; }
+    .btn-logout { background:rgba(255,255,255,.15); color:#fff; font-size:.82rem; padding:.4rem .9rem; }
 
-    /* ── ADMIN LAYOUT ── */
-    #adminScreen { display: none; }
-    .admin-header {
-      background: var(--navy); color: #fff;
-      padding: 1.1rem 2rem; display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.15);
-    }
-    .admin-header h1 { font-size: 1.1rem; font-weight: 700; }
-    .admin-header-right { display: flex; align-items: center; gap: 1rem; }
-    .live-hint { font-size: .8rem; opacity: .65; }
-    .admin-body { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+    /* LAYOUT */
+    #adminScreen { display:none; }
+    .admin-header { background:var(--navy); color:#fff; padding:1.1rem 2rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow:0 2px 12px rgba(0,0,0,.15); }
+    .admin-header h1 { font-size:1.1rem; font-weight:700; }
+    .admin-header-right { display:flex; align-items:center; gap:1rem; }
+    .live-hint { font-size:.78rem; opacity:.65; }
+    .admin-body { max-width:1100px; margin:0 auto; padding:2rem 1.5rem 110px; }
 
-    /* ── UPLOAD SECTION ── */
-    .card {
-      background: #fff; border-radius: 16px; padding: 1.75rem 2rem;
-      box-shadow: 0 4px 20px rgba(44,62,80,.07); margin-bottom: 1.75rem;
-    }
-    .card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
-    .drop-zone {
-      border: 2px dashed #ccc; border-radius: 12px; padding: 1.1rem 1.5rem;
-      text-align: center; cursor: pointer; transition: border-color .2s, background .2s; margin-bottom: 1rem;
-      display: flex; align-items: center; justify-content: center; gap: .75rem;
-    }
-    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--sage); background: #f2faf0; }
-    .drop-zone input[type=file] { display: none; }
-    .drop-zone .dz-icon { font-size: 1.6rem; }
-    .drop-zone strong { font-size: 1rem; }
-    .drop-zone p { color: #999; font-size: .85rem; margin: 0; }
-    .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.2rem; }
-    .preview-card { border-radius: 12px; border: 2px solid #e0e0e0; background: #fafafa; overflow: hidden; position: relative; }
-    .preview-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
-    .preview-card-remove {
-      position: absolute; top: .5rem; right: .5rem;
-      background: rgba(0,0,0,.65); color: #fff; border: none; border-radius: 50%;
-      width: 34px; height: 34px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
-    .preview-card-remove:hover { background: var(--red); }
-    .preview-card-caption {
-      width: 100%; border: none; border-top: 2px solid #e0e0e0; padding: .8rem .95rem;
-      font-family: inherit; font-size: 1rem; background: #fff; resize: none;
-    }
-    .preview-card-caption:focus { outline: none; background: #f2faf0; border-top-color: var(--sage); }
-    .upload-btn-row { display: flex; justify-content: flex-end; }
+    /* SAVE BAR */
+    .save-bar { position:fixed; bottom:0; left:0; right:0; z-index:200; background:var(--navy); color:#fff; padding:1.1rem 2rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; box-shadow:0 -4px 30px rgba(0,0,0,.25); transform:translateY(100%); transition:transform .3s ease; }
+    .save-bar.show { transform:translateY(0); }
+    .save-bar-left { font-size:1rem; font-weight:700; }
+    .save-bar-left span { font-size:.8rem; opacity:.72; display:block; margin-top:.18rem; font-weight:400; }
+    .save-bar-btns { display:flex; gap:.75rem; flex-shrink:0; }
 
-    /* ── GALLERY GRID ── */
-    .gallery-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .9rem; flex-wrap: wrap; gap: .75rem; }
-    .count-badge {
-      background: var(--navy); color: #fff; border-radius: 20px;
-      padding: .25rem .85rem; font-size: .82rem; font-weight: 700; margin-left: .4rem;
-    }
-    .reorder-bar {
-      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-      background: #f0f4f8; border-radius: 10px; padding: .8rem 1.1rem; margin-bottom: 1rem;
-    }
-    .reorder-hint { font-size: .88rem; color: #666; font-weight: 600; }
-    .warning-bar {
-      background: #fff8e1; border: 1.5px solid var(--amber); border-radius: 10px;
-      padding: .8rem 1.1rem; font-size: .88rem; color: #7d5b00;
-      margin-bottom: 1rem; display: none;
-    }
-    .photo-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.3rem;
-    }
-    .photo-card {
-      border-radius: 14px; overflow: hidden; border: 2px solid #eee;
-      background: #fff; transition: border-color .2s, box-shadow .2s;
-      cursor: grab;
-    }
-    .photo-card:hover { border-color: var(--sage); box-shadow: 0 4px 16px rgba(44,62,80,.1); }
-    .photo-card.dragging { opacity: .35; cursor: grabbing; }
-    .photo-card.drag-over { border-color: var(--sage); border-style: dashed; transform: scale(1.02); }
-    .photo-card img { width: 100%; height: 220px; object-fit: cover; display: block; pointer-events: none; }
-    .photo-card-footer {
-      padding: .75rem 1rem; display: flex; align-items: center; gap: .6rem;
-    }
-    .photo-pos { font-size: .88rem; font-weight: 800; color: var(--navy); flex-shrink: 0; min-width: 2rem; }
-    .photo-cap { font-size: .88rem; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
-    .btn-edit {
-      background: #f0f0f0; color: var(--navy); border: none; border-radius: 6px;
-      padding: .4rem .7rem; font-size: .88rem; cursor: pointer; flex-shrink: 0;
-      transition: background .2s;
-    }
-    .btn-edit:hover { background: #ddeedd; }
+    /* CARD */
+    .card { background:#fff; border-radius:16px; padding:1.75rem 2rem; box-shadow:0 4px 20px rgba(44,62,80,.07); margin-bottom:1.75rem; }
+    .card h2 { font-size:1.1rem; font-weight:700; margin-bottom:1.25rem; display:flex; align-items:center; gap:.5rem; }
 
-    /* ── STATUS TOAST ── */
-    .toast {
-      position: fixed; bottom: 1.5rem; right: 1.5rem;
-      background: var(--navy); color: #fff; border-radius: 12px;
-      padding: 1rem 1.5rem; font-size: .95rem; max-width: 340px;
-      box-shadow: 0 8px 30px rgba(0,0,0,.2);
-      transform: translateY(120%); transition: transform .3s ease; z-index: 9999;
-      display: flex; align-items: center; gap: .6rem;
-    }
-    .toast.show { transform: translateY(0); }
-    .toast.success { background: var(--sage); }
-    .toast.error   { background: var(--red); }
-    .spinner {
-      width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.4);
-      border-top-color: #fff; border-radius: 50%;
-      animation: spin .7s linear infinite; flex-shrink: 0;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .empty-msg { text-align: center; padding: 3rem 1rem; color: #aaa; font-size: .95rem; grid-column: 1/-1; }
+    /* UPLOAD */
+    .drop-zone { border:2px dashed #ccc; border-radius:12px; padding:1.1rem 1.5rem; text-align:center; cursor:pointer; transition:border-color .2s,background .2s; margin-bottom:1rem; display:flex; align-items:center; justify-content:center; gap:.75rem; }
+    .drop-zone:hover, .drop-zone.drag-over { border-color:var(--sage); background:#f2faf0; }
+    .drop-zone input[type=file] { display:none; }
+    .drop-zone .dz-icon { font-size:1.6rem; }
+    .drop-zone strong { font-size:1rem; }
+    .drop-zone p { color:#999; font-size:.85rem; margin:0; }
+    .pending-note { font-size:.85rem; color:var(--sage); font-weight:700; margin-bottom:.75rem; }
+    .preview-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem; }
+    .preview-card { border-radius:12px; border:2px solid #b8e6a0; background:#f0fdf4; overflow:hidden; position:relative; }
+    .preview-card img { width:100%; height:200px; object-fit:cover; display:block; }
+    .new-badge { position:absolute; top:.5rem; left:.5rem; background:var(--sage); color:#fff; border-radius:20px; padding:.2rem .65rem; font-size:.72rem; font-weight:800; }
+    .preview-card-remove { position:absolute; top:.5rem; right:.5rem; background:rgba(0,0,0,.65); color:#fff; border:none; border-radius:50%; width:34px; height:34px; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .preview-card-remove:hover { background:var(--red); }
+    .preview-card-caption { width:100%; border:none; border-top:2px solid #b8e6a0; padding:.8rem .95rem; font-family:inherit; font-size:1rem; background:#fff; }
+    .preview-card-caption:focus { outline:none; background:#f2faf0; border-top-color:var(--sage); }
 
-    /* ── MODALS ── */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,.45);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9998; padding: 1rem;
-    }
-    .modal-box {
-      background: #fff; border-radius: 16px; padding: 2.2rem 2.2rem 1.8rem;
-      max-width: 400px; width: 100%; box-shadow: 0 16px 60px rgba(0,0,0,.2); text-align: center;
-    }
-    .modal-icon { font-size: 3rem; margin-bottom: .75rem; }
-    .modal-box h3 { font-size: 1.2rem; margin-bottom: .6rem; }
-    .modal-box p { font-size: .95rem; color: #555; margin-bottom: 1.5rem; line-height: 1.5; }
-    .modal-btns { display: flex; gap: .9rem; justify-content: center; }
-    .modal-btns .btn { min-width: 120px; font-size: 1rem; }
+    /* GALLERY */
+    .gallery-header { display:flex; align-items:center; gap:.75rem; margin-bottom:.5rem; }
+    .count-badge { background:var(--navy); color:#fff; border-radius:20px; padding:.25rem .85rem; font-size:.82rem; font-weight:700; }
+    .gallery-hint { font-size:.85rem; color:#888; margin-bottom:1.1rem; }
+    .warning-bar { background:#fff8e1; border:1.5px solid var(--amber); border-radius:10px; padding:.8rem 1.1rem; font-size:.88rem; color:#7d5b00; margin-bottom:1rem; display:none; }
+    .photo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.3rem; }
+    .photo-card { border-radius:14px; overflow:hidden; border:2px solid #eee; background:#fff; transition:border-color .2s,box-shadow .2s; cursor:grab; }
+    .photo-card:hover { border-color:var(--sage); box-shadow:0 4px 16px rgba(44,62,80,.1); }
+    .photo-card.dragging { opacity:.35; cursor:grabbing; }
+    .photo-card.drag-over { border-color:var(--sage); border-style:dashed; transform:scale(1.02); }
+    .photo-card img { width:100%; height:220px; object-fit:cover; display:block; pointer-events:none; }
+    .photo-card-footer { padding:.75rem 1rem; display:flex; align-items:center; gap:.6rem; }
+    .photo-pos { font-size:.88rem; font-weight:800; color:var(--navy); flex-shrink:0; min-width:2rem; }
+    .photo-cap { font-size:.88rem; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+    .btn-edit { background:#f0f0f0; color:var(--navy); border:none; border-radius:6px; padding:.4rem .7rem; font-size:.88rem; cursor:pointer; flex-shrink:0; transition:background .2s; }
+    .btn-edit:hover { background:#ddeedd; }
+    .photo-cap.edited { color:var(--sage); font-style:italic; }
+
+    /* PENDING DELETE */
+    .pending-del-section { margin-top:1.75rem; border-top:2px dashed #fcc; padding-top:1.25rem; }
+    .pending-del-header { font-size:.95rem; font-weight:700; color:var(--red); margin-bottom:.9rem; }
+    .pending-del-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }
+    .del-card { border-radius:14px; overflow:hidden; border:2px solid #fcc; background:#fff5f5; position:relative; }
+    .del-card img { width:100%; height:180px; object-fit:cover; display:block; opacity:.45; }
+    .del-overlay { position:absolute; top:.6rem; left:.6rem; background:var(--red); color:#fff; border-radius:20px; padding:.25rem .7rem; font-size:.72rem; font-weight:800; }
+    .del-card-footer { padding:.65rem 1rem; display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+    .del-name { font-size:.82rem; color:#aaa; text-decoration:line-through; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+
+    /* TOAST */
+    .toast { position:fixed; bottom:5.5rem; right:1.5rem; background:var(--navy); color:#fff; border-radius:12px; padding:1rem 1.5rem; font-size:.95rem; max-width:340px; box-shadow:0 8px 30px rgba(0,0,0,.2); transform:translateY(120%); transition:transform .3s ease; z-index:9999; display:flex; align-items:center; gap:.6rem; }
+    .toast.show { transform:translateY(0); }
+    .toast.success { background:var(--sage); }
+    .toast.error   { background:var(--red); }
+    .spinner { width:18px; height:18px; border:2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; flex-shrink:0; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .empty-msg { text-align:center; padding:3rem 1rem; color:#aaa; font-size:.95rem; grid-column:1/-1; }
+
+    /* MODALS */
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; z-index:9998; padding:1rem; }
+    .modal-box { background:#fff; border-radius:16px; padding:2.2rem 2.2rem 1.8rem; max-width:400px; width:100%; box-shadow:0 16px 60px rgba(0,0,0,.2); text-align:center; }
+    .modal-icon { font-size:3rem; margin-bottom:.75rem; }
+    .modal-box h3 { font-size:1.2rem; margin-bottom:.6rem; }
+    .modal-box p { font-size:.95rem; color:#555; margin-bottom:1.5rem; line-height:1.5; }
+    .modal-btns { display:flex; gap:.9rem; justify-content:center; }
+    .modal-btns .btn { min-width:120px; font-size:1rem; }
   </style>
 </head>
 <body>
 
-<!-- ── LOGIN ── -->
+<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo">🌳</div>
@@ -192,56 +139,68 @@
   </div>
 </div>
 
-<!-- ── ADMIN ── -->
+<!-- ADMIN -->
 <div id="adminScreen">
   <div class="admin-header">
     <h1>🌳 Gallery Admin — Edgewood Park Daycare</h1>
     <div class="admin-header-right">
-      <span class="live-hint">Changes go live in ~1 minute</span>
+      <span class="live-hint">Changes go live in ~1 min after saving</span>
       <button class="btn btn-logout" onclick="doLogout()">Sign Out</button>
     </div>
   </div>
 
   <div class="admin-body">
 
-    <!-- Upload -->
+    <!-- Add Photos -->
     <div class="card">
-      <h2>📷 Upload New Photos</h2>
+      <h2>📷 Add New Photos</h2>
       <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
         <div class="dz-icon">📁</div>
         <strong>Click or drag photos here</strong>
         <p>JPG · PNG · WEBP — multiple files OK</p>
         <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFiles(this.files)">
       </div>
-      <div class="preview-grid" id="previewGrid"></div>
-      <div class="upload-btn-row" id="uploadRow" style="display:none">
-        <button class="btn btn-sage" id="uploadBtn" onclick="uploadSelected()">📤 Upload to Website</button>
+      <div id="previewSection" style="display:none">
+        <p class="pending-note">✅ These photos will be added when you click Save to Website</p>
+        <div class="preview-grid" id="previewGrid"></div>
       </div>
     </div>
 
     <!-- Gallery -->
     <div class="card">
       <div class="gallery-header">
-        <h2>🖼 Current Gallery <span class="count-badge" id="photoCount">—</span></h2>
+        <h2 style="margin-bottom:0">🖼 Current Gallery</h2>
+        <span class="count-badge" id="photoCount">—</span>
       </div>
-      <div class="reorder-bar">
-        <span class="reorder-hint">↕ Drag photos left/right to reorder</span>
-        <button class="btn btn-sage" id="saveOrderBtn" disabled onclick="confirmSaveOrder()">💾 Save Changes</button>
-      </div>
-      <div class="warning-bar" id="warningBar">
-        💡 You have more than 30 photos. Consider removing older ones to keep the gallery fresh.
-      </div>
-      <div class="photo-grid" id="photoGrid">
-        <div class="empty-msg">Loading gallery…</div>
+      <p class="gallery-hint">↕ Drag to reorder &nbsp;·&nbsp; ✏️ Edit caption &nbsp;·&nbsp; 🗑 Mark for deletion</p>
+      <div class="warning-bar" id="warningBar">💡 Over 30 photos — consider removing older ones.</div>
+      <div class="photo-grid" id="photoGrid"><div class="empty-msg">Loading gallery…</div></div>
+
+      <!-- Pending deletions -->
+      <div class="pending-del-section" id="pendingDelSection" style="display:none">
+        <div class="pending-del-header">⚠️ Marked for Deletion — not removed until you Save</div>
+        <div class="pending-del-grid" id="pendingDelGrid"></div>
       </div>
     </div>
 
   </div>
 </div>
 
+<!-- STICKY SAVE BAR -->
+<div class="save-bar" id="saveBar">
+  <div class="save-bar-left">
+    ✏️ You have unsaved changes
+    <span id="saveBarDetail"></span>
+  </div>
+  <div class="save-bar-btns">
+    <button class="btn btn-ghost btn-sm" onclick="confirmDiscard()">Discard All</button>
+    <button class="btn btn-sage" onclick="confirmSaveAll()">💾 Save to Website</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
-<!-- Generic Confirm Modal -->
+<!-- Confirm Modal -->
 <div class="modal-overlay" id="confirmModal" style="display:none">
   <div class="modal-box">
     <div class="modal-icon" id="confirmIcon">❓</div>
@@ -249,77 +208,59 @@
     <p id="confirmMsg"></p>
     <div class="modal-btns">
       <button class="btn" style="background:#e0e0e0;color:#333" onclick="closeModal()">Cancel</button>
-      <button class="btn" id="confirmOkBtn" onclick="_confirmCallback && _confirmCallback()">Confirm</button>
+      <button class="btn" id="confirmOkBtn" onclick="_cb&&_cb()">OK</button>
     </div>
   </div>
 </div>
 
-<!-- Edit Caption Modal -->
+<!-- Caption Modal -->
 <div class="modal-overlay" id="captionModal" style="display:none">
   <div class="modal-box">
-    <textarea id="captionModalInput" rows="3"
-      style="width:100%;padding:.9rem 1.1rem;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:1rem;margin-bottom:1.3rem;box-sizing:border-box;resize:vertical;line-height:1.6"
-      placeholder="Enter caption…"></textarea>
+    <textarea id="captionInput" rows="3" style="width:100%;padding:.9rem 1.1rem;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:1rem;margin-bottom:1.3rem;resize:vertical;line-height:1.6" placeholder="Enter caption…"></textarea>
     <div class="modal-btns">
       <button class="btn" style="background:#e0e0e0;color:#333" onclick="closeCaptionModal()">Cancel</button>
-      <button class="btn btn-sage" onclick="saveCaptionModal()">Save Caption</button>
+      <button class="btn btn-sage" onclick="saveCaptionModal()">Update Caption</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────────
 const PASS   = 'Linda@2026';
 const REPO   = 'TracyJia1223/Edgewood-Park-Daycare';
 const BRANCH = 'main';
 const RAW    = `https://raw.githubusercontent.com/${REPO}/${BRANCH}`;
 
-let selectedFiles = [];
-let toastTimer;
-let HEADERS = {};
+let HEADERS = {}, toastTimer;
 
-// ── AUTH ────────────────────────────────────────────────────
+// ── STATE ──
+let originalSlides = [];  // loaded from GitHub
+let currentSlides  = [];  // in-memory (reordered, captions edited, deletes removed)
+let deletedSlides  = [];  // pending deletion
+let pendingUploads = [];  // {file, caption} staged
+let _dirty = false;
+
+// ── AUTH ──
 function getToken() { return localStorage.getItem('gal_token') || ''; }
-
 function showTokenSetup() {
   document.getElementById('tokenSetup').style.display = 'block';
   document.getElementById('resetLink').style.display = 'none';
   localStorage.removeItem('gal_token');
 }
-
 function doLogin() {
-  const pass  = document.getElementById('passInput').value;
-  const token = document.getElementById('tokenInput').value.trim();
-
-  if (pass !== PASS) {
-    document.getElementById('loginError').textContent = 'Incorrect password.';
-    return;
-  }
-
-  if (!getToken() && token) {
-    localStorage.setItem('gal_token', token);
-  }
-
+  const pass = document.getElementById('passInput').value;
+  const tok  = document.getElementById('tokenInput').value.trim();
+  if (pass !== PASS) { document.getElementById('loginError').textContent = 'Incorrect password.'; return; }
+  if (!getToken() && tok) localStorage.setItem('gal_token', tok);
   const t = getToken();
-  if (!t) {
-    document.getElementById('loginError').textContent = 'Please paste the GitHub token above.';
-    return;
-  }
-
+  if (!t) { document.getElementById('loginError').textContent = 'Please paste the GitHub token above.'; return; }
   HEADERS = { Authorization: `token ${t}`, Accept: 'application/vnd.github.v3+json' };
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('adminScreen').style.display = 'block';
   sessionStorage.setItem('gal_auth', '1');
   loadGallery();
 }
-
-function doLogout() {
-  sessionStorage.removeItem('gal_auth');
-  location.reload();
-}
-
+function doLogout() { sessionStorage.removeItem('gal_auth'); location.reload(); }
 document.getElementById('passInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-
 if (!getToken()) {
   document.getElementById('tokenSetup').style.display = 'block';
 } else {
@@ -333,7 +274,7 @@ if (!getToken()) {
   }
 }
 
-// ── GITHUB API ───────────────────────────────────────────────
+// ── GITHUB API ──
 async function apiGet(path) {
   const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`, { headers: HEADERS });
   if (!r.ok) throw new Error(`GET ${path}: ${r.status}`);
@@ -343,8 +284,7 @@ async function apiPut(path, b64, sha, msg) {
   const body = { message: msg, content: b64, branch: BRANCH };
   if (sha) body.sha = sha;
   const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-    method: 'PUT', headers: { ...HEADERS, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+    method: 'PUT', headers: { ...HEADERS, 'Content-Type': 'application/json' }, body: JSON.stringify(body)
   });
   if (!r.ok) { const e = await r.json(); throw new Error(e.message || `PUT ${path} failed`); }
   return r.json();
@@ -355,118 +295,23 @@ async function apiDelete(path, sha, msg) {
     body: JSON.stringify({ message: msg, sha, branch: BRANCH })
   });
   if (!r.ok) throw new Error(`DELETE ${path}: ${r.status}`);
-  return r.json();
 }
 
-// ── INDEX.HTML HELPERS ───────────────────────────────────────
+// ── INDEX.HTML HELPERS ──
 async function fetchIndex() {
   const data = await apiGet('index.html');
-  const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
-  return { content, sha: data.sha };
+  return { content: decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))), sha: data.sha };
 }
-
 function parseGallery(html) {
-  const slides = [];
-  const parts = html.split('<div class="gal-slide">');
+  const slides = [], parts = html.split('<div class="gal-slide">');
   for (let i = 1; i < parts.length; i++) {
     const src = parts[i].match(/src="images\/([^"]+)"/);
     const cap = parts[i].match(/<div class="gal-caption">([^<]*)<\/div>/);
-    if (src) {
-      slides.push({
-        encoded: src[1],
-        filename: decodeURIComponent(src[1]),
-        caption: cap ? cap[1] : ''
-      });
-    }
+    if (src) slides.push({ encoded: src[1], filename: decodeURIComponent(src[1]), caption: cap ? cap[1] : '' });
   }
   return slides;
 }
-
-function addSlideToHtml(html, filename, caption) {
-  const enc = filename.replace(/ /g, '%20');
-  const safeCaption = caption.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const slide =
-    `\n\n        <div class="gal-slide">\n` +
-    `          <div class="gal-img"><img src="images/${enc}" alt="${safeCaption}" loading="lazy"></div>\n` +
-    `          <div class="gal-caption">${safeCaption}</div>\n` +
-    `        </div>`;
-  return html.replace(
-    '\n      </div>\n      <button class="gal-btn gal-prev"',
-    slide + '\n\n      </div>\n      <button class="gal-btn gal-prev"'
-  );
-}
-
-function removeSlideFromHtml(html, encoded) {
-  const esc = encoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-  const re = new RegExp(
-    `\\n?\\s*<div class="gal-slide">\\s*\\n\\s*<div class="gal-img"><img src="images\\/${esc}"[^>]*>` +
-    `\\s*<\\/div>\\s*\\n\\s*<div class="gal-caption">[^<]*<\\/div>\\s*\\n\\s*<\\/div>`, 'g'
-  );
-  return html.replace(re, '');
-}
-
-// ── LOAD GALLERY ─────────────────────────────────────────────
-let currentSlides = [];
-let dragSrcIdx = null;
-
-async function loadGallery() {
-  const grid = document.getElementById('photoGrid');
-  grid.innerHTML = '<div class="empty-msg">Loading…</div>';
-  document.getElementById('saveOrderBtn').disabled = true;
-  try {
-    const { content } = await fetchIndex();
-    currentSlides = parseGallery(content);
-    renderGrid(currentSlides);
-  } catch (e) {
-    grid.innerHTML = `<div class="empty-msg">Error loading gallery: ${e.message}</div>`;
-  }
-}
-
-function renderGrid(slides) {
-  document.getElementById('photoCount').textContent = slides.length;
-  document.getElementById('warningBar').style.display = slides.length > 30 ? 'block' : 'none';
-  const grid = document.getElementById('photoGrid');
-  if (!slides.length) {
-    grid.innerHTML = '<div class="empty-msg">No photos in the gallery yet.</div>';
-    return;
-  }
-  grid.innerHTML = slides.map((s, i) =>
-    `<div class="photo-card" draggable="true" data-idx="${i}">
-      <img src="${RAW}/images/${s.encoded}?cb=${Date.now()}" alt="${s.caption}" loading="lazy">
-      <div class="photo-card-footer">
-        <span class="photo-pos">#${i + 1}</span>
-        <span class="photo-cap">${s.caption || '—'}</span>
-        <button class="btn-edit" onclick="openCaptionModal('${s.encoded.replace(/'/g,"\\'")}','${s.caption.replace(/'/g,"\\'")}')">✏️ Edit</button>
-        <button class="btn btn-danger" onclick="deletePhoto('${s.encoded.replace(/'/g,"\\'")}','${s.filename.replace(/'/g,"\\'")}')">🗑 Delete</button>
-      </div>
-    </div>`
-  ).join('');
-
-  grid.querySelectorAll('.photo-card').forEach(card => {
-    card.addEventListener('dragstart', e => {
-      dragSrcIdx = +card.dataset.idx;
-      card.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    card.addEventListener('dragend', () => card.classList.remove('dragging'));
-    card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('drag-over'); });
-    card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
-    card.addEventListener('drop', e => {
-      e.preventDefault();
-      card.classList.remove('drag-over');
-      const destIdx = +card.dataset.idx;
-      if (dragSrcIdx === null || dragSrcIdx === destIdx) return;
-      const moved = currentSlides.splice(dragSrcIdx, 1)[0];
-      currentSlides.splice(destIdx, 0, moved);
-      dragSrcIdx = null;
-      renderGrid(currentSlides);
-      document.getElementById('saveOrderBtn').disabled = false;
-    });
-  });
-}
-
-// ── SAVE ORDER ───────────────────────────────────────────────
-function buildAllSlidesHtml(slides) {
+function buildSlidesHtml(slides) {
   return slides.map(s =>
     `\n        <div class="gal-slide">\n` +
     `          <div class="gal-img"><img src="images/${s.encoded}" alt="${s.caption}" loading="lazy"></div>\n` +
@@ -474,222 +319,287 @@ function buildAllSlidesHtml(slides) {
     `        </div>`
   ).join('');
 }
+function utfToB64(str) { return btoa(unescape(encodeURIComponent(str))); }
 
-function confirmSaveOrder() {
-  showConfirm(
-    '💾', 'Save New Order',
-    'Save this new photo order to the website? The gallery will update in about 1 minute.',
-    'Yes, Save Order',
-    'var(--amber)',
-    () => { closeModal(); doSaveOrder(); }
-  );
+// ── DIRTY STATE ──
+function markDirty() {
+  _dirty = true;
+  document.getElementById('saveBar').classList.add('show');
+  const parts = [];
+  if (pendingUploads.length) parts.push(`${pendingUploads.length} new photo${pendingUploads.length > 1 ? 's' : ''}`);
+  if (deletedSlides.length)  parts.push(`${deletedSlides.length} deletion${deletedSlides.length > 1 ? 's' : ''}`);
+  if (!parts.length) parts.push('order or caption changes');
+  document.getElementById('saveBarDetail').textContent = parts.join(' · ');
+}
+function checkDirty() {
+  if (deletedSlides.length || pendingUploads.length) { markDirty(); return; }
+  const origRem = originalSlides.filter(s => !deletedSlides.find(d => d.encoded === s.encoded));
+  let changed = currentSlides.length !== origRem.length;
+  for (let i = 0; !changed && i < currentSlides.length; i++) {
+    if (currentSlides[i].encoded !== origRem[i]?.encoded) changed = true;
+    if (currentSlides[i].caption !== origRem[i]?.caption) changed = true;
+  }
+  if (changed) markDirty(); else markClean();
+}
+function markClean() {
+  _dirty = false;
+  document.getElementById('saveBar').classList.remove('show');
 }
 
-async function doSaveOrder() {
-  toast('Saving order…', 'loading');
+// ── LOAD GALLERY ──
+let dragSrcIdx = null;
+async function loadGallery() {
+  document.getElementById('photoGrid').innerHTML = '<div class="empty-msg">Loading…</div>';
   try {
-    const { content: html, sha } = await fetchIndex();
-    const stripped = html.replace(
-      /\n?\s*<div class="gal-slide">[\s\S]*?<\/div>\s*\n\s*<\/div>\s*\n\s*<\/div>/g, ''
-    );
-    const newHtml = stripped.replace(
-      '\n      </div>\n      <button class="gal-btn gal-prev"',
-      buildAllSlidesHtml(currentSlides) + '\n\n      </div>\n      <button class="gal-btn gal-prev"'
-    );
-    await apiPut('index.html', utfToB64(newHtml), sha, 'Reorder gallery photos');
-    document.getElementById('saveOrderBtn').disabled = true;
-    toast('Order saved! Goes live in ~1 minute.', 'success');
-  } catch (e) {
-    toast('Error: ' + e.message, 'error');
+    const { content } = await fetchIndex();
+    originalSlides = parseGallery(content);
+    currentSlides  = originalSlides.map(s => ({ ...s }));
+    deletedSlides  = [];
+    pendingUploads = [];
+    document.getElementById('previewGrid').innerHTML = '';
+    document.getElementById('previewSection').style.display = 'none';
+    document.getElementById('fileInput').value = '';
+    markClean();
+    renderAll();
+  } catch(e) {
+    document.getElementById('photoGrid').innerHTML = `<div class="empty-msg">Error: ${e.message}</div>`;
   }
 }
 
-// ── EDIT CAPTION MODAL ───────────────────────────────────────
-let _pendingCaption = null;
-
-function openCaptionModal(encoded, oldCaption) {
-  _pendingCaption = { encoded, oldCaption };
-  const input = document.getElementById('captionModalInput');
-  input.value = oldCaption === '—' ? '' : oldCaption;
-  document.getElementById('captionModal').style.display = 'flex';
-  setTimeout(() => { input.focus(); input.select(); }, 50);
-}
-function closeCaptionModal() {
-  _pendingCaption = null;
-  document.getElementById('captionModal').style.display = 'none';
-}
-async function saveCaptionModal() {
-  if (!_pendingCaption) return;
-  const { encoded, oldCaption } = _pendingCaption;
-  const newCaption = document.getElementById('captionModalInput').value.trim() || 'A moment at Edgewood Park';
-  closeCaptionModal();
-  if (newCaption === oldCaption) return;
-  toast('Saving caption…', 'loading');
-  try {
-    const { content: html, sha } = await fetchIndex();
-    const esc = encoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-    const re = new RegExp(`(<div class="gal-img"><img src="images\\/${esc}"[^>]*><\\/div>\\s*\\n\\s*<div class="gal-caption">)[^<]*(<\\/div>)`);
-    const newHtml = html.replace(re, `$1${newCaption}$2`);
-    await apiPut('index.html', utfToB64(newHtml), sha, `Update caption for ${decodeURIComponent(encoded)}`);
-    const slide = currentSlides.find(s => s.encoded === encoded);
-    if (slide) slide.caption = newCaption;
-    renderGrid(currentSlides);
-    toast('Caption saved! Goes live in ~1 minute.', 'success');
-  } catch (e) {
-    toast('Error: ' + e.message, 'error');
-  }
-}
-document.getElementById('captionModalInput').addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeCaptionModal();
-});
-
-// ── CONFIRM MODAL ────────────────────────────────────────────
-let _confirmCallback = null;
-
-function showConfirm(icon, title, msg, okLabel, okColor, callback) {
-  _confirmCallback = callback;
-  document.getElementById('confirmIcon').textContent  = icon;
-  document.getElementById('confirmTitle').textContent = title;
-  document.getElementById('confirmMsg').textContent   = msg;
-  const okBtn = document.getElementById('confirmOkBtn');
-  okBtn.textContent = okLabel;
-  okBtn.style.background = okColor;
-  okBtn.style.color = '#fff';
-  document.getElementById('confirmModal').style.display = 'flex';
-}
-
-function closeModal() {
-  _confirmCallback = null;
-  document.getElementById('confirmModal').style.display = 'none';
-}
-
-function deletePhoto(encoded, filename) {
-  showConfirm(
-    '🗑️', 'Delete Photo',
-    `"${filename}" will be permanently removed from the gallery. This cannot be undone.`,
-    'Yes, Delete',
-    '#e74c3c',
-    async () => {
-      closeModal();
-      toast('Deleting…', 'loading');
-      try {
-        const [imgData, { content: html, sha: htmlSha }] = await Promise.all([
-          apiGet(`images/${filename}`),
-          fetchIndex()
-        ]);
-        const newHtml = removeSlideFromHtml(html, encoded);
-        await apiPut('index.html', utfToB64(newHtml), htmlSha, `Remove ${filename} from gallery`);
-        await apiDelete(`images/${filename}`, imgData.sha, `Delete image: ${filename}`);
-        toast('Photo deleted. Goes live in ~1 minute.', 'success');
-        setTimeout(loadGallery, 1200);
-      } catch (e) {
-        toast('Error: ' + e.message, 'error');
-      }
-    }
-  );
-}
-
-// ── UPLOAD ───────────────────────────────────────────────────
-function renderPreviews() {
-  const grid = document.getElementById('previewGrid');
-  const row  = document.getElementById('uploadRow');
-  grid.innerHTML = '';
-  if (!selectedFiles.length) { row.style.display = 'none'; return; }
-  selectedFiles.forEach((f, i) => {
-    const card = document.createElement('div');
-    card.className = 'preview-card';
-    const url = URL.createObjectURL(f);
-    card.innerHTML =
-      `<img src="${url}" alt="${f.name}">` +
-      `<button class="preview-card-remove" onclick="removePreview(${i})">✕</button>` +
-      `<input class="preview-card-caption" type="text" placeholder="Caption (optional)" data-idx="${i}">`;
-    grid.appendChild(card);
-  });
-  row.style.display = 'flex';
-}
-
-function handleFiles(files) {
-  selectedFiles = [...selectedFiles, ...Array.from(files)];
+function renderAll() {
+  renderGrid();
+  renderPendingDel();
   renderPreviews();
 }
 
-function removePreview(idx) {
-  showConfirm(
-    '✕', 'Remove Photo',
-    'Remove this photo from the upload list?',
-    'Yes, Remove',
-    '#e74c3c',
-    () => { closeModal(); selectedFiles.splice(idx, 1); renderPreviews(); }
-  );
+function renderGrid() {
+  const total = currentSlides.length + pendingUploads.length;
+  document.getElementById('photoCount').textContent = total;
+  document.getElementById('warningBar').style.display = total > 30 ? 'block' : 'none';
+  const grid = document.getElementById('photoGrid');
+  if (!currentSlides.length) {
+    grid.innerHTML = '<div class="empty-msg">No photos yet — add some above!</div>';
+    return;
+  }
+  grid.innerHTML = currentSlides.map((s, i) => {
+    const origSlide = originalSlides.find(o => o.encoded === s.encoded);
+    const captionChanged = origSlide && origSlide.caption !== s.caption;
+    const encSafe = s.encoded.replace(/'/g, "\\'");
+    const capSafe = s.caption.replace(/'/g, "\\'");
+    return `<div class="photo-card" draggable="true" data-idx="${i}">
+      <img src="${RAW}/images/${s.encoded}?cb=${Date.now()}" alt="${s.caption}" loading="lazy">
+      <div class="photo-card-footer">
+        <span class="photo-pos">#${i+1}</span>
+        <span class="photo-cap${captionChanged ? ' edited' : ''}">${s.caption || '—'}${captionChanged ? ' ✏️' : ''}</span>
+        <button class="btn-edit" onclick="openCaption('${encSafe}','${capSafe}')">✏️ Edit</button>
+        <button class="btn btn-red btn-sm" onclick="markDel('${encSafe}','${s.filename.replace(/'/g,"\\'")}')">🗑 Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+  attachDrag();
 }
 
+function attachDrag() {
+  document.getElementById('photoGrid').querySelectorAll('.photo-card').forEach(card => {
+    card.addEventListener('dragstart', e => { dragSrcIdx = +card.dataset.idx; card.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+    card.addEventListener('dragend',   () => card.classList.remove('dragging'));
+    card.addEventListener('dragover',  e => { e.preventDefault(); card.classList.add('drag-over'); });
+    card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+    card.addEventListener('drop', e => {
+      e.preventDefault(); card.classList.remove('drag-over');
+      const dst = +card.dataset.idx;
+      if (dragSrcIdx === null || dragSrcIdx === dst) return;
+      currentSlides.splice(dst, 0, currentSlides.splice(dragSrcIdx, 1)[0]);
+      dragSrcIdx = null;
+      renderGrid();
+      markDirty();
+    });
+  });
+}
+
+function renderPendingDel() {
+  const sec  = document.getElementById('pendingDelSection');
+  const grid = document.getElementById('pendingDelGrid');
+  if (!deletedSlides.length) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+  grid.innerHTML = deletedSlides.map((s, i) =>
+    `<div class="del-card">
+      <img src="${RAW}/images/${s.encoded}?cb=${Date.now()}" loading="lazy">
+      <div class="del-overlay">Will be deleted</div>
+      <div class="del-card-footer">
+        <span class="del-name">${s.filename}</span>
+        <button class="btn btn-sage btn-sm" onclick="undoDel(${i})">↩ Undo</button>
+      </div>
+    </div>`
+  ).join('');
+}
+
+// ── DELETE / UNDO ──
+function markDel(encoded, filename) {
+  const idx = currentSlides.findIndex(s => s.encoded === encoded);
+  if (idx === -1) return;
+  deletedSlides.push({ ...currentSlides.splice(idx, 1)[0] });
+  renderGrid();
+  renderPendingDel();
+  markDirty();
+}
+function undoDel(idx) {
+  currentSlides.push(deletedSlides.splice(idx, 1)[0]);
+  renderGrid();
+  renderPendingDel();
+  checkDirty();
+}
+
+// ── CAPTION MODAL ──
+let _capEncoded = null;
+function openCaption(encoded, current) {
+  _capEncoded = encoded;
+  const el = document.getElementById('captionInput');
+  el.value = current === '—' ? '' : current;
+  document.getElementById('captionModal').style.display = 'flex';
+  setTimeout(() => { el.focus(); el.select(); }, 50);
+}
+function closeCaptionModal() { _capEncoded = null; document.getElementById('captionModal').style.display = 'none'; }
+function saveCaptionModal() {
+  if (!_capEncoded) return;
+  const newCap = document.getElementById('captionInput').value.trim() || 'A moment at Edgewood Park';
+  const slide = currentSlides.find(s => s.encoded === _capEncoded);
+  if (slide) { slide.caption = newCap; renderGrid(); markDirty(); }
+  closeCaptionModal();
+}
+document.getElementById('captionInput').addEventListener('keydown', e => { if (e.key === 'Escape') closeCaptionModal(); });
+
+// ── CONFIRM MODAL ──
+let _cb = null;
+function showConfirm(icon, title, msg, okLabel, okColor, cb) {
+  _cb = cb;
+  document.getElementById('confirmIcon').textContent  = icon;
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent   = msg;
+  const btn = document.getElementById('confirmOkBtn');
+  btn.textContent = okLabel;
+  btn.style.background = okColor;
+  btn.style.color = '#fff';
+  document.getElementById('confirmModal').style.display = 'flex';
+}
+function closeModal() { _cb = null; document.getElementById('confirmModal').style.display = 'none'; }
+
+// ── UPLOAD STAGING ──
+function handleFiles(files) {
+  Array.from(files).forEach(f => pendingUploads.push({ file: f, caption: '' }));
+  renderPreviews();
+  if (pendingUploads.length) markDirty();
+  renderGrid(); // update count badge
+}
+function renderPreviews() {
+  const sec  = document.getElementById('previewSection');
+  const grid = document.getElementById('previewGrid');
+  if (!pendingUploads.length) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+  grid.innerHTML = '';
+  pendingUploads.forEach((u, i) => {
+    const card = document.createElement('div');
+    card.className = 'preview-card';
+    const url = URL.createObjectURL(u.file);
+    card.innerHTML =
+      `<span class="new-badge">NEW</span>` +
+      `<img src="${url}" alt="${u.file.name}">` +
+      `<button class="preview-card-remove" onclick="removeUpload(${i})">✕</button>` +
+      `<input class="preview-card-caption" type="text" placeholder="Caption (optional)" value="${u.caption}"
+        oninput="pendingUploads[${i}].caption=this.value">`;
+    grid.appendChild(card);
+  });
+}
+function removeUpload(i) {
+  pendingUploads.splice(i, 1);
+  renderPreviews();
+  renderGrid();
+  checkDirty();
+}
 const dz = document.getElementById('dropZone');
 dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
 dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
 
-function uploadSelected() {
-  if (!selectedFiles.length) return;
-  const captions = [...document.querySelectorAll('.preview-card-caption')].map(el => el.value.trim());
-  const n = selectedFiles.length;
-  showConfirm(
-    '📷', 'Upload Photos',
-    `Upload ${n} photo${n > 1 ? 's' : ''} to the website? They will appear in the gallery in about 1 minute.`,
-    `Yes, Upload ${n} Photo${n > 1 ? 's' : ''}`,
-    '#7fb069',
-    () => { closeModal(); doUpload(captions); }
+// ── SAVE ALL ──
+function confirmSaveAll() {
+  const parts = [];
+  if (pendingUploads.length) parts.push(`add ${pendingUploads.length} new photo${pendingUploads.length > 1 ? 's' : ''}`);
+  if (deletedSlides.length)  parts.push(`permanently delete ${deletedSlides.length} photo${deletedSlides.length > 1 ? 's' : ''}`);
+  const origRem = originalSlides.filter(s => !deletedSlides.find(d => d.encoded === s.encoded));
+  let other = false;
+  for (let i = 0; i < currentSlides.length; i++) {
+    if (currentSlides[i].encoded !== origRem[i]?.encoded || currentSlides[i].caption !== origRem[i]?.caption) { other = true; break; }
+  }
+  if (other) parts.push('save order & caption changes');
+  showConfirm('💾', 'Save to Website',
+    (parts.length ? parts.join(', ') + '.' : 'Apply all changes.') + ' The gallery updates in ~1 minute.',
+    'Yes, Save All', '#7fb069',
+    () => { closeModal(); doSaveAll(); }
   );
 }
 
-async function doUpload(captions) {
-  const btn = document.getElementById('uploadBtn');
-  btn.disabled = true;
+function confirmDiscard() {
+  showConfirm('↩', 'Discard All Changes', 'Discard all unsaved changes and reload from the website?',
+    'Yes, Discard', '#e74c3c',
+    () => { closeModal(); loadGallery(); }
+  );
+}
+
+async function doSaveAll() {
   try {
-    for (let i = 0; i < selectedFiles.length; i++) {
-      const file = selectedFiles[i];
-      const caption = captions[i] || 'A moment at Edgewood Park';
-      toast(`Uploading ${i + 1}/${selectedFiles.length}: ${file.name}`, 'loading');
-      const b64 = await fileToBase64(file);
-      let existSha = null;
-      try { existSha = (await apiGet(`images/${file.name}`)).sha; } catch {}
-      await apiPut(`images/${file.name}`, b64, existSha, `Upload gallery image: ${file.name}`);
-      const { content: html, sha: htmlSha } = await fetchIndex();
-      const newHtml = addSlideToHtml(html, file.name, caption);
-      await apiPut('index.html', utfToB64(newHtml), htmlSha, `Add ${file.name} to gallery`);
+    // 1. Upload new images
+    for (let i = 0; i < pendingUploads.length; i++) {
+      const { file } = pendingUploads[i];
+      toast(`Uploading ${i+1}/${pendingUploads.length}: ${file.name}`, 'loading');
+      const b64 = await fileToB64(file);
+      let sha = null;
+      try { sha = (await apiGet(`images/${file.name}`)).sha; } catch {}
+      await apiPut(`images/${file.name}`, b64, sha, `Upload: ${file.name}`);
     }
-    toast(`${selectedFiles.length} photo(s) uploaded! Goes live in ~1 minute.`, 'success');
-    selectedFiles = [];
-    document.getElementById('previewGrid').innerHTML = '';
-    document.getElementById('uploadRow').style.display = 'none';
-    document.getElementById('fileInput').value = '';
+
+    // 2. Rebuild index.html
+    toast('Updating gallery page…', 'loading');
+    const { content: html, sha: htmlSha } = await fetchIndex();
+    const allSlides = [
+      ...currentSlides,
+      ...pendingUploads.map(u => ({
+        encoded: u.file.name.replace(/ /g, '%20'),
+        caption: (u.caption || '').trim() || 'A moment at Edgewood Park'
+      }))
+    ];
+    const stripped = html.replace(/\n?\s*<div class="gal-slide">[\s\S]*?<\/div>\s*\n\s*<\/div>\s*\n\s*<\/div>/g, '');
+    const newHtml  = stripped.replace(
+      '\n      </div>\n      <button class="gal-btn gal-prev"',
+      buildSlidesHtml(allSlides) + '\n\n      </div>\n      <button class="gal-btn gal-prev"'
+    );
+    await apiPut('index.html', utfToB64(newHtml), htmlSha, 'Update gallery');
+
+    // 3. Delete removed images
+    for (const { filename } of deletedSlides) {
+      try {
+        toast(`Deleting ${filename}…`, 'loading');
+        const d = await apiGet(`images/${filename}`);
+        await apiDelete(`images/${filename}`, d.sha, `Delete: ${filename}`);
+      } catch(e) { console.warn('delete skip:', filename); }
+    }
+
+    toast('All saved! Goes live in ~1 minute. 🎉', 'success');
     setTimeout(loadGallery, 1500);
-  } catch (e) {
-    toast('Upload error: ' + e.message, 'error');
-  } finally {
-    btn.disabled = false;
+  } catch(e) {
+    toast('Error: ' + e.message, 'error');
   }
 }
 
-function fileToBase64(file) {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.readAsDataURL(file);
-    r.onload  = () => res(r.result.split(',')[1]);
-    r.onerror = rej;
-  });
+function fileToB64(file) {
+  return new Promise((res, rej) => { const r = new FileReader(); r.readAsDataURL(file); r.onload = () => res(r.result.split(',')[1]); r.onerror = rej; });
 }
 
-function utfToB64(str) {
-  return btoa(unescape(encodeURIComponent(str)));
-}
-
-// ── TOAST ────────────────────────────────────────────────────
+// ── TOAST ──
 function toast(msg, type) {
   const el = document.getElementById('toast');
   el.className = 'toast show ' + (type || '');
-  el.innerHTML = type === 'loading'
-    ? `<div class="spinner"></div>${msg}`
-    : msg;
+  el.innerHTML = type === 'loading' ? `<div class="spinner"></div>${msg}` : msg;
   clearTimeout(toastTimer);
   if (type !== 'loading') toastTimer = setTimeout(() => el.classList.remove('show'), 4500);
 }
