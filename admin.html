@@ -77,7 +77,6 @@
     .changes-text { font-size:.82rem; color:#666; font-weight:600; white-space:nowrap; }
     .btn-discard { background:none; border:1.5px solid #ccc; border-radius:6px; padding:.35rem .75rem; font-size:.82rem; color:#666; cursor:pointer; font-family:inherit; font-weight:700; transition:border-color .2s,color .2s; }
     .btn-discard:hover { border-color:var(--red); color:var(--red); }
-    .warning-bar { background:#fff8e1; border:1.5px solid var(--amber); border-radius:10px; padding:.8rem 1.1rem; font-size:.88rem; color:#7d5b00; margin-bottom:1rem; display:none; }
     .photo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.3rem; }
     .photo-card { border-radius:14px; overflow:hidden; border:2px solid #eee; background:#fff; transition:border-color .2s,box-shadow .2s; cursor:grab; position:relative; }
     .card-new-badge { position:absolute; top:.6rem; left:.6rem; background:var(--sage); color:#fff; border-radius:20px; padding:.25rem .65rem; font-size:.72rem; font-weight:800; pointer-events:none; z-index:1; }
@@ -185,7 +184,6 @@
           <button class="btn btn-sage btn-sm" id="galSaveBtn" disabled onclick="confirmSaveAll()"><i class="bi bi-cloud-upload"></i> Save to Website</button>
         </div>
       </div>
-      <div class="warning-bar" id="warningBar"><i class="bi bi-info-circle"></i> Over 30 photos — consider removing older ones.</div>
       <div class="photo-grid" id="photoGrid"><div class="empty-msg">Loading gallery…</div></div>
 
       <!-- Pending deletions -->
@@ -391,8 +389,7 @@ function renderAll() {
 function renderGrid() {
   const total = currentSlides.length + pendingUploads.length;
   document.getElementById('photoCount').textContent = total;
-  document.getElementById('warningBar').style.display = total > 30 ? 'block' : 'none';
-  const grid = document.getElementById('photoGrid');
+const grid = document.getElementById('photoGrid');
   if (!currentSlides.length) {
     grid.innerHTML = '<div class="empty-msg">No photos yet — add some above!</div>';
     return;
