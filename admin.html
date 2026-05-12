@@ -105,9 +105,12 @@
     .photo-card {
       border-radius: 12px; overflow: hidden; border: 2px solid #eee;
       background: #fff; transition: border-color .2s, box-shadow .2s;
+      cursor: grab;
     }
     .photo-card:hover { border-color: var(--sage); box-shadow: 0 4px 16px rgba(44,62,80,.1); }
-    .photo-card img { width: 100%; height: 130px; object-fit: cover; display: block; }
+    .photo-card.dragging { opacity: .35; cursor: grabbing; }
+    .photo-card.drag-over { border-color: var(--sage); border-style: dashed; transform: scale(1.03); }
+    .photo-card img { width: 100%; height: 130px; object-fit: cover; display: block; pointer-events: none; }
     .photo-card-footer {
       padding: .45rem .6rem; display: flex; align-items: center; gap: .4rem;
     }
@@ -186,7 +189,9 @@
     <div class="card">
       <div class="gallery-header">
         <h2>🖼 Current Gallery <span class="count-badge" id="photoCount">—</span></h2>
+        <button class="btn btn-sage" id="saveOrderBtn" style="display:none" onclick="saveOrder()">💾 Save Order</button>
       </div>
+      <p style="font-size:.78rem;color:#aaa;margin-bottom:1rem;">Drag photos to reorder, then click Save Order.</p>
       <div class="warning-bar" id="warningBar">
         💡 You have more than 30 photos. Consider removing older ones to keep the gallery fresh.
       </div>
@@ -342,13 +347,17 @@ function removeSlideFromHtml(html, encoded) {
 }
 
 // ── LOAD GALLERY ─────────────────────────────────────────────
+let currentSlides = [];
+let dragSrcIdx = null;
+
 async function loadGallery() {
   const grid = document.getElementById('photoGrid');
   grid.innerHTML = '<div class="empty-msg">Loading…</div>';
+  document.getElementById('saveOrderBtn').style.display = 'none';
   try {
     const { content } = await fetchIndex();
-    const slides = parseGallery(content);
-    renderGrid(slides);
+    currentSlides = parseGallery(content);
+    renderGrid(currentSlides);
   } catch (e) {
     grid.innerHTML = `<div class="empty-msg">Error loading gallery: ${e.message}</div>`;
   }
@@ -363,7 +372,7 @@ function renderGrid(slides) {
     return;
   }
   grid.innerHTML = slides.map((s, i) =>
-    `<div class="photo-card">
+    `<div class="photo-card" draggable="true" data-idx="${i}">
       <img src="${RAW}/images/${s.encoded}?cb=${Date.now()}" alt="${s.caption}" loading="lazy">
       <div class="photo-card-footer">
         <span class="photo-pos">#${i + 1}</span>
@@ -372,6 +381,61 @@ function renderGrid(slides) {
       </div>
     </div>`
   ).join('');
+
+  // Attach drag events
+  grid.querySelectorAll('.photo-card').forEach(card => {
+    card.addEventListener('dragstart', e => {
+      dragSrcIdx = +card.dataset.idx;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    card.addEventListener('dragend', () => card.classList.remove('dragging'));
+    card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('drag-over'); });
+    card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+    card.addEventListener('drop', e => {
+      e.preventDefault();
+      card.classList.remove('drag-over');
+      const destIdx = +card.dataset.idx;
+      if (dragSrcIdx === null || dragSrcIdx === destIdx) return;
+      // Reorder
+      const moved = currentSlides.splice(dragSrcIdx, 1)[0];
+      currentSlides.splice(destIdx, 0, moved);
+      dragSrcIdx = null;
+      renderGrid(currentSlides);
+      document.getElementById('saveOrderBtn').style.display = 'inline-flex';
+    });
+  });
+}
+
+// ── SAVE ORDER ───────────────────────────────────────────────
+function buildAllSlidesHtml(slides) {
+  return slides.map(s =>
+    `\n        <div class="gal-slide">\n` +
+    `          <div class="gal-img"><img src="images/${s.encoded}" alt="${s.caption}" loading="lazy"></div>\n` +
+    `          <div class="gal-caption">${s.caption}</div>\n` +
+    `        </div>`
+  ).join('');
+}
+
+async function saveOrder() {
+  toast('Saving order…', 'loading');
+  try {
+    const { content: html, sha } = await fetchIndex();
+    // Strip all existing slides
+    const stripped = html.replace(
+      /\n?\s*<div class="gal-slide">[\s\S]*?<\/div>\s*\n\s*<\/div>\s*\n\s*<\/div>/g, ''
+    );
+    // Insert in new order
+    const newHtml = stripped.replace(
+      '\n      </div>\n      <button class="gal-btn gal-prev"',
+      buildAllSlidesHtml(currentSlides) + '\n\n      </div>\n      <button class="gal-btn gal-prev"'
+    );
+    await apiPut('index.html', utfToB64(newHtml), sha, 'Reorder gallery photos');
+    document.getElementById('saveOrderBtn').style.display = 'none';
+    toast('Order saved! Goes live in ~1 minute.', 'success');
+  } catch (e) {
+    toast('Error: ' + e.message, 'error');
+  }
 }
 
 // ── DELETE ───────────────────────────────────────────────────
