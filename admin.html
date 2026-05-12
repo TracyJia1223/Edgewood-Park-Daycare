@@ -76,7 +76,8 @@
     /* GALLERY */
     .gallery-header { display:flex; align-items:center; gap:.75rem; margin-bottom:.5rem; }
     .count-badge { background:var(--navy); color:#fff; border-radius:20px; padding:.25rem .85rem; font-size:.82rem; font-weight:700; }
-    .gallery-hint { font-size:.85rem; color:#888; margin-bottom:1.1rem; }
+    .gallery-hint { display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.2rem; }
+    .gallery-hint span { background:#eef2f5; border-radius:8px; padding:.5rem .9rem; font-size:.95rem; font-weight:700; color:#333; }
     .warning-bar { background:#fff8e1; border:1.5px solid var(--amber); border-radius:10px; padding:.8rem 1.1rem; font-size:.88rem; color:#7d5b00; margin-bottom:1rem; display:none; }
     .photo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.3rem; }
     .photo-card { border-radius:14px; overflow:hidden; border:2px solid #eee; background:#fff; transition:border-color .2s,box-shadow .2s; cursor:grab; }
@@ -145,6 +146,7 @@
     <h1>🌳 Gallery Admin — Edgewood Park Daycare</h1>
     <div class="admin-header-right">
       <span class="live-hint">Changes go live in ~1 min after saving</span>
+      <button class="btn btn-sage" id="headerSaveBtn" disabled onclick="confirmSaveAll()">💾 Save to Website</button>
       <button class="btn btn-logout" onclick="doLogout()">Sign Out</button>
     </div>
   </div>
@@ -172,7 +174,11 @@
         <h2 style="margin-bottom:0">🖼 Current Gallery</h2>
         <span class="count-badge" id="photoCount">—</span>
       </div>
-      <p class="gallery-hint">↕ Drag to reorder &nbsp;·&nbsp; ✏️ Edit caption &nbsp;·&nbsp; 🗑 Mark for deletion</p>
+      <div class="gallery-hint">
+        <span>↕ Drag to reorder</span>
+        <span>✏️ Edit caption</span>
+        <span>🗑 Mark for deletion</span>
+      </div>
       <div class="warning-bar" id="warningBar">💡 Over 30 photos — consider removing older ones.</div>
       <div class="photo-grid" id="photoGrid"><div class="empty-msg">Loading gallery…</div></div>
 
@@ -324,6 +330,7 @@ function utfToB64(str) { return btoa(unescape(encodeURIComponent(str))); }
 // ── DIRTY STATE ──
 function markDirty() {
   _dirty = true;
+  document.getElementById('headerSaveBtn').disabled = false;
   document.getElementById('saveBar').classList.add('show');
   const parts = [];
   if (pendingUploads.length) parts.push(`${pendingUploads.length} new photo${pendingUploads.length > 1 ? 's' : ''}`);
@@ -343,6 +350,7 @@ function checkDirty() {
 }
 function markClean() {
   _dirty = false;
+  document.getElementById('headerSaveBtn').disabled = true;
   document.getElementById('saveBar').classList.remove('show');
 }
 
@@ -523,7 +531,7 @@ dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag
 
 // ── SAVE ALL ──
 function confirmSaveAll() {
-  const parts = [];
+const parts = [];
   if (pendingUploads.length) parts.push(`add ${pendingUploads.length} new photo${pendingUploads.length > 1 ? 's' : ''}`);
   if (deletedSlides.length)  parts.push(`permanently delete ${deletedSlides.length} photo${deletedSlides.length > 1 ? 's' : ''}`);
   const origRem = originalSlides.filter(s => !deletedSlides.find(d => d.encoded === s.encoded));
