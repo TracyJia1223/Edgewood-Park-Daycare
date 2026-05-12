@@ -15,7 +15,7 @@
       --bg: #f4f6f8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--navy); min-height: 100vh; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--navy); min-height: 100vh; font-size: 16px; }
 
     /* ── LOGIN ── */
     #loginScreen {
@@ -23,45 +23,45 @@
     }
     .login-card {
       background: #fff; border-radius: 16px; padding: 3rem 2.5rem;
-      box-shadow: 0 8px 40px rgba(44,62,80,.12); width: 100%; max-width: 380px; text-align: center;
+      box-shadow: 0 8px 40px rgba(44,62,80,.12); width: 100%; max-width: 420px; text-align: center;
     }
-    .login-logo { font-size: 2rem; margin-bottom: .75rem; }
-    .login-card h1 { font-size: 1.3rem; margin-bottom: .3rem; }
-    .login-card p { color: #888; font-size: .88rem; margin-bottom: 2rem; }
+    .login-logo { font-size: 2.5rem; margin-bottom: .75rem; }
+    .login-card h1 { font-size: 1.5rem; margin-bottom: .3rem; }
+    .login-card p { color: #888; font-size: 1rem; margin-bottom: 2rem; }
     .login-card input {
-      width: 100%; padding: .75rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px;
-      font-family: inherit; font-size: 1rem; margin-bottom: 1rem; transition: border-color .2s;
+      width: 100%; padding: .9rem 1.1rem; border: 2px solid #e0e0e0; border-radius: 8px;
+      font-family: inherit; font-size: 1.05rem; margin-bottom: 1rem; transition: border-color .2s;
     }
     .login-card input:focus { outline: none; border-color: var(--sage); }
-    .login-error { color: var(--red); font-size: .85rem; margin-top: .4rem; min-height: 1.2em; }
-    .setup-note { font-size: .78rem; color: #aaa; margin-bottom: .5rem; text-align: left; }
-    .reset-link { font-size: .75rem; color: #bbb; cursor: pointer; margin-top: 1rem; display: inline-block; }
+    .login-error { color: var(--red); font-size: .9rem; margin-top: .4rem; min-height: 1.2em; }
+    .setup-note { font-size: .85rem; color: #888; margin-bottom: .5rem; text-align: left; }
+    .reset-link { font-size: .82rem; color: #bbb; cursor: pointer; margin-top: 1rem; display: inline-block; }
     .reset-link:hover { color: var(--navy); }
 
     /* ── BUTTONS ── */
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
-      padding: .7rem 1.4rem; border-radius: 8px; font-family: inherit;
-      font-size: .88rem; font-weight: 700; cursor: pointer; border: none; transition: opacity .2s, transform .1s;
+      display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+      padding: .9rem 1.8rem; border-radius: 8px; font-family: inherit;
+      font-size: 1rem; font-weight: 700; cursor: pointer; border: none; transition: opacity .2s, transform .1s;
     }
     .btn:hover { opacity: .88; }
     .btn:active { transform: scale(.97); }
-    .btn-primary { background: var(--navy); color: #fff; width: 100%; }
+    .btn-primary { background: var(--navy); color: #fff; width: 100%; font-size: 1.1rem; padding: 1rem; }
     .btn-sage { background: var(--sage); color: #fff; }
-    .btn-danger { background: var(--red); color: #fff; font-size: .75rem; padding: .35rem .7rem; border-radius: 6px; }
-    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-danger { background: var(--red); color: #fff; font-size: .88rem; padding: .5rem .95rem; border-radius: 6px; }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+    .btn-logout { background: rgba(255,255,255,.15); color: #fff; font-size: .82rem; padding: .4rem .9rem; }
 
     /* ── ADMIN LAYOUT ── */
     #adminScreen { display: none; }
     .admin-header {
       background: var(--navy); color: #fff;
-      padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 2rem; display: flex; align-items: center; justify-content: space-between;
       position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.15);
     }
-    .admin-header h1 { font-size: 1rem; font-weight: 700; }
+    .admin-header h1 { font-size: 1.1rem; font-weight: 700; }
     .admin-header-right { display: flex; align-items: center; gap: 1rem; }
-    .live-hint { font-size: .75rem; opacity: .65; }
-    .btn-logout { background: rgba(255,255,255,.15); color: #fff; font-size: .75rem; padding: .35rem .8rem; }
+    .live-hint { font-size: .8rem; opacity: .65; }
     .admin-body { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
 
     /* ── UPLOAD SECTION ── */
@@ -69,46 +69,51 @@
       background: #fff; border-radius: 16px; padding: 1.75rem 2rem;
       box-shadow: 0 4px 20px rgba(44,62,80,.07); margin-bottom: 1.75rem;
     }
-    .card h2 { font-size: .95rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
+    .card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
     .drop-zone {
-      border: 2px dashed #ccc; border-radius: 12px; padding: 1rem 1.5rem;
+      border: 2px dashed #ccc; border-radius: 12px; padding: 1.1rem 1.5rem;
       text-align: center; cursor: pointer; transition: border-color .2s, background .2s; margin-bottom: 1rem;
       display: flex; align-items: center; justify-content: center; gap: .75rem;
     }
     .drop-zone:hover, .drop-zone.drag-over { border-color: var(--sage); background: #f2faf0; }
     .drop-zone input[type=file] { display: none; }
-    .drop-zone .dz-icon { font-size: 1.4rem; }
-    .drop-zone strong { font-size: .9rem; }
-    .drop-zone p { color: #999; font-size: .78rem; margin: 0; }
+    .drop-zone .dz-icon { font-size: 1.6rem; }
+    .drop-zone strong { font-size: 1rem; }
+    .drop-zone p { color: #999; font-size: .85rem; margin: 0; }
     .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.2rem; }
     .preview-card { border-radius: 12px; border: 2px solid #e0e0e0; background: #fafafa; overflow: hidden; position: relative; }
-    .preview-card img { width: 100%; height: 180px; object-fit: cover; display: block; }
+    .preview-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
     .preview-card-remove {
       position: absolute; top: .5rem; right: .5rem;
-      background: rgba(0,0,0,.6); color: #fff; border: none; border-radius: 50%;
-      width: 28px; height: 28px; font-size: .85rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,.65); color: #fff; border: none; border-radius: 50%;
+      width: 34px; height: 34px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
     .preview-card-remove:hover { background: var(--red); }
     .preview-card-caption {
-      width: 100%; border: none; border-top: 2px solid #e0e0e0; padding: .7rem .85rem;
-      font-family: inherit; font-size: .9rem; background: #fff; resize: none;
+      width: 100%; border: none; border-top: 2px solid #e0e0e0; padding: .8rem .95rem;
+      font-family: inherit; font-size: 1rem; background: #fff; resize: none;
     }
     .preview-card-caption:focus { outline: none; background: #f2faf0; border-top-color: var(--sage); }
     .upload-btn-row { display: flex; justify-content: flex-end; }
 
     /* ── GALLERY GRID ── */
-    .gallery-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: .5rem; }
+    .gallery-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .9rem; flex-wrap: wrap; gap: .75rem; }
     .count-badge {
       background: var(--navy); color: #fff; border-radius: 20px;
-      padding: .2rem .75rem; font-size: .75rem; font-weight: 700; margin-left: .4rem;
+      padding: .25rem .85rem; font-size: .82rem; font-weight: 700; margin-left: .4rem;
     }
+    .reorder-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      background: #f0f4f8; border-radius: 10px; padding: .8rem 1.1rem; margin-bottom: 1rem;
+    }
+    .reorder-hint { font-size: .88rem; color: #666; font-weight: 600; }
     .warning-bar {
       background: #fff8e1; border: 1.5px solid var(--amber); border-radius: 10px;
-      padding: .7rem 1rem; font-size: .82rem; color: #7d5b00;
+      padding: .8rem 1.1rem; font-size: .88rem; color: #7d5b00;
       margin-bottom: 1rem; display: none;
     }
     .photo-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.3rem;
     }
     .photo-card {
       border-radius: 14px; overflow: hidden; border: 2px solid #eee;
@@ -118,15 +123,15 @@
     .photo-card:hover { border-color: var(--sage); box-shadow: 0 4px 16px rgba(44,62,80,.1); }
     .photo-card.dragging { opacity: .35; cursor: grabbing; }
     .photo-card.drag-over { border-color: var(--sage); border-style: dashed; transform: scale(1.02); }
-    .photo-card img { width: 100%; height: 190px; object-fit: cover; display: block; pointer-events: none; }
+    .photo-card img { width: 100%; height: 220px; object-fit: cover; display: block; pointer-events: none; }
     .photo-card-footer {
-      padding: .6rem .75rem; display: flex; align-items: center; gap: .5rem;
+      padding: .75rem 1rem; display: flex; align-items: center; gap: .6rem;
     }
-    .photo-pos { font-size: .78rem; font-weight: 800; color: var(--navy); flex-shrink: 0; min-width: 2rem; }
-    .photo-cap { font-size: .78rem; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+    .photo-pos { font-size: .88rem; font-weight: 800; color: var(--navy); flex-shrink: 0; min-width: 2rem; }
+    .photo-cap { font-size: .88rem; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
     .btn-edit {
       background: #f0f0f0; color: var(--navy); border: none; border-radius: 6px;
-      padding: .3rem .55rem; font-size: .8rem; cursor: pointer; flex-shrink: 0;
+      padding: .4rem .7rem; font-size: .88rem; cursor: pointer; flex-shrink: 0;
       transition: background .2s;
     }
     .btn-edit:hover { background: #ddeedd; }
@@ -135,7 +140,7 @@
     .toast {
       position: fixed; bottom: 1.5rem; right: 1.5rem;
       background: var(--navy); color: #fff; border-radius: 12px;
-      padding: .9rem 1.4rem; font-size: .85rem; max-width: 320px;
+      padding: 1rem 1.5rem; font-size: .95rem; max-width: 340px;
       box-shadow: 0 8px 30px rgba(0,0,0,.2);
       transform: translateY(120%); transition: transform .3s ease; z-index: 9999;
       display: flex; align-items: center; gap: .6rem;
@@ -144,28 +149,28 @@
     .toast.success { background: var(--sage); }
     .toast.error   { background: var(--red); }
     .spinner {
-      width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4);
+      width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.4);
       border-top-color: #fff; border-radius: 50%;
       animation: spin .7s linear infinite; flex-shrink: 0;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .empty-msg { text-align: center; padding: 3rem 1rem; color: #aaa; font-size: .88rem; grid-column: 1/-1; }
+    .empty-msg { text-align: center; padding: 3rem 1rem; color: #aaa; font-size: .95rem; grid-column: 1/-1; }
 
-    /* ── CONFIRM MODAL ── */
+    /* ── MODALS ── */
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,.45);
       display: flex; align-items: center; justify-content: center;
       z-index: 9998; padding: 1rem;
     }
     .modal-box {
-      background: #fff; border-radius: 16px; padding: 2rem 2rem 1.5rem;
-      max-width: 360px; width: 100%; box-shadow: 0 16px 60px rgba(0,0,0,.2); text-align: center;
+      background: #fff; border-radius: 16px; padding: 2.2rem 2.2rem 1.8rem;
+      max-width: 400px; width: 100%; box-shadow: 0 16px 60px rgba(0,0,0,.2); text-align: center;
     }
-    .modal-icon { font-size: 2.5rem; margin-bottom: .75rem; }
-    .modal-box h3 { font-size: 1.05rem; margin-bottom: .5rem; }
-    .modal-box p { font-size: .88rem; color: #666; margin-bottom: 1.5rem; }
-    .modal-btns { display: flex; gap: .75rem; justify-content: center; }
-    .modal-btns .btn { min-width: 100px; }
+    .modal-icon { font-size: 3rem; margin-bottom: .75rem; }
+    .modal-box h3 { font-size: 1.2rem; margin-bottom: .6rem; }
+    .modal-box p { font-size: .95rem; color: #555; margin-bottom: 1.5rem; line-height: 1.5; }
+    .modal-btns { display: flex; gap: .9rem; justify-content: center; }
+    .modal-btns .btn { min-width: 120px; font-size: 1rem; }
   </style>
 </head>
 <body>
@@ -210,7 +215,7 @@
       </div>
       <div class="preview-grid" id="previewGrid"></div>
       <div class="upload-btn-row" id="uploadRow" style="display:none">
-        <button class="btn btn-sage" id="uploadBtn" onclick="uploadSelected()">Upload</button>
+        <button class="btn btn-sage" id="uploadBtn" onclick="uploadSelected()">📤 Upload to Website</button>
       </div>
     </div>
 
@@ -218,9 +223,11 @@
     <div class="card">
       <div class="gallery-header">
         <h2>🖼 Current Gallery <span class="count-badge" id="photoCount">—</span></h2>
-        <button class="btn btn-sage" id="saveOrderBtn" style="display:none" onclick="saveOrder()">💾 Save Order</button>
       </div>
-      <p style="font-size:.82rem;color:#555;font-weight:600;margin-bottom:1rem;">Drag photos to reorder, then click Save Order.</p>
+      <div class="reorder-bar">
+        <span class="reorder-hint">↕ Drag photos left/right to reorder</span>
+        <button class="btn btn-sage" id="saveOrderBtn" disabled onclick="confirmSaveOrder()">💾 Save Changes</button>
+      </div>
       <div class="warning-bar" id="warningBar">
         💡 You have more than 30 photos. Consider removing older ones to keep the gallery fresh.
       </div>
@@ -234,15 +241,15 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- Delete Confirm Modal -->
+<!-- Generic Confirm Modal -->
 <div class="modal-overlay" id="confirmModal" style="display:none">
   <div class="modal-box">
-    <div class="modal-icon">🗑️</div>
-    <h3>Delete this photo?</h3>
+    <div class="modal-icon" id="confirmIcon">❓</div>
+    <h3 id="confirmTitle"></h3>
     <p id="confirmMsg"></p>
     <div class="modal-btns">
-      <button class="btn" style="background:#eee;color:#333;font-size:.9rem" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" style="font-size:.9rem;padding:.7rem 1.4rem" onclick="confirmDelete()">Delete</button>
+      <button class="btn" style="background:#e0e0e0;color:#333" onclick="closeModal()">Cancel</button>
+      <button class="btn" id="confirmOkBtn" onclick="_confirmCallback && _confirmCallback()">Confirm</button>
     </div>
   </div>
 </div>
@@ -251,11 +258,11 @@
 <div class="modal-overlay" id="captionModal" style="display:none">
   <div class="modal-box">
     <textarea id="captionModalInput" rows="3"
-      style="width:100%;padding:.8rem 1rem;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:.95rem;margin-bottom:1.2rem;box-sizing:border-box;resize:vertical;line-height:1.5"
+      style="width:100%;padding:.9rem 1.1rem;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:1rem;margin-bottom:1.3rem;box-sizing:border-box;resize:vertical;line-height:1.6"
       placeholder="Enter caption…"></textarea>
     <div class="modal-btns">
-      <button class="btn" style="background:#eee;color:#333;font-size:.9rem" onclick="closeCaptionModal()">Cancel</button>
-      <button class="btn btn-sage" style="font-size:.9rem;padding:.7rem 1.4rem" onclick="saveCaptionModal()">Save</button>
+      <button class="btn" style="background:#e0e0e0;color:#333" onclick="closeCaptionModal()">Cancel</button>
+      <button class="btn btn-sage" onclick="saveCaptionModal()">Save Caption</button>
     </div>
   </div>
 </div>
@@ -289,7 +296,6 @@ function doLogin() {
     return;
   }
 
-  // First-time setup: save new token
   if (!getToken() && token) {
     localStorage.setItem('gal_token', token);
   }
@@ -314,7 +320,6 @@ function doLogout() {
 
 document.getElementById('passInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
-// On page load: decide which fields to show
 if (!getToken()) {
   document.getElementById('tokenSetup').style.display = 'block';
 } else {
@@ -329,7 +334,6 @@ if (!getToken()) {
 }
 
 // ── GITHUB API ───────────────────────────────────────────────
-
 async function apiGet(path) {
   const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`, { headers: HEADERS });
   if (!r.ok) throw new Error(`GET ${path}: ${r.status}`);
@@ -408,7 +412,7 @@ let dragSrcIdx = null;
 async function loadGallery() {
   const grid = document.getElementById('photoGrid');
   grid.innerHTML = '<div class="empty-msg">Loading…</div>';
-  document.getElementById('saveOrderBtn').style.display = 'none';
+  document.getElementById('saveOrderBtn').disabled = true;
   try {
     const { content } = await fetchIndex();
     currentSlides = parseGallery(content);
@@ -432,13 +436,12 @@ function renderGrid(slides) {
       <div class="photo-card-footer">
         <span class="photo-pos">#${i + 1}</span>
         <span class="photo-cap">${s.caption || '—'}</span>
-        <button class="btn-edit" onclick="openCaptionModal('${s.encoded.replace(/'/g,"\\'")}','${s.caption.replace(/'/g,"\\'")}')">✏️</button>
-        <button class="btn btn-danger" onclick="deletePhoto('${s.encoded.replace(/'/g,"\\'")}','${s.filename.replace(/'/g,"\\'")}')">✕</button>
+        <button class="btn-edit" onclick="openCaptionModal('${s.encoded.replace(/'/g,"\\'")}','${s.caption.replace(/'/g,"\\'")}')">✏️ Edit</button>
+        <button class="btn btn-danger" onclick="deletePhoto('${s.encoded.replace(/'/g,"\\'")}','${s.filename.replace(/'/g,"\\'")}')">🗑 Delete</button>
       </div>
     </div>`
   ).join('');
 
-  // Attach drag events
   grid.querySelectorAll('.photo-card').forEach(card => {
     card.addEventListener('dragstart', e => {
       dragSrcIdx = +card.dataset.idx;
@@ -453,12 +456,11 @@ function renderGrid(slides) {
       card.classList.remove('drag-over');
       const destIdx = +card.dataset.idx;
       if (dragSrcIdx === null || dragSrcIdx === destIdx) return;
-      // Reorder
       const moved = currentSlides.splice(dragSrcIdx, 1)[0];
       currentSlides.splice(destIdx, 0, moved);
       dragSrcIdx = null;
       renderGrid(currentSlides);
-      document.getElementById('saveOrderBtn').style.display = 'inline-flex';
+      document.getElementById('saveOrderBtn').disabled = false;
     });
   });
 }
@@ -473,21 +475,29 @@ function buildAllSlidesHtml(slides) {
   ).join('');
 }
 
-async function saveOrder() {
+function confirmSaveOrder() {
+  showConfirm(
+    '💾', 'Save New Order',
+    'Save this new photo order to the website? The gallery will update in about 1 minute.',
+    'Yes, Save Order',
+    'var(--amber)',
+    () => { closeModal(); doSaveOrder(); }
+  );
+}
+
+async function doSaveOrder() {
   toast('Saving order…', 'loading');
   try {
     const { content: html, sha } = await fetchIndex();
-    // Strip all existing slides
     const stripped = html.replace(
       /\n?\s*<div class="gal-slide">[\s\S]*?<\/div>\s*\n\s*<\/div>\s*\n\s*<\/div>/g, ''
     );
-    // Insert in new order
     const newHtml = stripped.replace(
       '\n      </div>\n      <button class="gal-btn gal-prev"',
       buildAllSlidesHtml(currentSlides) + '\n\n      </div>\n      <button class="gal-btn gal-prev"'
     );
     await apiPut('index.html', utfToB64(newHtml), sha, 'Reorder gallery photos');
-    document.getElementById('saveOrderBtn').style.display = 'none';
+    document.getElementById('saveOrderBtn').disabled = true;
     toast('Order saved! Goes live in ~1 minute.', 'success');
   } catch (e) {
     toast('Error: ' + e.message, 'error');
@@ -534,34 +544,49 @@ document.getElementById('captionModalInput').addEventListener('keydown', e => {
 });
 
 // ── CONFIRM MODAL ────────────────────────────────────────────
-let _pendingDelete = null;
-function deletePhoto(encoded, filename) {
-  _pendingDelete = { encoded, filename };
-  document.getElementById('confirmMsg').textContent = `"${filename}" will be permanently removed.`;
+let _confirmCallback = null;
+
+function showConfirm(icon, title, msg, okLabel, okColor, callback) {
+  _confirmCallback = callback;
+  document.getElementById('confirmIcon').textContent  = icon;
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent   = msg;
+  const okBtn = document.getElementById('confirmOkBtn');
+  okBtn.textContent = okLabel;
+  okBtn.style.background = okColor;
+  okBtn.style.color = '#fff';
   document.getElementById('confirmModal').style.display = 'flex';
 }
+
 function closeModal() {
-  _pendingDelete = null;
+  _confirmCallback = null;
   document.getElementById('confirmModal').style.display = 'none';
 }
-async function confirmDelete() {
-  if (!_pendingDelete) return;
-  const { encoded, filename } = _pendingDelete;
-  closeModal();
-  toast('Deleting…', 'loading');
-  try {
-    const [imgData, { content: html, sha: htmlSha }] = await Promise.all([
-      apiGet(`images/${filename}`),
-      fetchIndex()
-    ]);
-    const newHtml = removeSlideFromHtml(html, encoded);
-    await apiPut('index.html', utfToB64(newHtml), htmlSha, `Remove ${filename} from gallery`);
-    await apiDelete(`images/${filename}`, imgData.sha, `Delete image: ${filename}`);
-    toast('Photo deleted. Goes live in ~1 minute.', 'success');
-    setTimeout(loadGallery, 1200);
-  } catch (e) {
-    toast('Error: ' + e.message, 'error');
-  }
+
+function deletePhoto(encoded, filename) {
+  showConfirm(
+    '🗑️', 'Delete Photo',
+    `"${filename}" will be permanently removed from the gallery. This cannot be undone.`,
+    'Yes, Delete',
+    '#e74c3c',
+    async () => {
+      closeModal();
+      toast('Deleting…', 'loading');
+      try {
+        const [imgData, { content: html, sha: htmlSha }] = await Promise.all([
+          apiGet(`images/${filename}`),
+          fetchIndex()
+        ]);
+        const newHtml = removeSlideFromHtml(html, encoded);
+        await apiPut('index.html', utfToB64(newHtml), htmlSha, `Remove ${filename} from gallery`);
+        await apiDelete(`images/${filename}`, imgData.sha, `Delete image: ${filename}`);
+        toast('Photo deleted. Goes live in ~1 minute.', 'success');
+        setTimeout(loadGallery, 1200);
+      } catch (e) {
+        toast('Error: ' + e.message, 'error');
+      }
+    }
+  );
 }
 
 // ── UPLOAD ───────────────────────────────────────────────────
@@ -589,8 +614,13 @@ function handleFiles(files) {
 }
 
 function removePreview(idx) {
-  selectedFiles.splice(idx, 1);
-  renderPreviews();
+  showConfirm(
+    '✕', 'Remove Photo',
+    'Remove this photo from the upload list?',
+    'Yes, Remove',
+    '#e74c3c',
+    () => { closeModal(); selectedFiles.splice(idx, 1); renderPreviews(); }
+  );
 }
 
 const dz = document.getElementById('dropZone');
@@ -598,9 +628,20 @@ dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('dr
 dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
 dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
 
-async function uploadSelected() {
+function uploadSelected() {
   if (!selectedFiles.length) return;
   const captions = [...document.querySelectorAll('.preview-card-caption')].map(el => el.value.trim());
+  const n = selectedFiles.length;
+  showConfirm(
+    '📷', 'Upload Photos',
+    `Upload ${n} photo${n > 1 ? 's' : ''} to the website? They will appear in the gallery in about 1 minute.`,
+    `Yes, Upload ${n} Photo${n > 1 ? 's' : ''}`,
+    '#7fb069',
+    () => { closeModal(); doUpload(captions); }
+  );
+}
+
+async function doUpload(captions) {
   const btn = document.getElementById('uploadBtn');
   btn.disabled = true;
   try {
@@ -638,7 +679,6 @@ function fileToBase64(file) {
   });
 }
 
-// UTF-8 safe base64 encode
 function utfToB64(str) {
   return btoa(unescape(encodeURIComponent(str)));
 }
